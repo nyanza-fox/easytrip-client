@@ -22,9 +22,9 @@ const AboutPage = () => {
         <div className="flex justify-center items-center">
           <h1 className="text-2xl font-bold py-7">Get to know about us..</h1>
         </div>
-        <div className="flex flex-col gap-10 mx-20">
-          <div className="flex flex-row gap-8 justify-center">
-            <p className="text-lg w-1/2 h-60">
+        <div className="flex flex-col gap-5 mx-20">
+          <div className="flex flex-row gap-2 justify-center">
+            <p className="flex justify-center items-center text-lg w-1/2 h-60">
               We believe that every journey is an adventure worth sharing.
               Therefore, we are committed to helping you plan your dream
               vacation by offering recommendations for attractions,
@@ -38,23 +38,23 @@ const AboutPage = () => {
               />
             </picture>
           </div>
-          <div className="flex flex-row gap-8 justify-center">
+          <div className="flex flex-row gap-2 justify-center">
             <picture className="flex justify-center items-center w-1/2">
               <img
                 src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
                 alt="image"
-                className="items-center w-80 rounded-3xl"
+                className="w-80 rounded-3xl"
               />
             </picture>
-            <p className="text-lg w-1/2 h-60">
+            <p className="flex justify-center items-center text-lg w-1/2 h-60">
               At EasyTrip, we understand that every traveler has different needs
               and desires. One of our standout features is the ability to
               generate destination recommendations along with travel packages
               tailored to your preferences using AI technology.
             </p>
           </div>
-          <div className="flex flex-row gap-8 justify-center">
-            <p className="text-lg w-1/2 h-60">
+          <div className="flex flex-row gap-2 justify-center">
+            <p className="flex justify-center items-center text-lg w-1/2 h-60">
               With just a few clicks, our AI-powered system can provide you with
               suggestions for destinations that match your interests, budget,
               and travel duration. Each travel package includes detailed
@@ -65,7 +65,7 @@ const AboutPage = () => {
               <img
                 src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
                 alt="image"
-                className="items-center w-80 rounded-3xl"
+                className="w-80 rounded-3xl"
               />
             </picture>
           </div>

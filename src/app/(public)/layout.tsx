@@ -15,7 +15,7 @@ const PublicLayout = ({
               <Link href={"/"}>Home</Link>
             </li>
             <li>
-              <Link href={"#"}>Destination</Link>
+              <Link href={"/destination"}>Destination</Link>
             </li>
 
             <li>
