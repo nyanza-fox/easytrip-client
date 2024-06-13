@@ -18,6 +18,15 @@ const config: Config = {
       {
         light: {
           ...daisyuiThemes['light'],
+          primary: '#03AED2',
+          secondary: '#68D2E8',
+          accent: '#FDDE55',
+          neutral: '#FEEFAD',
+          'primary-content': '#FFFFFF',
+          'secondary-content': '#FFFFFF',
+          'success-content': '#FFFFFF',
+          'error-content': '#FFFFFF',
+          'neutral-content': '#000000',
         },
       },
     ],
