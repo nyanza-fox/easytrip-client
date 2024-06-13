@@ -23,7 +23,7 @@ const CMSDetailAction = ({ children }: { children: React.ReactNode }) => {
         </svg>
       </button>
 
-      <dialog ref={detailModalRef} className="modal">
+      <dialog ref={detailModalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           {children}
           <div className="modal-action">

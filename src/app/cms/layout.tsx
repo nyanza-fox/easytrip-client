@@ -1,15 +1,10 @@
-import CMSHeader from '@/components/CMSHeader';
-import CMSSidebar from '@/components/CMSSidebar';
+import CMSDrawer from '@/components/CMSDrawer';
 
 const CMSLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex min-h-screen">
-      <CMSSidebar />
-      <div className="grow">
-        <CMSHeader />
-        <main className="p-4">{children}</main>
-      </div>
-    </div>
+    <CMSDrawer>
+      <main className="p-4">{children}</main>
+    </CMSDrawer>
   );
 };
 

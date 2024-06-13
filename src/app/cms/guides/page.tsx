@@ -50,7 +50,11 @@ const GuidesPage = async ({
               <tr key={guide._id}>
                 <td>{guide.name}</td>
                 <td>{guide.languages.join(', ')}</td>
-                <td>{guide.pricePerDay}</td>
+                <td>
+                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
+                    guide.pricePerDay
+                  )}
+                </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
