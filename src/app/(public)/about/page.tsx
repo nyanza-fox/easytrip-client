@@ -4,15 +4,15 @@ const AboutPage = () => {
       <section className="flex min-h-screen bg-primary">
         <div className="flex items-center text-left w-1/2 px-20">
           <div className="max-w-md">
-            <h1 className="text-5xl font-bold text-white">Hello there!</h1>
+            <h1 className="text-5xl font-bold text-neutral">Hello there!</h1>
             <p className="py-6 text-white">
-              Welcome to <span className="text-accent font-bold">EasyTrip</span>
-              , your travel guide to exploring the world! We are dedicated to
-              providing you with the latest and most reliable information about
-              the best destinations, and unique experiences from all around the
-              globe.
+              Welcome to{" "}
+              <span className="text-neutral font-bold">EasyTrip</span>, your
+              travel guide to exploring the world! We are dedicated to providing
+              you with the latest and most reliable information about the best
+              destinations, and unique experiences from all around the globe.
             </p>
-            <button className="btn btn-accent">Get Started</button>
+            <button className="btn btn-neutral">Get Started</button>
           </div>
         </div>
         <div className="w-1/2"></div>
@@ -69,6 +69,14 @@ const AboutPage = () => {
               />
             </picture>
           </div>
+        </div>
+        <div className="flex flex-col justify-center items-center text-center pt-5 px-10">
+          <p>
+            Thank you for visiting EasyTrip. We hope this site becomes a source
+            of inspiration and a useful guide for your next journey. <br />{" "}
+            Explore the world with us and discover wonders at every turn!
+          </p>
+          <h1 className="text-2xl font-bold text-primary">Happy travels!</h1>
         </div>
       </section>
     </>

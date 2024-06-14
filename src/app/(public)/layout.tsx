@@ -15,7 +15,7 @@ const PublicLayout = ({
               <Link href={"/"}>Home</Link>
             </li>
             <li>
-              <Link href={"/destination"}>Destination</Link>
+              <Link href={"/destinations"}>Destinations</Link>
             </li>
 
             <li>
@@ -34,10 +34,14 @@ const PublicLayout = ({
       </nav>
       {children}
 
-      <footer className="footer footer-center p-10 mt-10 bg-base-200 text-base-content rounded">
+      <footer className="footer footer-center p-10 mt-10 bg-neutral text-base-content rounded">
         <nav className="grid grid-flow-col gap-4">
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
+          <Link href={"/about"} className="link link-hover">
+            About us
+          </Link>
+          <Link href={"#"} className="link link-hover">
+            Contact
+          </Link>
         </nav>
         <nav>
           <div className="grid grid-flow-col gap-4">
