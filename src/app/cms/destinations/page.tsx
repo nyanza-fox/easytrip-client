@@ -6,6 +6,7 @@ import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Destination } from '@/types/destination';
 import type { BaseResponse } from '@/types/response';
@@ -93,7 +94,7 @@ const DestinationsPage = async ({
                         <p className="font-bold">Location:</p>
                         <p>
                           {destination.location.city}, {destination.location.country} (
-                          {destination.location.coordinates.join(', ')})
+                          {destination.location.coordinates?.join(', ')})
                         </p>
                       </div>
                       <div>
@@ -154,6 +155,12 @@ const DestinationsPage = async ({
           </Link>
         ))}
       </div>
+
+      <CMSPagination
+        pathname="/cms/destinations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

@@ -1,17 +1,14 @@
+import type { Contact, Location } from './globals';
+
 export type Guide = {
   _id: string;
   name: string;
   languages: string[];
+  rating: number;
   image: string;
   pricePerDay: number;
-  contact: {
-    email: string;
-    phoneNumber: string;
-  };
-  location: {
-    city: string;
-    country: string;
-  };
+  location: Location;
+  contact: Contact;
   createdAt: Date;
   updatedAt: Date;
 };

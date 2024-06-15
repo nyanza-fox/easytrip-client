@@ -74,12 +74,19 @@ const CreateDestinationPage = () => {
           <input type="number" id="price" name="price" className="input input-bordered w-full" />
         </label>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">City</span>
             </div>
             <input type="text" id="city" name="city" className="input input-bordered w-full" />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">State</span>
+            </div>
+            <input type="text" id="state" name="state" className="input input-bordered w-full" />
           </label>
 
           <label className="form-control w-full">
@@ -95,7 +102,7 @@ const CreateDestinationPage = () => {
           </label>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Latitude</span>

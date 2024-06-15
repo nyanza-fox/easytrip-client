@@ -6,6 +6,7 @@ import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Guide } from '@/types/guide';
 import type { BaseResponse } from '@/types/response';
@@ -72,7 +73,7 @@ const GuidesPage = async ({
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{guide.name}</h2>
-                      <figure className="relative w-52 h-52 overflow-hidden">
+                      <figure className="relative w-full h-80 overflow-hidden">
                         <Image
                           src={guide.image}
                           alt={guide.name}
@@ -127,19 +128,11 @@ const GuidesPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/guides?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/guides"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

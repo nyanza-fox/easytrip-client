@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Order } from '@/types/order';
 import type { BaseResponse } from '@/types/response';
@@ -56,7 +56,7 @@ const OrdersPage = async ({
             {orders?.map((order) => (
               <tr key={order._id}>
                 <td>{order.userId}</td>
-                <td>{order.destinationId}</td>
+                <td>{order.destination.destinationId}</td>
                 <td>{order.totalPrice}</td>
                 <td>{order.status}</td>
                 <td className="flex gap-1">
@@ -82,19 +82,11 @@ const OrdersPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/orders?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/orders"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

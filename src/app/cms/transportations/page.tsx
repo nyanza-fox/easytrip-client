@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
+import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Transportation } from '@/types/transportation';
 import type { BaseResponse } from '@/types/response';
-import CMSDetailAction from '@/components/CMSDetailAction';
 
 export const metadata: Metadata = {
   title: 'Transportations',
@@ -71,8 +72,8 @@ const TransportationsPage = async ({
                     transportation.price
                   )}
                 </td>
-                <td>{transportation.departure.location}</td>
-                <td>{transportation.arrival.location}</td>
+                <td>{transportation.departure.place}</td>
+                <td>{transportation.arrival.place}</td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
@@ -84,14 +85,14 @@ const TransportationsPage = async ({
                       <div>
                         <p className="font-bold">Departure:</p>
                         <p>
-                          {transportation.departure.location} -{' '}
+                          {transportation.departure.location.state} -{' '}
                           {new Date(transportation.departure.time).toLocaleString()}
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Arrival:</p>
                         <p>
-                          {transportation.arrival.location} -{' '}
+                          {transportation.arrival.location.state} -{' '}
                           {new Date(transportation.arrival.time).toLocaleString()}
                         </p>
                       </div>
@@ -123,19 +124,11 @@ const TransportationsPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/transportations?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/transportations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

@@ -13,15 +13,17 @@ export const createGuide = async (formData: FormData) => {
       ?.toString()
       .split(',')
       .map((lang) => lang.trim()),
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
     image: formData.get('image'),
     pricePerDay: parseInt(formData.get('pricePerDay')?.toString() || '0'),
+    location: {
+      city: formData.get('city'),
+      state: formData.get('state'),
+      country: formData.get('country'),
+    },
     contact: {
       email: formData.get('email'),
       phoneNumber: formData.get('phoneNumber'),
-    },
-    location: {
-      city: formData.get('city'),
-      country: formData.get('country'),
     },
   });
 
@@ -55,15 +57,17 @@ export const updateGuide = async (id: string, formData: FormData) => {
       ?.toString()
       .split(',')
       .map((lang) => lang.trim()),
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
     image: formData.get('image'),
     pricePerDay: parseInt(formData.get('pricePerDay')?.toString() || '0'),
+    location: {
+      city: formData.get('city'),
+      state: formData.get('state'),
+      country: formData.get('country'),
+    },
     contact: {
       email: formData.get('email'),
       phoneNumber: formData.get('phoneNumber'),
-    },
-    location: {
-      city: formData.get('city'),
-      country: formData.get('country'),
     },
   });
 

@@ -3,14 +3,17 @@ export type User = {
   role: 'admin' | 'user';
   email: string;
   password: string;
-  profile: {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    dateOfBirth: Date;
-  };
+  profile: Profile;
   createdAt: Date;
   updatedAt: Date;
 };
 
-export type UserInput = Omit<User, '_id' | 'createdAt' | 'updatedAt'>;
+export type Profile = {
+  firstName: string;
+  lastName?: string;
+  image?: string;
+  dateOfBirth?: Date;
+  phoneNumber?: string;
+};
+
+export type UserInput = Omit<User, '_id' | 'role' | 'createdAt' | 'updatedAt'>;

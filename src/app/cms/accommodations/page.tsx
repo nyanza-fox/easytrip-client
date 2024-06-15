@@ -6,6 +6,7 @@ import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Accommodation } from '@/types/accommodation';
 import type { BaseResponse } from '@/types/response';
@@ -150,19 +151,11 @@ const AccommodationsPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/accommodations?page=${idx + 1}`}
-            className={`join-item btn ${
-              (searchParams?.page || '1') === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/accommodations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

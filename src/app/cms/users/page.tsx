@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { BaseResponse } from '@/types/response';
 import type { User } from '@/types/user';
@@ -90,6 +91,12 @@ const UsersPage = async ({
           </Link>
         ))}
       </div>
+
+      <CMSPagination
+        pathname="/cms/users"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };
