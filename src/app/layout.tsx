@@ -1,8 +1,7 @@
+import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { APP_NAME, APP_DESCRIPTION, APP_URL } from '@/constants/meta';
-
-import type { Metadata } from 'next';
 
 import '@/styles/globals.css';
 

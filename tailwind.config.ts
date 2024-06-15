@@ -18,10 +18,13 @@ const config: Config = {
       {
         light: {
           ...daisyuiThemes['light'],
-          primary: '#03AED2',
-          secondary: '#68D2E8',
-          accent: '#FDDE55',
-          neutral: '#FEEFAD',
+          primary: '#008DDA',
+          secondary: '#41C9E2',
+          accent: '#ACE2E1',
+          neutral: '#F7EEDD',
+          success: '#6FC276',
+          warning: '#FFD166',
+          error: '#FF6961',
           'primary-content': '#FFFFFF',
           'secondary-content': '#FFFFFF',
           'success-content': '#FFFFFF',

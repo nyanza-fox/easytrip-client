@@ -1,11 +1,28 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { updateTransportation } from '@/app/cms/transportations/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Transportation } from '@/types/transportation';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => ({
+  title: 'Update Transportation',
+  alternates: {
+    canonical: `/cms/transportations/update/${params.id}`,
+  },
+  openGraph: {
+    title: `Update Transportation | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/transportations/update/${params.id}`,
+  },
+});
 
 const fetchTransportation = async (id: string): Promise<Transportation> => {
   const response = await fetch(`${API_URL}/transportations/${id}`, { cache: 'no-store' });

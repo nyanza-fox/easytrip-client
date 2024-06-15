@@ -1,11 +1,28 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { updateAccommodation } from '@/app/cms/accommodations/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Accommodation } from '@/types/accommodation';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => ({
+  title: 'Update Accommodation',
+  alternates: {
+    canonical: `/cms/accommodations/update/${params.id}`,
+  },
+  openGraph: {
+    title: `Update Accommodation | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/accommodations/update/${params.id}`,
+  },
+});
 
 const fetchAccommodation = async (id: string): Promise<Accommodation> => {
   const response = await fetch(`${API_URL}/accommodations/${id}`, { cache: 'no-store' });

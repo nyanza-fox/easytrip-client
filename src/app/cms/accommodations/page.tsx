@@ -1,12 +1,25 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 
 import type { Accommodation } from '@/types/accommodation';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Accommodations',
+  alternates: {
+    canonical: `/cms/accommodations`,
+  },
+  openGraph: {
+    title: `Accommodations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/accommodations`,
+  },
+};
 
 const fetchAccommodations = async (
   page: number = 1,
@@ -143,7 +156,7 @@ const AccommodationsPage = async ({
             key={idx}
             href={`/cms/accommodations?page=${idx + 1}`}
             className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
+              (searchParams?.page || '1') === String(idx + 1) ? 'btn-active' : ''
             }`}
           >
             {idx + 1}

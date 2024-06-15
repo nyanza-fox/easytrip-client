@@ -1,11 +1,28 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { updateGuide } from '@/app/cms/guides/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Guide } from '@/types/guide';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => ({
+  title: 'Update Guide',
+  alternates: {
+    canonical: `/cms/guides/update/${params.id}`,
+  },
+  openGraph: {
+    title: `Update Guide | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides/update/${params.id}`,
+  },
+});
 
 const fetchGuide = async (id: string): Promise<Guide> => {
   const response = await fetch(`${API_URL}/guides/${id}`, { cache: 'no-store' });

@@ -1,12 +1,25 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 
 import type { Guide } from '@/types/guide';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Guides',
+  alternates: {
+    canonical: `/cms/guides`,
+  },
+  openGraph: {
+    title: `Guides | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides`,
+  },
+};
 
 const fetchGuides = async (
   page: number = 1,

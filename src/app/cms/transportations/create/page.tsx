@@ -1,7 +1,20 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { createTransportation } from '@/app/cms/transportations/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import ErrorAlert from '@/components/ErrorAlert';
+
+export const metadata: Metadata = {
+  title: 'Create Transportation',
+  alternates: {
+    canonical: `/cms/transportations/create`,
+  },
+  openGraph: {
+    title: `Create Transportation | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/transportations/create`,
+  },
+};
 
 const CreateTransportationPage = () => {
   return (

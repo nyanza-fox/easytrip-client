@@ -1,12 +1,25 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 
 import type { Destination } from '@/types/destination';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Destinations',
+  alternates: {
+    canonical: `/cms/destinations`,
+  },
+  openGraph: {
+    title: `Destinations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/destinations`,
+  },
+};
 
 const fetchDestinations = async (
   page: number = 1,

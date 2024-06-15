@@ -1,12 +1,24 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 
 import type { Transportation } from '@/types/transportation';
 import type { BaseResponse } from '@/types/response';
 import CMSDetailAction from '@/components/CMSDetailAction';
-import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Transportations',
+  alternates: {
+    canonical: `/cms/transportations`,
+  },
+  openGraph: {
+    title: `Transportations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/transportations`,
+  },
+};
 
 const fetchTransportations = async (
   page: number = 1,

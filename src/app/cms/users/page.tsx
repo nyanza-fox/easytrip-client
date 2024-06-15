@@ -1,9 +1,22 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 
 import type { BaseResponse } from '@/types/response';
 import type { User } from '@/types/user';
+
+export const metadata: Metadata = {
+  title: 'Users',
+  alternates: {
+    canonical: `/cms/users`,
+  },
+  openGraph: {
+    title: `Users | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/users`,
+  },
+};
 
 const fetchUsers = async (page: number = 1, limit: number = 10): Promise<BaseResponse<User[]>> => {
   const response = await fetch(`${API_URL}/users?page=${page}&limit=${limit}`, {
@@ -42,7 +55,7 @@ const UsersPage = async ({
                 </td>
                 <td>{user.email}</td>
                 <td className="flex gap-1">
-                  <button className="btn btn-info">
+                  <button className="btn btn-primary">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"

@@ -1,7 +1,20 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { createGuide } from '@/app/cms/guides/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import ErrorAlert from '@/components/ErrorAlert';
+
+export const metadata: Metadata = {
+  title: 'Create Guide',
+  alternates: {
+    canonical: `/cms/guides/create`,
+  },
+  openGraph: {
+    title: `Create Guide | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides/create`,
+  },
+};
 
 const CreateGuidePage = () => {
   return (
