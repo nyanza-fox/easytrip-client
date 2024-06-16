@@ -1,20 +1,33 @@
-import { API_URL } from '@/constants/url';
+import { API_URL } from "@/constants/url";
 
-import { numberToRupiah } from '@/utils/currency';
-import DestinationGallery from '@/components/DestinationGallery';
-import DestinationPackages from '@/components/DestinationPackages';
+import { numberToRupiah } from "@/utils/currency";
+import DestinationGallery from "@/components/DestinationGallery";
+import DestinationPackages from "@/components/DestinationPackages";
+import type { Destination } from "@/types/destination";
+import Maps from "@/components/Maps";
 
-import type { Destination } from '@/types/destination';
-
-const fetchDestinationById = async (id: string): Promise<Destination | null> => {
-  const response = await fetch(`${API_URL}/destinations/${id}`);
+const fetchDestinationById = async (
+  id: string
+): Promise<Destination | null> => {
+  const response = await fetch(`${API_URL}/destinations/${id}`, {
+    cache: "no-store",
+  });
   const data = await response.json();
+  console.log(data?.data?.location?.coordinates, "server");
 
   return data.data || null;
 };
 
-const DestinationDetailPage = async ({ params }: { params: { id: string } }) => {
+const DestinationDetailPage = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
   const destination = await fetchDestinationById(params.id);
+  let coordinates: [number, number] = destination?.location?.coordinates as [
+    number,
+    number
+  ];
 
   if (!destination) {
     return (
@@ -30,7 +43,10 @@ const DestinationDetailPage = async ({ params }: { params: { id: string } }) => 
         <h1 className="text-3xl font-bold">{destination.name}</h1>
 
         <div className="flex flex-col gap-4 md:flex-row mb-4">
-          <DestinationGallery name={destination.name} images={destination.images} />
+          <DestinationGallery
+            name={destination.name}
+            images={destination.images}
+          />
 
           <article className="flex flex-col gap-4">
             <div>
@@ -55,6 +71,12 @@ const DestinationDetailPage = async ({ params }: { params: { id: string } }) => 
 
       <section className="flex flex-col gap-4">
         <DestinationPackages destinationId={destination._id} />
+      </section>
+      <section className="flex flex-col gap-4">
+        <div className="m-4">
+          <h1 className="text-3xl font-bold">Location</h1>
+          <Maps coordinates={coordinates} />
+        </div>
       </section>
     </>
   );

@@ -12,6 +12,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
+    "dotenv": "^16.4.5",
+    "google-map-react": "^2.2.1",
     "next": "14.2.3",
     "next-pwa": "^5.6.0",
     "next-sitemap": "^4.2.3",
@@ -22,6 +25,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/google-map-react": "^2.1.10",
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
