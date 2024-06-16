@@ -1,8 +1,6 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-const PublicLayout = ({
-  children,
-}: Readonly<{ children: React.ReactNode }>) => {
+const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
       <div className="drawer">
@@ -38,17 +36,17 @@ const PublicLayout = ({
               <ul className="menu menu-horizontal gap-2 text-primary font-bold">
                 {/* Navbar menu content here */}
                 <li>
-                  <Link href={"/"}>Home</Link>
+                  <Link href={'/'}>Home</Link>
                 </li>
                 <li>
-                  <Link href={"/destinations"}>Destinations</Link>
+                  <Link href={'/destinations'}>Destinations</Link>
                 </li>
                 <li>
-                  <Link href={"/about"}>About</Link>
+                  <Link href={'/about'}>About</Link>
                 </li>
                 <li>
                   <Link
-                    href={"#"}
+                    href={'/destinations/generate'}
                     className="bg-primary hover:bg-secondary text-white"
                   >
                     <svg
@@ -71,10 +69,10 @@ const PublicLayout = ({
               </ul>
             </div>
             <div className="navbar-end hidden lg:flex gap-1">
-              <Link href={"#"} className="btn btn-ghost text-primary w-24">
+              <Link href={'#'} className="btn btn-ghost text-primary w-24">
                 Sign In
               </Link>
-              <Link href={"#"} className="btn btn-primary w-24">
+              <Link href={'#'} className="btn btn-primary w-24">
                 Sign Up
               </Link>
             </div>
@@ -91,19 +89,16 @@ const PublicLayout = ({
           <ul className="menu p-4 pt-24 w-80 min-h-full gap-2 bg-neutral text-primary font-bold">
             {/* Sidebar content here */}
             <li>
-              <Link href={"/"}>Home</Link>
+              <Link href={'/'}>Home</Link>
             </li>
             <li>
-              <Link href={"/destinations"}>Destinations</Link>
+              <Link href={'/destinations'}>Destinations</Link>
             </li>
             <li>
-              <Link href={"/about"}>About</Link>
+              <Link href={'/about'}>About</Link>
             </li>
             <li>
-              <Link
-                href={"#"}
-                className="bg-primary hover:bg-secondary text-white w-32"
-              >
+              <Link href={'#'} className="bg-primary hover:bg-secondary text-white w-32">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -124,12 +119,12 @@ const PublicLayout = ({
             <div className="divider"></div>
             <ul className="menu menu-horizontal justify-center gap-2">
               <li>
-                <Link href={"#"} className="btn btn-outline btn-primary w-24">
+                <Link href={'#'} className="btn btn-outline btn-primary w-24">
                   Sign In
                 </Link>
               </li>
               <li>
-                <Link href={"#"} className="btn btn-primary w-24">
+                <Link href={'#'} className="btn btn-primary w-24">
                   Sign Up
                 </Link>
               </li>
@@ -140,10 +135,10 @@ const PublicLayout = ({
 
       <footer className="footer footer-center p-10 mt-10 bg-neutral text-base-content rounded">
         <nav className="grid grid-flow-col gap-4">
-          <Link href={"/about"} className="link link-hover">
+          <Link href={'/about'} className="link link-hover">
             About us
           </Link>
-          <Link href={"/contact"} className="link link-hover">
+          <Link href={'/contact'} className="link link-hover">
             Contact
           </Link>
         </nav>

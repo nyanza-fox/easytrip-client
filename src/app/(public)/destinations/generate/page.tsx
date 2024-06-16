@@ -94,7 +94,7 @@ const GenerateDestinationsPage = () => {
           {destinations.map((destination) => (
             <Link
               key={destination._id}
-              href={`/destination/${destination._id}`}
+              href={`/destinations/${destination._id}`}
               className="card card-compact bg-base-100 shadow-xl"
             >
               <picture className="px-2 pt-2">
