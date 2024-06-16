@@ -5,39 +5,147 @@ const PublicLayout = ({
 }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
-      <nav className="navbar sticky top-0 z-50 bg-base-100 shadow-md px-10">
-        <div className="navbar-start">
-          <p className=" text-xl font-extrabold text-primary">EasyTrip</p>
+      <div className="drawer">
+        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content flex flex-col">
+          {/* Navbar */}
+          <nav className="navbar sticky top-0 z-50 bg-base-100 shadow-md px-10">
+            <div className="flex-none lg:hidden">
+              <label
+                htmlFor="my-drawer-3"
+                aria-label="open sidebar"
+                className="btn btn-square btn-ghost"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="inline-block w-6 h-6 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </label>
+            </div>
+            <div className="navbar-start px-2 mx-2">
+              <p className="text-xl font-extrabold text-primary">EasyTrip</p>
+            </div>
+            <div className="navbar-center hidden lg:flex">
+              <ul className="menu menu-horizontal gap-2 text-primary font-bold">
+                {/* Navbar menu content here */}
+                <li>
+                  <Link href={"/"}>Home</Link>
+                </li>
+                <li>
+                  <Link href={"/destinations"}>Destinations</Link>
+                </li>
+                <li>
+                  <Link href={"/about"}>About</Link>
+                </li>
+                <li>
+                  <Link
+                    href={"#"}
+                    className="bg-primary hover:bg-secondary text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                      />
+                    </svg>
+                    AI Trip
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="navbar-end hidden lg:flex gap-1">
+              <Link href={"#"} className="btn btn-ghost text-primary w-24">
+                Sign In
+              </Link>
+              <Link href={"#"} className="btn btn-primary w-24">
+                Sign Up
+              </Link>
+            </div>
+          </nav>
+          {/* Page content here */}
+          {children}
         </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-primary font-bold">
+        <div className="drawer-side">
+          <label
+            htmlFor="my-drawer-3"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+          <ul className="menu p-4 pt-24 w-80 min-h-full gap-2 bg-neutral text-primary font-bold">
+            {/* Sidebar content here */}
             <li>
               <Link href={"/"}>Home</Link>
             </li>
             <li>
-              <Link href={"/destination"}>Destination</Link>
+              <Link href={"/destinations"}>Destinations</Link>
             </li>
-
             <li>
               <Link href={"/about"}>About</Link>
             </li>
+            <li>
+              <Link
+                href={"#"}
+                className="bg-primary hover:bg-secondary text-white w-32"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                  />
+                </svg>
+                AI Trip
+              </Link>
+            </li>
+            <div className="divider"></div>
+            <ul className="menu menu-horizontal justify-center gap-2">
+              <li>
+                <Link href={"#"} className="btn btn-outline btn-primary w-24">
+                  Sign In
+                </Link>
+              </li>
+              <li>
+                <Link href={"#"} className="btn btn-primary w-24">
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
           </ul>
         </div>
-        <div className="navbar-end gap-2">
-          <Link href={"#"} className="btn btn-ghost">
-            Sign In
-          </Link>
-          <Link href={"#"} className="btn btn-primary">
-            Sign Up
-          </Link>
-        </div>
-      </nav>
-      {children}
+      </div>
 
-      <footer className="footer footer-center p-10 mt-10 bg-base-200 text-base-content rounded">
+      <footer className="footer footer-center p-10 mt-10 bg-neutral text-base-content rounded">
         <nav className="grid grid-flow-col gap-4">
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
+          <Link href={"/about"} className="link link-hover">
+            About us
+          </Link>
+          <Link href={"/contact"} className="link link-hover">
+            Contact
+          </Link>
         </nav>
         <nav>
           <div className="grid grid-flow-col gap-4">
