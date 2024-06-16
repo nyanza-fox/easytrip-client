@@ -1,9 +1,23 @@
-import Link from 'next/link';
+import { Metadata } from 'next';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Order } from '@/types/order';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Orders',
+  alternates: {
+    canonical: `/cms/orders`,
+  },
+  openGraph: {
+    title: `Orders | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/orders`,
+  },
+};
 
 const fetchOrders = async (
   page: number = 1,
@@ -43,11 +57,11 @@ const OrdersPage = async ({
             {orders?.map((order) => (
               <tr key={order._id}>
                 <td>{order.userId}</td>
-                <td>{order.destinationId}</td>
-                <td>{order.totalPrice}</td>
+                <td>{order.package.destination?.name}</td>
+                <td>{numberToRupiah(order.package.totalPrice)}</td>
                 <td>{order.status}</td>
                 <td className="flex gap-1">
-                  <button className="btn btn-info">
+                  <button className="btn btn-accent">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -69,19 +83,11 @@ const OrdersPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/orders?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/orders"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

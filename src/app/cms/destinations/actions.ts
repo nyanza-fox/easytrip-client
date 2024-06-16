@@ -24,6 +24,7 @@ export const createDestination = async (formData: FormData) => {
     price: parseInt(formData.get('price')?.toString() || '0'),
     location: {
       city: formData.get('city'),
+      state: formData.get('state'),
       country: formData.get('country'),
       coordinates: [
         parseFloat(formData.get('latitude')?.toString() || '0'),
@@ -73,6 +74,7 @@ export const updateDestination = async (id: string, formData: FormData) => {
     price: parseInt(formData.get('price')?.toString() || '0'),
     location: {
       city: formData.get('city'),
+      state: formData.get('state'),
       country: formData.get('country'),
       coordinates: [
         parseFloat(formData.get('latitude')?.toString() || '0'),

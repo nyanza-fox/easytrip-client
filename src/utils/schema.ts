@@ -3,6 +3,10 @@ import { z } from 'zod';
 export const accommodationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   type: z.string().min(1, { message: 'Type is required' }),
+  rating: z
+    .number()
+    .min(1, { message: 'Rating must be more than or equal to 1' })
+    .max(5, { message: 'Rating must be less than or equal to 5' }),
   images: z.array(z.string()).nonempty({ message: 'Images is required' }),
   facilities: z.array(z.string()).nonempty({ message: 'Facilities is required' }),
   maxGuests: z.number().int().positive({ message: 'Max Guests must be a positive integer' }),
@@ -31,6 +35,7 @@ export const destinationSchema = z.object({
   price: z.number().int().positive({ message: 'Price must be a positive integer' }),
   location: z.object({
     city: z.string().min(1, { message: 'City is required' }),
+    state: z.string().min(1, { message: 'State is required' }),
     country: z.string().min(1, { message: 'Country is required' }),
     coordinates: z
       .array(z.number().min(-90).max(90), z.number().min(-180).max(180))
@@ -41,15 +46,20 @@ export const destinationSchema = z.object({
 export const guideSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   languages: z.array(z.string()).nonempty({ message: 'Languages is required' }),
+  rating: z
+    .number()
+    .min(1, { message: 'Rating must be more than or equal to 1' })
+    .max(5, { message: 'Rating must be less than or equal to 5' }),
   image: z.string().min(1, { message: 'Image is required' }),
   pricePerDay: z.number().int().positive({ message: 'Price Per Day is required' }),
+  location: z.object({
+    city: z.string().min(1, { message: 'City is required' }),
+    state: z.string().min(1, { message: 'State is required' }),
+    country: z.string().min(1, { message: 'Country is required' }),
+  }),
   contact: z.object({
     email: z.string().email({ message: 'Email is required' }),
     phoneNumber: z.string().min(1, { message: 'Phone Number is required' }),
-  }),
-  location: z.object({
-    city: z.string().min(1, { message: 'City is required' }),
-    country: z.string().min(1, { message: 'Country is required' }),
   }),
 });
 
@@ -59,10 +69,20 @@ export const transportationSchema = z.object({
   price: z.number().int().positive({ message: 'Price must be a positive integer' }),
   departure: z.object({
     time: z.string().min(1, { message: 'Departure Time is required' }),
-    location: z.string().min(1, { message: 'Departure Location is required' }),
+    place: z.string().min(1, { message: 'Departure Place is required' }),
+    location: z.object({
+      city: z.string().min(1, { message: 'Departure City is required' }),
+      state: z.string().min(1, { message: 'Departure State is required' }),
+      country: z.string().min(1, { message: 'Departure Country is required' }),
+    }),
   }),
   arrival: z.object({
     time: z.string().min(1, { message: 'Arrival Time is required' }),
-    location: z.string().min(1, { message: 'Arrival Location is required' }),
+    place: z.string().min(1, { message: 'Arrival Place is required' }),
+    location: z.object({
+      city: z.string().min(1, { message: 'Arrival City is required' }),
+      state: z.string().min(1, { message: 'Arrival State is required' }),
+      country: z.string().min(1, { message: 'Arrival Country is required' }),
+    }),
   }),
 });

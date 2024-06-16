@@ -1,12 +1,27 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Guide } from '@/types/guide';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Guides',
+  alternates: {
+    canonical: `/cms/guides`,
+  },
+  openGraph: {
+    title: `Guides | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides`,
+  },
+};
 
 const fetchGuides = async (
   page: number = 1,
@@ -50,16 +65,12 @@ const GuidesPage = async ({
               <tr key={guide._id}>
                 <td>{guide.name}</td>
                 <td>{guide.languages.join(', ')}</td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    guide.pricePerDay
-                  )}
-                </td>
+                <td>{numberToRupiah(guide.pricePerDay)}</td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{guide.name}</h2>
-                      <figure className="relative w-52 h-52 overflow-hidden">
+                      <figure className="relative w-full h-80 overflow-hidden rounded-xl">
                         <Image
                           src={guide.image}
                           alt={guide.name}
@@ -80,12 +91,7 @@ const GuidesPage = async ({
                       </div>
                       <div>
                         <p className="font-bold">Price Per Day:</p>
-                        <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(guide.pricePerDay)}
-                        </p>
+                        <p>{numberToRupiah(guide.pricePerDay)}</p>
                       </div>
                       <div>
                         <p className="font-bold">Contact:</p>
@@ -114,19 +120,11 @@ const GuidesPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/guides?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/guides"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

@@ -1,11 +1,28 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { updateDestination } from '@/app/cms/destinations/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Destination } from '@/types/destination';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => ({
+  title: 'Update Destination',
+  alternates: {
+    canonical: `/cms/destinations/update/${params.id}`,
+  },
+  openGraph: {
+    title: `Update Destination | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/destinations/update/${params.id}`,
+  },
+});
 
 const fetchDestination = async (id: string): Promise<Destination> => {
   const response = await fetch(`${API_URL}/destinations/${id}`, { cache: 'no-store' });
@@ -99,7 +116,7 @@ const UpdateDestinationPage = async ({ params }: { params: { id: string } }) => 
           />
         </label>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">City</span>
@@ -109,6 +126,19 @@ const UpdateDestinationPage = async ({ params }: { params: { id: string } }) => 
               id="city"
               name="city"
               defaultValue={destination.location.city}
+              className="input input-bordered w-full"
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">State</span>
+            </div>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              defaultValue={destination.location.state}
               className="input input-bordered w-full"
             />
           </label>
@@ -127,7 +157,7 @@ const UpdateDestinationPage = async ({ params }: { params: { id: string } }) => 
           </label>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Latitude</span>
@@ -136,7 +166,7 @@ const UpdateDestinationPage = async ({ params }: { params: { id: string } }) => 
               type="number"
               id="latitude"
               name="latitude"
-              defaultValue={destination.location.coordinates[0].toString()}
+              defaultValue={destination.location.coordinates?.[0].toString()}
               className="input input-bordered w-full"
             />
           </label>
@@ -149,7 +179,7 @@ const UpdateDestinationPage = async ({ params }: { params: { id: string } }) => 
               type="number"
               id="longitude"
               name="longitude"
-              defaultValue={destination.location.coordinates[1].toString()}
+              defaultValue={destination.location.coordinates?.[1].toString()}
               className="input input-bordered w-full"
             />
           </label>

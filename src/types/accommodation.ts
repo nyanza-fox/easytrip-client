@@ -1,22 +1,16 @@
+import type { Contact, Location } from './globals';
+
 export type Accommodation = {
   _id: string;
   name: string;
   type: string;
+  rating: number;
   images: string[];
   facilities: string[];
   maxGuests: number;
   pricePerNight: number;
-  location: {
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    zipCode: string;
-  };
-  contact: {
-    email: string;
-    phoneNumber: string;
-  };
+  location: Location;
+  contact: Contact;
   createdAt: Date;
   updatedAt: Date;
 };

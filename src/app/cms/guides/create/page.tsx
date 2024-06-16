@@ -1,7 +1,20 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { createGuide } from '@/app/cms/guides/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import ErrorAlert from '@/components/ErrorAlert';
+
+export const metadata: Metadata = {
+  title: 'Create Guide',
+  alternates: {
+    canonical: `/cms/guides/create`,
+  },
+  openGraph: {
+    title: `Create Guide | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides/create`,
+  },
+};
 
 const CreateGuidePage = () => {
   return (
@@ -35,6 +48,13 @@ const CreateGuidePage = () => {
 
         <label className="form-control w-full">
           <div className="label">
+            <span className="label-text">Rating</span>
+          </div>
+          <input type="number" id="rating" name="rating" className="input input-bordered w-full" />
+        </label>
+
+        <label className="form-control w-full">
+          <div className="label">
             <span className="label-text">Image URL</span>
           </div>
           <input type="text" id="image" name="image" className="input input-bordered w-full" />
@@ -52,7 +72,35 @@ const CreateGuidePage = () => {
           />
         </label>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">City</span>
+            </div>
+            <input type="text" id="city" name="city" className="input input-bordered w-full" />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">State</span>
+            </div>
+            <input type="text" id="state" name="state" className="input input-bordered w-full" />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Country</span>
+            </div>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              className="input input-bordered w-full"
+            />
+          </label>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-2">
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Email</span>
@@ -68,27 +116,6 @@ const CreateGuidePage = () => {
               type="text"
               id="phoneNumber"
               name="phoneNumber"
-              className="input input-bordered w-full"
-            />
-          </label>
-        </div>
-
-        <div className="flex gap-2">
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">City</span>
-            </div>
-            <input type="text" id="city" name="city" className="input input-bordered w-full" />
-          </label>
-
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Country</span>
-            </div>
-            <input
-              type="text"
-              id="country"
-              name="country"
               className="input input-bordered w-full"
             />
           </label>

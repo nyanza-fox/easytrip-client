@@ -1,11 +1,28 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
 import { updateGuide } from '@/app/cms/guides/actions';
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Guide } from '@/types/guide';
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> => ({
+  title: 'Update Guide',
+  alternates: {
+    canonical: `/cms/guides/update/${params.id}`,
+  },
+  openGraph: {
+    title: `Update Guide | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides/update/${params.id}`,
+  },
+});
 
 const fetchGuide = async (id: string): Promise<Guide> => {
   const response = await fetch(`${API_URL}/guides/${id}`, { cache: 'no-store' });
@@ -60,6 +77,19 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
 
         <label className="form-control w-full">
           <div className="label">
+            <span className="label-text">Rating</span>
+          </div>
+          <input
+            type="number"
+            id="rating"
+            name="rating"
+            defaultValue={guide.rating}
+            className="input input-bordered w-full"
+          />
+        </label>
+
+        <label className="form-control w-full">
+          <div className="label">
             <span className="label-text">Image URL</span>
           </div>
           <input
@@ -87,6 +117,47 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
         <div className="flex gap-2">
           <label className="form-control w-full">
             <div className="label">
+              <span className="label-text">City</span>
+            </div>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              defaultValue={guide.location.city}
+              className="input input-bordered w-full"
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">State</span>
+            </div>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              defaultValue={guide.location.state}
+              className="input input-bordered w-full"
+            />
+          </label>
+
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Country</span>
+            </div>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              defaultValue={guide.location.country}
+              className="input input-bordered w-full"
+            />
+          </label>
+        </div>
+
+        <div className="flex gap-2">
+          <label className="form-control w-full">
+            <div className="label">
               <span className="label-text">Email</span>
             </div>
             <input
@@ -107,34 +178,6 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="phoneNumber"
               name="phoneNumber"
               defaultValue={guide.contact.phoneNumber}
-              className="input input-bordered w-full"
-            />
-          </label>
-        </div>
-
-        <div className="flex gap-2">
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">City</span>
-            </div>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              defaultValue={guide.location.city}
-              className="input input-bordered w-full"
-            />
-          </label>
-
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Country</span>
-            </div>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              defaultValue={guide.location.country}
               className="input input-bordered w-full"
             />
           </label>

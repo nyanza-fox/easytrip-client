@@ -12,11 +12,21 @@ export const createTransportation = async (formData: FormData) => {
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
-      location: formData.get('departureLocation'),
+      place: formData.get('departurePlace'),
+      location: {
+        city: formData.get('departureCity'),
+        state: formData.get('departureState'),
+        country: formData.get('departureCountry'),
+      },
     },
     arrival: {
       time: formData.get('arrivalTime'),
-      location: formData.get('arrivalLocation'),
+      place: formData.get('arrivalPlace'),
+      location: {
+        city: formData.get('arrivalCity'),
+        state: formData.get('arrivalState'),
+        country: formData.get('arrivalCountry'),
+      },
     },
   });
 
@@ -49,11 +59,21 @@ export const updateTransportation = async (id: string, formData: FormData) => {
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
-      location: formData.get('departureLocation'),
+      place: formData.get('departurePlace'),
+      location: {
+        city: formData.get('departureCity'),
+        state: formData.get('departureState'),
+        country: formData.get('departureCountry'),
+      },
     },
     arrival: {
       time: formData.get('arrivalTime'),
-      location: formData.get('arrivalLocation'),
+      place: formData.get('arrivalPlace'),
+      location: {
+        city: formData.get('arrivalCity'),
+        state: formData.get('arrivalState'),
+        country: formData.get('arrivalCountry'),
+      },
     },
   });
 

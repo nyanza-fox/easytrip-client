@@ -1,12 +1,27 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Destination } from '@/types/destination';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Destinations',
+  alternates: {
+    canonical: `/cms/destinations`,
+  },
+  openGraph: {
+    title: `Destinations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/destinations`,
+  },
+};
 
 const fetchDestinations = async (
   page: number = 1,
@@ -51,11 +66,7 @@ const DestinationsPage = async ({
             {destinations?.map((destination) => (
               <tr key={destination._id}>
                 <td>{destination.name}</td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    destination.price
-                  )}
-                </td>
+                <td>{numberToRupiah(destination.price)}</td>
                 <td>
                   {destination.location.city}, {destination.location.country}
                 </td>
@@ -63,14 +74,18 @@ const DestinationsPage = async ({
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{destination.name}</h2>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="flex gap-2 overflow-x-auto py-2">
                         {destination.images.map((image, idx) => (
-                          <figure key={idx} className="relative h-32 overflow-hidden">
+                          <figure
+                            key={idx}
+                            className="relative min-w-48 h-48 overflow-hidden rounded-xl"
+                          >
                             <Image
                               src={image}
                               alt={destination.name}
                               sizes="100%"
                               fill
+                              priority
                               className="object-cover"
                             />
                           </figure>
@@ -80,17 +95,12 @@ const DestinationsPage = async ({
                         <p className="font-bold">Location:</p>
                         <p>
                           {destination.location.city}, {destination.location.country} (
-                          {destination.location.coordinates.join(', ')})
+                          {destination.location.coordinates?.join(', ')})
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Price:</p>
-                        <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(destination.price)}
-                        </p>
+                        <p>{numberToRupiah(destination.price)}</p>
                       </div>
                       <div>
                         <p className="font-bold">Description:</p>
@@ -128,19 +138,11 @@ const DestinationsPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/destinations?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/destinations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

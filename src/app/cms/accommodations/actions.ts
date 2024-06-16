@@ -9,6 +9,7 @@ export const createAccommodation = async (formData: FormData) => {
   const validation = accommodationSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
     images:
       formData
         .get('images')
@@ -62,6 +63,7 @@ export const updateAccommodation = async (id: string, formData: FormData) => {
   const validation = accommodationSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
     images:
       formData
         .get('images')
