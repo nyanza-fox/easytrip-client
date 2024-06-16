@@ -1,81 +1,79 @@
 const AboutPage = () => {
   return (
     <>
-      <section className="flex min-h-screen bg-primary">
-        <div className="flex items-center text-left w-1/2 px-20">
-          <div className="max-w-md">
-            <h1 className="text-5xl font-bold text-neutral">Hello there!</h1>
-            <p className="py-6 text-white">
-              Welcome to{" "}
-              <span className="text-neutral font-bold">EasyTrip</span>, your
-              travel guide to exploring the world! We are dedicated to providing
-              you with the latest and most reliable information about the best
-              destinations, and unique experiences from all around the globe.
-            </p>
-            <button className="btn btn-neutral">Get Started</button>
-          </div>
+      <section className="flex h-80 bg-primary md:px-10 lg:px-28">
+        <div className="flex flex-col justify-center text-left md:w-1/2 p-10">
+          <h1 className="text-2xl lg:text-4xl font-semibold text-neutral">
+            Welcome to <span className="font-bold">EasyTrip</span>!
+          </h1>
+          <p className="text-sm lg:text-lg text-white py-3">
+            Explore the world effortlessly through our travel guide website,
+            which uses advanced AI technology to provide personalized
+            recommendations tailored to your preferences, including dream
+            destinations and the best travel packages.
+          </p>
         </div>
+        <picture className="hidden md:flex items-center w-1/2">
+          <img
+            src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
+            alt="image"
+            className="w-4/5 rounded-3xl"
+          />
+        </picture>
       </section>
 
-      <section className="p-10">
+      <section className="p-5">
         <div className="flex justify-center items-center">
-          <h1 className="text-4xl font-bold py-7">Get to know about us..</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold py-8">
+            Get to know about us
+          </h1>
         </div>
-        <div className="flex flex-col gap-1 mx-20">
-          <div className="flex flex-row gap-2 justify-center">
-            <p className="flex justify-center items-center  text-lg w-1/2 h-60">
-              We believe that every journey is an adventure worth sharing.
-              Therefore, we are committed to helping you plan your dream
-              vacation by offering recommendations for attractions,
-              accommodations, and exciting activities.
-            </p>
-            <picture className="flex justify-center items-center  w-1/2">
-              <img
-                src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
-                alt="image"
-                className="w-3/5 rounded-3xl"
-              />
+        <div className="flex flex-col gap-10 md:gap-1 mx-5 lg:mx-44">
+          <div className="flex flex-col md:flex-row gap-2 justify-center">
+            <picture className="flex justify-center items-center md:w-1/2">
+              <img src="/icon1.jpg" alt="image" className="w-36 md:w-44" />
             </picture>
-          </div>
-          <div className="flex flex-row gap-2 justify-center">
-            <picture className="flex justify-center items-center  w-1/2">
-              <img
-                src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
-                alt="image"
-                className="w-3/5 rounded-3xl"
-              />
-            </picture>
-            <p className="flex justify-center items-center  text-lg w-1/2 h-60">
-              At EasyTrip, we understand that every traveler has different needs
-              and desires. One of our standout features is the ability to
-              generate destination recommendations along with travel packages
-              tailored to your preferences using AI technology.
+            <p className="text-sm md:text-base lg:text-lg text-left text-balance text-slate-600 my-auto md:w-1/2">
+              <span className="font-semibold">EasyTrip</span> is your travel
+              guide to exploring the world! We are dedicated to providing you
+              with the latest and most reliable information about the best
+              destinations, and unique experiences from all around the globe. We
+              believe that every journey is an adventure worth sharing.
             </p>
           </div>
-          <div className="flex flex-row gap-2 justify-center">
-            <p className="flex justify-center items-center  text-lg w-1/2 h-60">
+          <div className="flex flex-col md:flex-row-reverse gap-2 justify-center">
+            <picture className="flex justify-center items-center md:w-1/2">
+              <img src="/icon2.jpg" alt="image" className="w-36 md:w-44" />
+            </picture>
+            <p className="text-sm md:text-base lg:text-lg text-left text-balance text-slate-600 my-auto md:w-1/2">
+              At <span className="font-semibold">EasyTrip</span>, we understand
+              that every traveler has different needs and desires. One of our
+              standout features is the ability to generate destination
+              recommendations along with travel packages tailored to your
+              preferences using AI technology.
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row gap-2 justify-center">
+            <picture className="flex justify-center items-center md:w-1/2">
+              <img src="/icon3.jpg" alt="image" className="w-36 md:w-44" />
+            </picture>
+            <p className="text-sm md:text-base lg:text-lg text-left text-balance text-slate-600 my-auto md:w-1/2">
               With just a few clicks, our AI-powered system can provide you with
               suggestions for destinations that match your interests, budget,
               and travel duration. Each travel package includes detailed
               itineraries, and accommodation options making it easier and more
               enjoyable for you to plan your trip.
             </p>
-            <picture className="flex justify-center items-center  w-1/2">
-              <img
-                src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
-                alt="image"
-                className="w-3/5 rounded-3xl"
-              />
-            </picture>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center text-center py-5 px-10">
-          <p>
+        <div className="divider divider-primary py-7"></div>
+        <div className="flex flex-col text-center px-10">
+          <p className="text-base lg:text-xl text-balance text-slate-600">
             Thank you for visiting EasyTrip. We hope this site becomes a source
-            of inspiration and a useful guide for your next journey. <br />{" "}
-            Explore the world with us and discover wonders at every turn!
+            of inspiration and a useful guide for your next journey. Explore the
+            world with us and discover wonders at every turn!
           </p>
-          <h1 className="text-2xl font-bold text-primary pt-10">
+          <h1 className="text-xl lg:text-3xl font-bold text-primary pt-8">
             Happy travels!
           </h1>
         </div>
@@ -85,27 +83,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
-/*
-
----
-
-**About Us**
-
-Welcome to [Website Name], your travel guide to exploring the world! We are dedicated to providing you with the latest and most reliable information about the best destinations, travel tips, and unique experiences from all around the globe.
-
-We believe that every journey is an adventure worth sharing. Therefore, we are committed to helping you plan your dream vacation by offering recommendations for attractions, restaurants, accommodations, and exciting activities.
-
-At [Website Name], we understand that every traveler has different needs and desires. That’s why we offer a variety of articles covering everything from backpacking trips to luxury vacations. We also provide practical tips on how to travel safely and comfortably, as well as inspiring stories from travelers worldwide.
-
-**Featured Service**
-
-One of our standout features is the ability to **generate destination recommendations** along with **travel packages** tailored to your preferences using **AI technology**. With just a few clicks, our AI-powered system can provide you with suggestions for destinations that match your interests, budget, and travel duration. Each travel package includes detailed itineraries, accommodation options, and restaurant recommendations, making it easier and more enjoyable for you to plan your trip.
-
-Thank you for visiting [Website Name]. We hope this site becomes a source of inspiration and a useful guide for your next journey. Explore the world with us and discover wonders at every turn!
-
-Happy travels!
-
----
-
- */
