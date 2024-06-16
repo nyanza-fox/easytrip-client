@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSPagination from '@/components/CMSPagination';
 
 import type { Order } from '@/types/order';
@@ -56,11 +57,11 @@ const OrdersPage = async ({
             {orders?.map((order) => (
               <tr key={order._id}>
                 <td>{order.userId}</td>
-                <td>{order.destination.destinationId}</td>
-                <td>{order.totalPrice}</td>
+                <td>{order.package.destination?.name}</td>
+                <td>{numberToRupiah(order.package.totalPrice)}</td>
                 <td>{order.status}</td>
                 <td className="flex gap-1">
-                  <button className="btn btn-primary">
+                  <button className="btn btn-accent">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"

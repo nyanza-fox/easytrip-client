@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 import CMSPagination from '@/components/CMSPagination';
@@ -67,11 +68,7 @@ const TransportationsPage = async ({
               <tr key={transportation._id}>
                 <td>{transportation.type}</td>
                 <td>{transportation.company}</td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    transportation.price
-                  )}
-                </td>
+                <td>{numberToRupiah(transportation.price)}</td>
                 <td>{transportation.departure.place}</td>
                 <td>{transportation.arrival.place}</td>
                 <td className="flex gap-1">
@@ -98,7 +95,7 @@ const TransportationsPage = async ({
                       </div>
                       <div>
                         <p className="font-bold">Price:</p>
-                        <p>{transportation.price}</p>
+                        <p>{numberToRupiah(transportation.price)}</p>
                       </div>
                     </div>
                   </CMSDetailAction>

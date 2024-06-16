@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 import CMSPagination from '@/components/CMSPagination';
@@ -70,23 +71,23 @@ const AccommodationsPage = async ({
                 <td>
                   {accommodation.location.city}, {accommodation.location.country}
                 </td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    accommodation.pricePerNight
-                  )}
-                </td>
+                <td>{numberToRupiah(accommodation.pricePerNight)}</td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{accommodation.name}</h2>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="flex gap-2 overflow-x-auto py-2">
                         {accommodation.images.map((image, idx) => (
-                          <figure key={idx} className="relative h-32 overflow-hidden">
+                          <figure
+                            key={idx}
+                            className="relative min-w-48 h-48 overflow-hidden rounded-xl"
+                          >
                             <Image
                               src={image}
                               alt={accommodation.name}
                               sizes="100%"
                               fill
+                              priority
                               className="object-cover"
                             />
                           </figure>
@@ -102,12 +103,7 @@ const AccommodationsPage = async ({
                       </div>
                       <div>
                         <p className="font-bold">Price Per Night:</p>
-                        <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(accommodation.pricePerNight)}
-                        </p>
+                        <p>{numberToRupiah(accommodation.pricePerNight)}</p>
                       </div>
                       <div>
                         <p className="font-bold">Max Guests:</p>

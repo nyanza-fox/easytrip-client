@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
@@ -56,7 +55,7 @@ const UsersPage = async ({
                 </td>
                 <td>{user.email}</td>
                 <td className="flex gap-1">
-                  <button className="btn btn-primary">
+                  <button className="btn btn-accent">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -76,20 +75,6 @@ const UsersPage = async ({
             ))}
           </tbody>
         </table>
-      </div>
-
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/users?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
       </div>
 
       <CMSPagination

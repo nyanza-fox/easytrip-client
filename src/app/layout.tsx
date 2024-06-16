@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
 
 import { APP_NAME, APP_DESCRIPTION, APP_URL } from '@/constants/meta';
 
@@ -51,6 +52,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     <html lang="en" data-theme="light">
       <body className={inter.className}>
         <main>{children}</main>
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

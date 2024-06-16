@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
 import CMSPagination from '@/components/CMSPagination';
@@ -64,16 +65,12 @@ const GuidesPage = async ({
               <tr key={guide._id}>
                 <td>{guide.name}</td>
                 <td>{guide.languages.join(', ')}</td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    guide.pricePerDay
-                  )}
-                </td>
+                <td>{numberToRupiah(guide.pricePerDay)}</td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{guide.name}</h2>
-                      <figure className="relative w-full h-80 overflow-hidden">
+                      <figure className="relative w-full h-80 overflow-hidden rounded-xl">
                         <Image
                           src={guide.image}
                           alt={guide.name}
@@ -94,12 +91,7 @@ const GuidesPage = async ({
                       </div>
                       <div>
                         <p className="font-bold">Price Per Day:</p>
-                        <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(guide.pricePerDay)}
-                        </p>
+                        <p>{numberToRupiah(guide.pricePerDay)}</p>
                       </div>
                       <div>
                         <p className="font-bold">Contact:</p>
