@@ -34,13 +34,23 @@ const HomePage = async ({
     <>
       <Banner />
       <section>
-        <div className="flex flex-row justify-between px-20 pt-5">
-          <h1 className="text-2xl font-bold">Popular Place</h1>
-          <Link href={"/destinations"} className="btn btn-sm">
-            See All &nbsp; ❯
-          </Link>
+        <div className="">
+          <div className="flex flex-row justify-between px-10 lg:px-20 pt-5">
+            <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+              Popular Place
+            </h1>
+            <Link
+              href={"/destinations"}
+              className="btn btn-xs md:btn-sm text-xs"
+            >
+              See All &nbsp; ❯
+            </Link>
+          </div>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500 px-10 lg:px-20">
+            Let&apos;s enjoy this heaven on earth
+          </p>
         </div>
-        <div className="flex flex-row flex-wrap justify-center gap-4 p-5">
+        <div className="flex flex-row flex-wrap justify-evenly gap-3 p-5">
           {destinations?.map((destination) => {
             return (
               <DestinationCard
@@ -54,53 +64,62 @@ const HomePage = async ({
 
       <section className="mt-10">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-2xl font-bold">Travel to make sweet memories</h1>
-          <p className="text-lg text-zinc-500">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+            Travel to make sweet memories
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500">
             Find trips that fit a flexible lifestyle
           </p>
         </div>
-        <div className="flex flex-row justify-center m-auto w-4/5 pt-4 px-24">
-          <div className="flex flex-col justify-center items-center gap-5 w-1/2  p-10">
+        <div className="flex flex-col md:flex-row justify-center m-auto w-3/4 lg:w-1/2 pt-7">
+          <picture className="flex h-40 md:hidden lg:hidden">
+            <img
+              src="/image1.jpg"
+              alt="image"
+              className="object-cover object-center rounded-2xl"
+            />
+          </picture>
+          <div className="flex flex-col justify-center items-center gap-5 md:w-1/2 p-5 ">
             <div>
-              <div className="badge badge-primary badge-md">01</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-primary badge-sm lg:badge-md">01</div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Find trip that fit your freedom
               </h1>
-              <p>
-                Traveling over freedom and flexibility, solitude, <br />
-                spontanelty, privacy, purpose.
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                Traveling over freedom and flexibility, solitude, spontanelty,
+                privacy, purpose.
               </p>
             </div>
             <div>
-              <div className="badge badge-secondary badge-md">02</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-secondary badge-sm lg:badge-md">
+                02
+              </div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Get back to nature by travel
               </h1>
-              <p>
-                The world is a playground and you can finally <br /> explore
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                The world is a playground and you can finally explore
                 nature&apos;s inimitable canvas.
               </p>
             </div>
             <div>
-              <div className="badge badge-accent badge-md">03</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-accent badge-sm lg:badge-md">03</div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Reignite those travel tastebuds
               </h1>
-              <p>
-                There are infinite reasons to love travel, one of <br /> them
-                being the food, glorious food.
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                There are infinite reasons to love travel, one of them being the
+                food, glorious food.
               </p>
             </div>
           </div>
-          <div className="flex justify-center items-center w-1/2 ">
-            <picture>
-              <img
-                src="https://i.pinimg.com/564x/39/d9/2d/39d92ddb13342ed4743828325453d99e.jpg"
-                alt="image"
-                className="rounded-2xl h-screen"
-              />
-            </picture>
-          </div>
+          <picture className="hidden md:flex lg:flex justify-center items-center w-1/2">
+            <img
+              src="/image1.jpg"
+              alt="image"
+              className="h-80 md:h-full rounded-2xl"
+            />
+          </picture>
         </div>
       </section>
     </>

@@ -1,12 +1,12 @@
-import { Inter } from 'next/font/google';
+import { Inter } from "next/font/google";
 
-import { APP_NAME, APP_DESCRIPTION, APP_URL } from '@/constants/meta';
+import { APP_NAME, APP_DESCRIPTION, APP_URL } from "@/constants/meta";
 
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import '@/styles/globals.css';
+import "@/styles/globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: APP_NAME, template: `%s | ${APP_NAME}` },
@@ -17,39 +17,42 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     url: APP_URL,
     siteName: APP_NAME,
-    type: 'website',
+    type: "website",
   },
   authors: [
     {
-      name: 'Muhammad Akmal Hisyam',
-      url: 'https://akmalhisyam.my.id',
+      name: "Muhammad Akmal Hisyam",
+      url: "https://akmalhisyam.my.id",
     },
     {
-      name: 'Badzlin Maladzi',
-      url: 'https://hascine.xyz',
+      name: "Badzlin Maladzi",
+      url: "https://hascine.xyz",
     },
     {
-      name: 'Pristiwan Akbar Subery',
-      url: 'https://pristiwanakbars.biz.id',
+      name: "Pristiwan Akbar Subery",
+      url: "https://pristiwanakbars.biz.id",
     },
     {
-      name: 'Putri Balqis Hermayani',
-      url: 'https://pbalqish.my.id',
+      name: "Putri Balqis Hermayani",
+      url: "https://pbalqish.my.id",
     },
     {
-      name: 'Simson Hamonangan Hutagaol',
-      url: 'https://simson.id',
+      name: "Simson Hamonangan Hutagaol",
+      url: "https://simson.id",
     },
   ],
-  keywords: ['travel', 'trip', 'planner', 'booking'],
-  creator: 'Nyanza Fox',
-  publisher: 'Nyanza Fox',
-  generator: 'Next.js',
+  keywords: ["travel", "trip", "planner", "booking"],
+  creator: "Nyanza Fox",
+  publisher: "Nyanza Fox",
+  generator: "Next.js",
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" data-theme="light">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body className={inter.className}>
         <main>{children}</main>
       </body>
