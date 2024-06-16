@@ -3,10 +3,11 @@ import DestinationCard from "@/components/DestinationCard";
 import { API_URL } from "@/constants/url";
 import type { Destination } from "@/types/destination";
 import type { BaseResponse } from "@/types/response";
+import Link from "next/link";
 
 const fetchPublicDestinations = async (
   page: number = 1,
-  limit: number = 10
+  limit: number = 12
 ): Promise<BaseResponse<Destination[]>> => {
   const response = await fetch(
     `${API_URL}/public/destinations?page=${page}&limit=${limit}`,
@@ -31,8 +32,13 @@ const DestinationPage = async ({
   return (
     <>
       <section>
-        <div className="flex flex-row justify-between pt-10 px-20">
-          <h1 className="text-2xl font-bold">Choose your destination</h1>
+        <div className="flex flex-col items-center pt-10 md:items-start md:px-10 lg:px-20">
+          <h1 className="sm:text-lg md:text-xl lg:text-2xl font-bold">
+            Explore more
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500 ">
+            Let&apos;s go on an adventure
+          </p>
         </div>
         <div className="flex flex-row flex-wrap justify-center gap-4 p-5">
           {destinations?.map((destination) => {
@@ -45,10 +51,17 @@ const DestinationPage = async ({
           })}
         </div>
         <div className="join flex justify-center items-center">
-          <button className="join-item btn">1</button>
-          <button className="join-item btn">2</button>
-          <button className="join-item btn">3</button>
-          <button className="join-item btn">4</button>
+          {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
+            <Link
+              key={idx}
+              href={`/destinations?page=${idx + 1}`}
+              className={`join-item btn ${
+                searchParams?.page === String(idx + 1) ? "btn-active" : ""
+              }`}
+            >
+              {idx + 1}
+            </Link>
+          ))}
         </div>
       </section>
     </>

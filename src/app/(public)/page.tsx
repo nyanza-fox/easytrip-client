@@ -34,7 +34,7 @@ const HomePage = async ({
     <>
       <Banner />
       <section>
-        <div className="">
+        <div>
           <div className="flex flex-row justify-between px-10 lg:px-20 pt-5">
             <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
               Popular Place
