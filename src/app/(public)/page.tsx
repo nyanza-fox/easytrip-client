@@ -122,6 +122,31 @@ const HomePage = async ({
           </picture>
         </div>
       </section>
+
+      <section className="my-10">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+            Let&apos;s go on an adventure
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500">
+            Find and book unique travel experiences
+          </p>
+        </div>
+        <div className="flex flex-row flex-wrap justify-evenly lg:justify-center lg:gap-8 mt-8 mx-5">
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark1.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark2.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark3.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark4.jpg" alt="landmark" />
+          </picture>
+        </div>
+      </section>
     </>
   );
 };

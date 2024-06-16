@@ -143,7 +143,7 @@ const PublicLayout = ({
           <Link href={"/about"} className="link link-hover">
             About us
           </Link>
-          <Link href={"#"} className="link link-hover">
+          <Link href={"/contact"} className="link link-hover">
             Contact
           </Link>
         </nav>
