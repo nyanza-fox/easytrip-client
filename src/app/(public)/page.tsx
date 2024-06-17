@@ -11,10 +11,7 @@ const fetchPublicDestinations = async (
   limit: number = 4
 ): Promise<BaseResponse<Destination[]>> => {
   const response = await fetch(
-    `${API_URL}/public/destinations?page=${page}&limit=${limit}`,
-    {
-      cache: "no-store",
-    }
+    `${API_URL}/public/destinations?page=${page}&limit=${limit}`
   );
   const data = await response.json();
 
