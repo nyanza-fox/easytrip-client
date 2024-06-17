@@ -9,7 +9,7 @@ import { API_URL } from '@/constants/url';
 const GoogleSignIn = () => {
   const router = useRouter();
 
-  const handleGoogleLogin = async (gResponse: CredentialResponse) => {
+  const onSuccess = async (gResponse: CredentialResponse) => {
     const response = await fetch(`${API_URL}/auth/google`, {
       method: 'GET',
       headers: {
@@ -35,7 +35,7 @@ const GoogleSignIn = () => {
 
   return (
     <div className="flex justify-center">
-      <GoogleLogin onSuccess={handleGoogleLogin} />
+      <GoogleLogin onSuccess={onSuccess} />
     </div>
   );
 };
