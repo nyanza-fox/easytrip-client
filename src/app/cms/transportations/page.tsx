@@ -55,8 +55,8 @@ const TransportationsPage = async ({
         <table className="table table-sm">
           <thead>
             <tr>
-              <th>Type</th>
               <th>Company</th>
+              <th>Type</th>
               <th>Price</th>
               <th>Departure</th>
               <th>Arrival</th>
@@ -66,11 +66,17 @@ const TransportationsPage = async ({
           <tbody>
             {transportations?.map((transportation) => (
               <tr key={transportation._id}>
-                <td>{transportation.type}</td>
                 <td>{transportation.company}</td>
+                <td>{transportation.type}</td>
                 <td>{numberToRupiah(transportation.price)}</td>
-                <td>{transportation.departure.place}</td>
-                <td>{transportation.arrival.place}</td>
+                <td>
+                  {transportation.departure.location.state},{' '}
+                  {transportation.departure.location.country}
+                </td>
+                <td>
+                  {transportation.arrival.location.state},{' '}
+                  {transportation.departure.location.country}
+                </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
@@ -80,22 +86,30 @@ const TransportationsPage = async ({
                         <p>{transportation.type}</p>
                       </div>
                       <div>
+                        <p className="font-bold">Price:</p>
+                        <p>{numberToRupiah(transportation.price)}</p>
+                      </div>
+                      <div>
                         <p className="font-bold">Departure:</p>
                         <p>
-                          {transportation.departure.location.state} -{' '}
-                          {new Date(transportation.departure.time).toLocaleString()}
+                          {transportation.departure.time} - {transportation.departure.place}
+                        </p>
+                        <p>
+                          {transportation.departure.location.city},{' '}
+                          {transportation.departure.location.state},{' '}
+                          {transportation.departure.location.country}
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Arrival:</p>
                         <p>
-                          {transportation.arrival.location.state} -{' '}
-                          {new Date(transportation.arrival.time).toLocaleString()}
+                          {transportation.arrival.time} - {transportation.arrival.place}
                         </p>
-                      </div>
-                      <div>
-                        <p className="font-bold">Price:</p>
-                        <p>{numberToRupiah(transportation.price)}</p>
+                        <p>
+                          {transportation.arrival.location.city},{' '}
+                          {transportation.arrival.location.state},{' '}
+                          {transportation.arrival.location.country}
+                        </p>
                       </div>
                     </div>
                   </CMSDetailAction>

@@ -7,8 +7,8 @@ import { transportationSchema } from '@/utils/schema';
 
 export const createTransportation = async (formData: FormData) => {
   const validation = transportationSchema.safeParse({
-    type: formData.get('type'),
     company: formData.get('company'),
+    type: formData.get('type'),
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
@@ -54,8 +54,8 @@ export const createTransportation = async (formData: FormData) => {
 
 export const updateTransportation = async (id: string, formData: FormData) => {
   const validation = transportationSchema.safeParse({
-    type: formData.get('type'),
     company: formData.get('company'),
+    type: formData.get('type'),
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
