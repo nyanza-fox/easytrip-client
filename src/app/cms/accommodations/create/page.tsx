@@ -64,12 +64,12 @@ const CreateAccommodationPage = () => {
 
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Facilites</span>
+            <span className="label-text">Facilities</span>
           </div>
           <input
             type="text"
-            id="facilites"
-            name="facilites"
+            id="facilities"
+            name="facilities"
             className="input input-bordered w-full"
           />
           <div className="label pb-0">

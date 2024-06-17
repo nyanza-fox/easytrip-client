@@ -9,27 +9,32 @@ export const createDestination = async (formData: FormData) => {
   const validation = destinationSchema.safeParse({
     name: formData.get('name'),
     description: formData.get('description'),
-    images:
-      formData
-        .get('images')
-        ?.toString()
-        .split(',')
-        .map((image) => image.trim()) || [],
-    attractions:
-      formData
-        .get('attractions')
-        ?.toString()
-        .split(',')
-        .map((attraction) => attraction.trim()) || [],
+    images: formData.get('images')
+      ? formData
+          .get('images')
+          ?.toString()
+          .split(',')
+          .map((image) => image.trim())
+      : [],
+    attractions: formData.get('attractions')
+      ? formData
+          .get('attractions')
+          ?.toString()
+          .split(',')
+          .map((attraction) => attraction.trim())
+      : [],
     price: parseInt(formData.get('price')?.toString() || '0'),
     location: {
       city: formData.get('city'),
       state: formData.get('state'),
       country: formData.get('country'),
-      coordinates: [
-        parseFloat(formData.get('latitude')?.toString() || '0'),
-        parseFloat(formData.get('longitude')?.toString() || '0'),
-      ],
+      coordinates:
+        formData.get('latitude') && formData.get('longitude')
+          ? [
+              parseFloat(formData.get('latitude')?.toString() || '0'),
+              parseFloat(formData.get('longitude')?.toString() || '0'),
+            ]
+          : [],
     },
   });
 
@@ -59,27 +64,32 @@ export const updateDestination = async (id: string, formData: FormData) => {
   const validation = destinationSchema.safeParse({
     name: formData.get('name'),
     description: formData.get('description'),
-    images:
-      formData
-        .get('images')
-        ?.toString()
-        .split(',')
-        .map((image) => image.trim()) || [],
-    attractions:
-      formData
-        .get('attractions')
-        ?.toString()
-        .split(',')
-        .map((attraction) => attraction.trim()) || [],
+    images: formData.get('images')
+      ? formData
+          .get('images')
+          ?.toString()
+          .split(',')
+          .map((image) => image.trim())
+      : [],
+    attractions: formData.get('attractions')
+      ? formData
+          .get('attractions')
+          ?.toString()
+          .split(',')
+          .map((attraction) => attraction.trim())
+      : [],
     price: parseInt(formData.get('price')?.toString() || '0'),
     location: {
       city: formData.get('city'),
       state: formData.get('state'),
       country: formData.get('country'),
-      coordinates: [
-        parseFloat(formData.get('latitude')?.toString() || '0'),
-        parseFloat(formData.get('longitude')?.toString() || '0'),
-      ],
+      coordinates:
+        formData.get('latitude') && formData.get('longitude')
+          ? [
+              parseFloat(formData.get('latitude')?.toString() || '0'),
+              parseFloat(formData.get('longitude')?.toString() || '0'),
+            ]
+          : [],
     },
   });
 

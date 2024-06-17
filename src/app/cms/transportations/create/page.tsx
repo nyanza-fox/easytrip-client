@@ -26,16 +26,16 @@ const CreateTransportationPage = () => {
       <form action={createTransportation} className="flex flex-col gap-2">
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Type</span>
+            <span className="label-text">Company</span>
           </div>
-          <input type="text" id="type" name="type" className="input input-bordered w-full" />
+          <input type="text" id="company" name="company" className="input input-bordered w-full" />
         </label>
 
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Company</span>
+            <span className="label-text">Type</span>
           </div>
-          <input type="text" id="company" name="company" className="input input-bordered w-full" />
+          <input type="text" id="type" name="type" className="input input-bordered w-full" />
         </label>
 
         <label className="form-control w-full">
@@ -55,7 +55,7 @@ const CreateTransportationPage = () => {
                   <span className="label-text">Time</span>
                 </div>
                 <input
-                  type="datetime-local"
+                  type="time"
                   id="departureTime"
                   name="departureTime"
                   className="input input-bordered w-full"
@@ -125,7 +125,7 @@ const CreateTransportationPage = () => {
                   <span className="label-text">Time</span>
                 </div>
                 <input
-                  type="datetime-local"
+                  type="time"
                   id="arrivalTime"
                   name="arrivalTime"
                   className="input input-bordered w-full"

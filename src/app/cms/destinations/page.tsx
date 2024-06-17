@@ -68,7 +68,7 @@ const DestinationsPage = async ({
                 <td>{destination.name}</td>
                 <td>{numberToRupiah(destination.price)}</td>
                 <td>
-                  {destination.location.city}, {destination.location.country}
+                  {destination.location.state}, {destination.location.country}
                 </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
@@ -92,19 +92,20 @@ const DestinationsPage = async ({
                         ))}
                       </div>
                       <div>
-                        <p className="font-bold">Location:</p>
-                        <p>
-                          {destination.location.city}, {destination.location.country} (
-                          {destination.location.coordinates?.join(', ')})
-                        </p>
+                        <p className="font-bold">Description:</p>
+                        <p>{destination.description}</p>
                       </div>
                       <div>
                         <p className="font-bold">Price:</p>
                         <p>{numberToRupiah(destination.price)}</p>
                       </div>
                       <div>
-                        <p className="font-bold">Description:</p>
-                        <p>{destination.description}</p>
+                        <p className="font-bold">Location:</p>
+                        <p>
+                          {destination.location.city}, {destination.location.state},{' '}
+                          {destination.location.country} (
+                          {destination.location.coordinates?.join(', ')})
+                        </p>
                       </div>
                       <div>
                         <p className="font-bold">Attractions:</p>
