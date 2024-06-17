@@ -48,19 +48,6 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
       <form action={updateTransportation.bind(null, params.id)} className="flex flex-col gap-2">
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text">Type</span>
-          </div>
-          <input
-            type="text"
-            id="type"
-            name="type"
-            defaultValue={transportation.type}
-            className="input input-bordered w-full"
-          />
-        </label>
-
-        <label className="form-control w-full">
-          <div className="label">
             <span className="label-text">Company</span>
           </div>
           <input
@@ -68,6 +55,19 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
             id="company"
             name="company"
             defaultValue={transportation.company}
+            className="input input-bordered w-full"
+          />
+        </label>
+
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Type</span>
+          </div>
+          <input
+            type="text"
+            id="type"
+            name="type"
+            defaultValue={transportation.type}
             className="input input-bordered w-full"
           />
         </label>
@@ -95,7 +95,7 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   <span className="label-text">Time</span>
                 </div>
                 <input
-                  type="datetime-local"
+                  type="time"
                   id="departureTime"
                   name="departureTime"
                   defaultValue={new Date(transportation.departure.time).toISOString().slice(0, 16)}
@@ -170,7 +170,7 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   <span className="label-text">Time</span>
                 </div>
                 <input
-                  type="datetime-local"
+                  type="time"
                   id="arrivalTime"
                   name="arrivalTime"
                   defaultValue={new Date(transportation.arrival.time).toISOString().slice(0, 16)}

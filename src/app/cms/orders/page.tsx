@@ -47,7 +47,7 @@ const OrdersPage = async ({
           <thead>
             <tr>
               <th>User</th>
-              <th>Destination</th>
+              <th>Package Type</th>
               <th>Total Price</th>
               <th>Status</th>
               <th>Actions</th>
@@ -57,7 +57,7 @@ const OrdersPage = async ({
             {orders?.map((order) => (
               <tr key={order._id}>
                 <td>{order.userId}</td>
-                <td>{order.package.destination?.name}</td>
+                <td>{order.package.type}</td>
                 <td>{numberToRupiah(order.package.totalPrice)}</td>
                 <td>{order.status}</td>
                 <td className="flex gap-1">
