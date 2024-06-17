@@ -9,18 +9,21 @@ export const createAccommodation = async (formData: FormData) => {
   const validation = accommodationSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
-    images:
-      formData
-        .get('images')
-        ?.toString()
-        .split(',')
-        .map((image) => image.trim()) || [],
-    facilities:
-      formData
-        .get('facilites')
-        ?.toString()
-        .split(',')
-        .map((facility) => facility.trim()) || [],
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
+    images: formData.get('images')
+      ? formData
+          .get('images')
+          ?.toString()
+          .split(',')
+          .map((image) => image.trim())
+      : [],
+    facilities: formData.get('facilities')
+      ? formData
+          .get('facilities')
+          ?.toString()
+          .split(',')
+          .map((facility) => facility.trim())
+      : [],
     maxGuests: parseInt(formData.get('maxGuests')?.toString() || '0'),
     pricePerNight: parseInt(formData.get('pricePerNight')?.toString() || '0'),
     location: {
@@ -62,18 +65,21 @@ export const updateAccommodation = async (id: string, formData: FormData) => {
   const validation = accommodationSchema.safeParse({
     name: formData.get('name'),
     type: formData.get('type'),
-    images:
-      formData
-        .get('images')
-        ?.toString()
-        .split(',')
-        .map((image) => image.trim()) || [],
-    facilities:
-      formData
-        .get('facilites')
-        ?.toString()
-        .split(',')
-        .map((facility) => facility.trim()) || [],
+    rating: parseInt(formData.get('rating')?.toString() || '0'),
+    images: formData.get('images')
+      ? formData
+          .get('images')
+          ?.toString()
+          .split(',')
+          .map((image) => image.trim())
+      : [],
+    facilities: formData.get('facilities')
+      ? formData
+          .get('facilities')
+          ?.toString()
+          .split(',')
+          .map((facility) => facility.trim())
+      : [],
     maxGuests: parseInt(formData.get('maxGuests')?.toString() || '0'),
     pricePerNight: parseInt(formData.get('pricePerNight')?.toString() || '0'),
     location: {

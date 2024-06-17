@@ -7,16 +7,26 @@ import { transportationSchema } from '@/utils/schema';
 
 export const createTransportation = async (formData: FormData) => {
   const validation = transportationSchema.safeParse({
-    type: formData.get('type'),
     company: formData.get('company'),
+    type: formData.get('type'),
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
-      location: formData.get('departureLocation'),
+      place: formData.get('departurePlace'),
+      location: {
+        city: formData.get('departureCity'),
+        state: formData.get('departureState'),
+        country: formData.get('departureCountry'),
+      },
     },
     arrival: {
       time: formData.get('arrivalTime'),
-      location: formData.get('arrivalLocation'),
+      place: formData.get('arrivalPlace'),
+      location: {
+        city: formData.get('arrivalCity'),
+        state: formData.get('arrivalState'),
+        country: formData.get('arrivalCountry'),
+      },
     },
   });
 
@@ -44,16 +54,26 @@ export const createTransportation = async (formData: FormData) => {
 
 export const updateTransportation = async (id: string, formData: FormData) => {
   const validation = transportationSchema.safeParse({
-    type: formData.get('type'),
     company: formData.get('company'),
+    type: formData.get('type'),
     price: parseInt(formData.get('price')?.toString() || '0'),
     departure: {
       time: formData.get('departureTime'),
-      location: formData.get('departureLocation'),
+      place: formData.get('departurePlace'),
+      location: {
+        city: formData.get('departureCity'),
+        state: formData.get('departureState'),
+        country: formData.get('departureCountry'),
+      },
     },
     arrival: {
       time: formData.get('arrivalTime'),
-      location: formData.get('arrivalLocation'),
+      place: formData.get('arrivalPlace'),
+      location: {
+        city: formData.get('arrivalCity'),
+        state: formData.get('arrivalState'),
+        country: formData.get('arrivalCountry'),
+      },
     },
   });
 

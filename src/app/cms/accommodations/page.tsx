@@ -1,12 +1,27 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Accommodation } from '@/types/accommodation';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Accommodations',
+  alternates: {
+    canonical: `/cms/accommodations`,
+  },
+  openGraph: {
+    title: `Accommodations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/accommodations`,
+  },
+};
 
 const fetchAccommodations = async (
   page: number = 1,
@@ -43,8 +58,8 @@ const AccommodationsPage = async ({
             <tr>
               <th>Name</th>
               <th>Type</th>
-              <th>Location</th>
               <th>Price Per Night</th>
+              <th>Location</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -53,46 +68,53 @@ const AccommodationsPage = async ({
               <tr key={accommodation._id}>
                 <td>{accommodation.name}</td>
                 <td>{accommodation.type}</td>
+                <td>{numberToRupiah(accommodation.pricePerNight)}</td>
                 <td>
-                  {accommodation.location.city}, {accommodation.location.country}
-                </td>
-                <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    accommodation.pricePerNight
-                  )}
+                  {accommodation.location.state}, {accommodation.location.country}
                 </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{accommodation.name}</h2>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="flex gap-2 overflow-x-auto py-2">
                         {accommodation.images.map((image, idx) => (
-                          <figure key={idx} className="relative h-32 overflow-hidden">
+                          <figure
+                            key={idx}
+                            className="relative min-w-48 h-48 overflow-hidden rounded-xl"
+                          >
                             <Image
                               src={image}
                               alt={accommodation.name}
                               sizes="100%"
                               fill
+                              priority
                               className="object-cover"
                             />
                           </figure>
                         ))}
                       </div>
                       <div>
-                        <p className="font-bold">Location:</p>
-                        <p>{accommodation.location.address}</p>
-                      </div>
-                      <div>
                         <p className="font-bold">Type:</p>
                         <p>{accommodation.type}</p>
                       </div>
                       <div>
-                        <p className="font-bold">Price Per Night:</p>
-                        <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(accommodation.pricePerNight)}
+                        <p className="font-bold">Rating:</p>
+                        <p className="flex">
+                          {[...Array(accommodation.rating)].map((_, idx) => (
+                            <svg
+                              key={idx}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="size-6 text-warning"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          ))}
                         </p>
                       </div>
                       <div>
@@ -100,10 +122,20 @@ const AccommodationsPage = async ({
                         <p>{accommodation.maxGuests}</p>
                       </div>
                       <div>
-                        <p className="font-bold">Contact:</p>
+                        <p className="font-bold">Price Per Night:</p>
+                        <p>{numberToRupiah(accommodation.pricePerNight)}</p>
+                      </div>
+                      <div>
+                        <p className="font-bold">Location:</p>
                         <p>
-                          {accommodation.contact.email} - {accommodation.contact.phoneNumber}
+                          {accommodation.location.city}, {accommodation.location.state},{' '}
+                          {accommodation.location.country}
                         </p>
+                      </div>
+                      <div>
+                        <p className="font-bold">Contact:</p>
+                        <p>{accommodation.contact.email}</p>
+                        <p>{accommodation.contact.phoneNumber}</p>
                       </div>
                       <div>
                         <p className="font-bold">Facilities:</p>
@@ -137,19 +169,11 @@ const AccommodationsPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/accommodations?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/accommodations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

@@ -1,12 +1,26 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
+import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Transportation } from '@/types/transportation';
 import type { BaseResponse } from '@/types/response';
-import CMSDetailAction from '@/components/CMSDetailAction';
-import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Transportations',
+  alternates: {
+    canonical: `/cms/transportations`,
+  },
+  openGraph: {
+    title: `Transportations | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/transportations`,
+  },
+};
 
 const fetchTransportations = async (
   page: number = 1,
@@ -41,8 +55,8 @@ const TransportationsPage = async ({
         <table className="table table-sm">
           <thead>
             <tr>
-              <th>Type</th>
               <th>Company</th>
+              <th>Type</th>
               <th>Price</th>
               <th>Departure</th>
               <th>Arrival</th>
@@ -52,15 +66,17 @@ const TransportationsPage = async ({
           <tbody>
             {transportations?.map((transportation) => (
               <tr key={transportation._id}>
-                <td>{transportation.type}</td>
                 <td>{transportation.company}</td>
+                <td>{transportation.type}</td>
+                <td>{numberToRupiah(transportation.price)}</td>
                 <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    transportation.price
-                  )}
+                  {transportation.departure.location.state},{' '}
+                  {transportation.departure.location.country}
                 </td>
-                <td>{transportation.departure.location}</td>
-                <td>{transportation.arrival.location}</td>
+                <td>
+                  {transportation.arrival.location.state},{' '}
+                  {transportation.departure.location.country}
+                </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
@@ -70,22 +86,30 @@ const TransportationsPage = async ({
                         <p>{transportation.type}</p>
                       </div>
                       <div>
+                        <p className="font-bold">Price:</p>
+                        <p>{numberToRupiah(transportation.price)}</p>
+                      </div>
+                      <div>
                         <p className="font-bold">Departure:</p>
                         <p>
-                          {transportation.departure.location} -{' '}
-                          {new Date(transportation.departure.time).toLocaleString()}
+                          {transportation.departure.time} - {transportation.departure.place}
+                        </p>
+                        <p>
+                          {transportation.departure.location.city},{' '}
+                          {transportation.departure.location.state},{' '}
+                          {transportation.departure.location.country}
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Arrival:</p>
                         <p>
-                          {transportation.arrival.location} -{' '}
-                          {new Date(transportation.arrival.time).toLocaleString()}
+                          {transportation.arrival.time} - {transportation.arrival.place}
                         </p>
-                      </div>
-                      <div>
-                        <p className="font-bold">Price:</p>
-                        <p>{transportation.price}</p>
+                        <p>
+                          {transportation.arrival.location.city},{' '}
+                          {transportation.arrival.location.state},{' '}
+                          {transportation.arrival.location.country}
+                        </p>
                       </div>
                     </div>
                   </CMSDetailAction>
@@ -111,19 +135,11 @@ const TransportationsPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/transportations?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/transportations"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

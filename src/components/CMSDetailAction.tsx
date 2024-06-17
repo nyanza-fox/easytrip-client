@@ -7,7 +7,7 @@ const CMSDetailAction = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <button className="btn btn-info" onClick={() => detailModalRef.current?.showModal()}>
+      <button className="btn btn-accent" onClick={() => detailModalRef.current?.showModal()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -25,12 +25,13 @@ const CMSDetailAction = ({ children }: { children: React.ReactNode }) => {
 
       <dialog ref={detailModalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
+          <button
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={() => detailModalRef.current?.close()}
+          >
+            ✕
+          </button>
           {children}
-          <div className="modal-action">
-            <button className="btn" onClick={() => detailModalRef.current?.close()}>
-              Close
-            </button>
-          </div>
         </div>
       </dialog>
     </>

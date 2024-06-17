@@ -1,12 +1,27 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
+import { numberToRupiah } from '@/utils/currency';
 import CMSDeleteAction from '@/components/CMSDeleteAction';
 import CMSDetailAction from '@/components/CMSDetailAction';
+import CMSPagination from '@/components/CMSPagination';
 
 import type { Guide } from '@/types/guide';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Guides',
+  alternates: {
+    canonical: `/cms/guides`,
+  },
+  openGraph: {
+    title: `Guides | ${APP_NAME} CMS`,
+    url: `${APP_URL}/cms/guides`,
+  },
+};
 
 const fetchGuides = async (
   page: number = 1,
@@ -42,6 +57,7 @@ const GuidesPage = async ({
               <th>Name</th>
               <th>Languages</th>
               <th>Price Per Day</th>
+              <th>Location</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -50,16 +66,15 @@ const GuidesPage = async ({
               <tr key={guide._id}>
                 <td>{guide.name}</td>
                 <td>{guide.languages.join(', ')}</td>
+                <td>{numberToRupiah(guide.pricePerDay)}</td>
                 <td>
-                  {Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(
-                    guide.pricePerDay
-                  )}
+                  {guide.location.state}, {guide.location.country}
                 </td>
                 <td className="flex gap-1">
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{guide.name}</h2>
-                      <figure className="relative w-52 h-52 overflow-hidden">
+                      <figure className="relative w-full h-80 overflow-hidden rounded-xl">
                         <Image
                           src={guide.image}
                           alt={guide.name}
@@ -73,25 +88,39 @@ const GuidesPage = async ({
                         <p>{guide.languages.join(', ')}</p>
                       </div>
                       <div>
-                        <p className="font-bold">Location:</p>
-                        <p>
-                          {guide.location.city}, {guide.location.country}
+                        <p className="font-bold">Rating:</p>
+                        <p className="flex">
+                          {[...Array(guide.rating)].map((_, idx) => (
+                            <svg
+                              key={idx}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="size-6 text-warning"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          ))}
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Price Per Day:</p>
+                        <p>{numberToRupiah(guide.pricePerDay)}</p>
+                      </div>
+                      <div>
+                        <p className="font-bold">Location:</p>
                         <p>
-                          {Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(guide.pricePerDay)}
+                          {guide.location.city}, {guide.location.state}, {guide.location.country}
                         </p>
                       </div>
                       <div>
                         <p className="font-bold">Contact:</p>
-                        <p>
-                          {guide.contact.email} - {guide.contact.phoneNumber}
-                        </p>
+                        <p>{guide.contact.email}</p>
+                        <p>{guide.contact.phoneNumber}</p>
                       </div>
                     </div>
                   </CMSDetailAction>
@@ -114,19 +143,11 @@ const GuidesPage = async ({
         </table>
       </div>
 
-      <div className="join">
-        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-          <Link
-            key={idx}
-            href={`/cms/guides?page=${idx + 1}`}
-            className={`join-item btn ${
-              searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-            }`}
-          >
-            {idx + 1}
-          </Link>
-        ))}
-      </div>
+      <CMSPagination
+        pathname="/cms/guides"
+        currentPage={Number(searchParams?.page || 1)}
+        totalPage={pagination?.totalPage || 0}
+      />
     </section>
   );
 };

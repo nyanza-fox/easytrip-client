@@ -1,144 +1,147 @@
+import Link from "next/link";
+import Banner from "@/components/Banner";
 import DestinationCard from "@/components/DestinationCard";
 
-const HomePage = () => {
+import { API_URL } from "@/constants/url";
+import type { Destination } from "@/types/destination";
+import type { BaseResponse } from "@/types/response";
+
+const fetchPublicDestinations = async (
+  page: number = 1,
+  limit: number = 4
+): Promise<BaseResponse<Destination[]>> => {
+  const response = await fetch(
+    `${API_URL}/public/destinations?page=${page}&limit=${limit}`
+  );
+  const data = await response.json();
+
+  return data;
+};
+
+const HomePage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const { data: destinations, pagination } = await fetchPublicDestinations(
+    Number(searchParams?.page) || 1
+  );
+
   return (
     <>
-      <section className="w-11/12 m-auto py-10">
-        <div className="carousel w-full">
-          <div id="slide1" className="carousel-item relative w-full">
-            <picture className="w-full">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.jpg"
-                alt="banner1"
-                className="w-full rounded-xl"
-              />
-            </picture>
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide4" className="btn btn-circle">
-                ❮
-              </a>
-              <a href="#slide2" className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-          <div id="slide2" className="carousel-item relative w-full">
-            <picture className="w-full">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.jpg"
-                alt="banner2"
-                className="w-full rounded-xl"
-              />
-            </picture>
-
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide1" className="btn btn-circle">
-                ❮
-              </a>
-              <a href="#slide3" className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-          <div id="slide3" className="carousel-item relative w-full">
-            <picture className="w-full">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.jpg"
-                alt="banner3"
-                className="w-full rounded-xl"
-              />
-            </picture>
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide2" className="btn btn-circle">
-                ❮
-              </a>
-              <a href="#slide4" className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-          <div id="slide4" className="carousel-item relative w-full">
-            <picture className="w-full">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg"
-                alt="banner4"
-                className="w-full rounded-xl"
-              />
-            </picture>
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide3" className="btn btn-circle">
-                ❮
-              </a>
-              <a href="#slide1" className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <Banner />
       <section>
-        <div className="flex flex-row justify-between px-20">
-          <h1 className="text-2xl font-bold">Popular Place</h1>
-          <button className="btn btn-sm">See All &nbsp; ❯</button>
+        <div>
+          <div className="flex flex-row justify-between px-10 lg:px-20 pt-5">
+            <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+              Popular Place
+            </h1>
+            <Link
+              href={"/destinations"}
+              className="btn btn-xs md:btn-sm text-xs"
+            >
+              See All &nbsp; ❯
+            </Link>
+          </div>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500 px-10 lg:px-20">
+            Let&apos;s enjoy this heaven on earth
+          </p>
         </div>
-        <div className="flex flex-row flex-wrap justify-center gap-4 p-5">
-          <DestinationCard />
-          <DestinationCard />
-          <DestinationCard />
-          <DestinationCard />
+        <div className="flex flex-row flex-wrap justify-evenly gap-3 p-5">
+          {destinations?.map((destination) => {
+            return (
+              <DestinationCard
+                key={destination._id}
+                destination={destination}
+              />
+            );
+          })}
         </div>
       </section>
 
-      <section className="mt-20">
+      <section className="mt-10">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-2xl font-bold">Travel to make sweet memories</h1>
-          <p className="text-lg text-zinc-500">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+            Travel to make sweet memories
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500">
             Find trips that fit a flexible lifestyle
           </p>
         </div>
-        <div className="flex flex-row justify-center m-auto w-4/5 pt-4 px-24">
-          <div className="flex flex-col gap-5 w-1/2 p-10">
+        <div className="flex flex-col md:flex-row justify-center m-auto w-3/4 lg:w-1/2 pt-7">
+          <picture className="flex h-40 md:hidden lg:hidden">
+            <img
+              src="/image1.jpg"
+              alt="image"
+              className="object-cover object-center rounded-2xl"
+            />
+          </picture>
+          <div className="flex flex-col justify-center items-center gap-5 md:w-1/2 p-5 ">
             <div>
-              <div className="badge badge-primary badge-md">01</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-primary badge-sm lg:badge-md">01</div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Find trip that fit your freedom
               </h1>
-              <p>
-                Traveling over freedom and flexibility, solitude, <br />
-                spontanelty, privacy, purpose.
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                Traveling over freedom and flexibility, solitude, spontanelty,
+                privacy, purpose.
               </p>
             </div>
             <div>
-              <div className="badge badge-secondary badge-md">02</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-secondary badge-sm lg:badge-md">
+                02
+              </div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Get back to nature by travel
               </h1>
-              <p>
-                The world is a playground and you can finally <br /> explore
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                The world is a playground and you can finally explore
                 nature&apos;s inimitable canvas.
               </p>
             </div>
             <div>
-              <div className="badge badge-accent badge-md">03</div>
-              <h1 className="text-xl font-bold">
+              <div className="badge badge-accent badge-sm lg:badge-md">03</div>
+              <h1 className="text-sm md:text-base lg:text-lg font-semibold">
                 Reignite those travel tastebuds
               </h1>
-              <p>
-                There are infinite reasons to love travel, one of <br /> them
-                being the food, glorious food.
+              <p className="text-xs md:text-sm lg:text-base text-slate-500">
+                There are infinite reasons to love travel, one of them being the
+                food, glorious food.
               </p>
             </div>
           </div>
-          <div className="flex justify-center items-center w-1/2 ">
-            <picture>
-              <img
-                src="https://i.pinimg.com/564x/39/d9/2d/39d92ddb13342ed4743828325453d99e.jpg"
-                alt="image"
-                className="rounded-2xl h-screen"
-              />
-            </picture>
-          </div>
+          <picture className="hidden md:flex lg:flex justify-center items-center w-1/2">
+            <img
+              src="/image1.jpg"
+              alt="image"
+              className="h-80 md:h-full rounded-2xl"
+            />
+          </picture>
+        </div>
+      </section>
+
+      <section className="my-10">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-lg md:text-xl lg:text-2xl font-bold">
+            Let&apos;s go on an adventure
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-slate-500">
+            Find and book unique travel experiences
+          </p>
+        </div>
+        <div className="flex flex-row flex-wrap justify-evenly lg:justify-center lg:gap-8 mt-8 mx-5">
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark1.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark2.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark3.jpg" alt="landmark" />
+          </picture>
+          <picture>
+            <img className="w-20 md:w-36" src="/landmark4.jpg" alt="landmark" />
+          </picture>
         </div>
       </section>
     </>
