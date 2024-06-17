@@ -1,21 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { API_URL } from "@/constants/url";
-import stripe from "@/utils/stripe";
+import { useEffect } from 'react';
+import { API_URL } from '@/constants/url';
 
 const Cancel = () => {
   const updateStatus = async (sessionId: any) => {
     try {
       const body = {
         id: sessionId,
-        status: "cancelled",
+        status: 'cancelled',
       };
 
       const updateResponse = await fetch(`${API_URL}/orders/updateStatus`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       });
@@ -29,8 +28,8 @@ const Cancel = () => {
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    const sessionId = query.get("session_id");
-    console.log(sessionId, "masuk 42");
+    const sessionId = query.get('session_id');
+    console.log(sessionId, 'masuk 42');
 
     if (sessionId) {
       handleUpdate(sessionId);
@@ -40,9 +39,9 @@ const Cancel = () => {
   const handleUpdate = async (sessionId: any) => {
     try {
       const result = await updateStatus(sessionId);
-      console.log("Hasil pembaruan:", result);
+      console.log('Hasil pembaruan:', result);
     } catch (error) {
-      console.error("Pembaruan gagal:", error);
+      console.error('Pembaruan gagal:', error);
     }
   };
 

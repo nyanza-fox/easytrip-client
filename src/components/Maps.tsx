@@ -1,29 +1,18 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  useJsApiLoader,
-} from "@react-google-maps/api";
+'use client';
 
-interface MapsProps {
-  coordinates: [number, number];
-}
+import { useState, useEffect, useRef } from 'react';
+import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
 
-const Maps: React.FC<MapsProps> = ({ coordinates }) => {
-  const [userLocation, setUserLocation] =
-    useState<google.maps.LatLngLiteral | null>(null);
-  const [directions, setDirections] =
-    useState<google.maps.DirectionsResult | null>(null);
+const Maps = ({ coordinates }: { coordinates: number[] }) => {
+  const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
+  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+
   const mapRef = useRef<google.maps.Map | null>(null);
-  const directionsServiceRef = useRef<google.maps.DirectionsService | null>(
-    null
-  );
+  const directionsServiceRef = useRef<google.maps.DirectionsService | null>(null);
+
   const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["geometry", "places", "routes", "geocoding", "drawing"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+    libraries: ['geometry', 'places', 'routes', 'geocoding', 'drawing'],
   });
 
   useEffect(() => {
@@ -37,11 +26,11 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
           });
         },
         (error) => {
-          console.error("Error getting user location:", error);
+          console.error('Error getting user location:', error);
         }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      console.error('Geolocation is not supported by this browser.');
     }
   }, []);
 
@@ -65,10 +54,10 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
           if (status === google.maps.DirectionsStatus.OK) {
             setDirections(result);
           } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-            console.log("Tidak ada rute yang ditemukan.");
+            console.log('Tidak ada rute yang ditemukan.');
             setDirections(null);
           } else {
-            console.log("Permintaan arah gagal karena " + status);
+            console.log('Permintaan arah gagal karena ' + status);
             setDirections(null);
           }
         }
@@ -93,10 +82,10 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
   }
 
   return (
-    <div style={{ height: "400px", width: "100%" }}>
+    <div style={{ height: '400px', width: '100%' }}>
       {isLoaded && (
         <GoogleMap
-          mapContainerStyle={{ height: "100%", width: "100%" }}
+          mapContainerStyle={{ height: '100%', width: '100%' }}
           center={userLocation || { lat: 0, lng: 0 }}
           zoom={12}
           onLoad={onLoad}

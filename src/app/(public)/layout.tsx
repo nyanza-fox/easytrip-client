@@ -1,12 +1,16 @@
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 
+import { logout } from '@/app/auth/actions';
+
 const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+  const loginInfo = cookies().get('loginInfo');
+
   return (
     <>
       <div className="drawer">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          {/* Navbar */}
           <nav className="navbar sticky top-0 z-50 bg-base-100 shadow-md px-10">
             <div className="flex-none lg:hidden">
               <label
@@ -34,7 +38,6 @@ const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => 
             </div>
             <div className="navbar-center hidden lg:flex">
               <ul className="menu menu-horizontal gap-2 text-primary font-bold">
-                {/* Navbar menu content here */}
                 <li>
                   <Link href={'/'}>Home</Link>
                 </li>
@@ -68,26 +71,28 @@ const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => 
                 </li>
               </ul>
             </div>
-            <div className="navbar-end hidden lg:flex gap-1">
-              <Link href={'#'} className="btn btn-ghost text-primary w-24">
-                Sign In
-              </Link>
-              <Link href={'#'} className="btn btn-primary w-24">
-                Sign Up
-              </Link>
-            </div>
+            {!loginInfo || !loginInfo.value.length ? (
+              <div className="navbar-end hidden lg:flex gap-1">
+                <Link href="/auth/sign-in" className="btn btn-ghost text-primary w-24">
+                  Sign In
+                </Link>
+                <Link href="/auth/sign-up" className="btn btn-primary w-24">
+                  Sign Up
+                </Link>
+              </div>
+            ) : (
+              <form action={logout} className="navbar-end hidden lg:flex gap-1">
+                <button type="submit" className="btn btn-error w-24">
+                  Sign Out
+                </button>
+              </form>
+            )}
           </nav>
-          {/* Page content here */}
           {children}
         </div>
         <div className="drawer-side">
-          <label
-            htmlFor="my-drawer-3"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
+          <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay" />
           <ul className="menu p-4 pt-24 w-80 min-h-full gap-2 bg-neutral text-primary font-bold">
-            {/* Sidebar content here */}
             <li>
               <Link href={'/'}>Home</Link>
             </li>
@@ -98,7 +103,10 @@ const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => 
               <Link href={'/about'}>About</Link>
             </li>
             <li>
-              <Link href={'#'} className="bg-primary hover:bg-secondary text-white w-32">
+              <Link
+                href={'/destinations/generate'}
+                className="bg-primary hover:bg-secondary text-white w-32"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -117,18 +125,30 @@ const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => 
               </Link>
             </li>
             <div className="divider"></div>
-            <ul className="menu menu-horizontal justify-center gap-2">
-              <li>
-                <Link href={'#'} className="btn btn-outline btn-primary w-24">
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link href={'#'} className="btn btn-primary w-24">
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
+            {!loginInfo || !loginInfo.value.length ? (
+              <ul className="menu menu-horizontal justify-center gap-2">
+                <li>
+                  <Link href="/auth/sign-in" className="btn btn-outline btn-primary w-24">
+                    Sign In
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth/sign-up" className="btn btn-primary w-24">
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="menu menu-horizontal justify-center gap-2">
+                <li>
+                  <form action={logout}>
+                    <button type="submit" className="btn btn-error w-24">
+                      Sign Out
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            )}
           </ul>
         </div>
       </div>

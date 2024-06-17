@@ -1,5 +1,27 @@
 import { z } from 'zod';
 
+export const loginSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+});
+
+export const registerSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+  profile: z.object({
+    firstName: z.string().min(1, { message: 'First name is required' }),
+    lastName: z.string().optional(),
+    image: z.string().url({ message: 'Invalid image URL' }).optional(),
+    dateOfBirth: z.date().max(new Date(), { message: 'Invalid date of birth' }).optional(),
+    phoneNumber: z
+      .string()
+      .regex(/^\+?[0-9]+$/, { message: 'Invalid phone number' })
+      .min(10, { message: 'Phone number must be at least 10 characters' })
+      .max(13, { message: 'Phone number must be at most 13 characters' })
+      .optional(),
+  }),
+});
+
 export const accommodationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   type: z.string().min(1, { message: 'Type is required' }),
