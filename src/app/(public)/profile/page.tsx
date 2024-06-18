@@ -2,25 +2,31 @@ import { API_URL } from '@/constants/url';
 import { BaseResponse } from '@/types/response';
 import { User } from '@/types/user';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 
 const fetchProfile = async (): Promise<BaseResponse<User>> => {
+  const loginInfo = cookies().get('loginInfo');
+
+  const token = JSON.parse(loginInfo?.value || '');
+
   const response = await fetch(`${API_URL}/users/me`, {
-    method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
+    cache: 'no-store',
   });
-  const data = await response.json();
+  const data: BaseResponse<User> = await response.json();
 
   return data;
 };
 
 export default async function ProfilePage() {
-  const { data } = await fetchProfile();
+  const profile = await fetchProfile();
+  console.log(profile);
 
   return (
-    <div className="flex flex-col md:m-10">
-      <section className="flex ml-5">
+    <div className="flex flex-col min-h-screen mt-5 lg:m-10">
+      <section className="flex mx-5 lg:mx-40">
         <div className="flex gap-3 text-primary font-bold">
           <p>
             <svg
@@ -42,32 +48,32 @@ export default async function ProfilePage() {
         </div>
       </section>
 
-      <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 justify-center">
-        <div className="">
-          <div className="p-5 w-auto md:w-[350px]">
-            <img
-              className="rounded-md"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            />
-          </div>
+      <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 lg:mx-40 justify-center">
+        <div className="flex md:w-1/2">
+          <picture className="w-full md:h-full m-auto">
+            <img className="rounded-xl w-full md:h-full object-cover" src={profile.data?.profile?.image} />
+          </picture>
         </div>
-        <div className="flex flex-col p-5">
-          {/* this is for profile info not form such name, email, phone number, birthdate */}
+        <div className="flex flex-col p-5 md:w-1/2">
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Name :</h1>
-            <p className="font-semibold text-gray-500">Full Name</p>
+            <p className="font-semibold text-gray-500">
+              {profile.data?.profile.firstName} {profile.data?.profile.lastName}
+            </p>
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Email :</h1>
-            <p className="font-semibold text-gray-500">Emailnya</p>
+            <p className="font-semibold text-gray-500">{profile.data?.email}</p>
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Phone Number :</h1>
-            <p className="font-semibold text-gray-500">Nomer HPnya</p>
+            <p className="font-semibold text-gray-500">{profile.data?.profile.phoneNumber}</p>
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Birthdate :</h1>
-            <p className="font-semibold text-gray-500">Tanggal lahirnya</p>
+            <p className="font-semibold text-gray-500">
+              {new Date(profile.data?.profile.dateOfBirth || '').toDateString()}
+            </p>
           </div>
           <div>
             <Link href={'profile/edit'} className="btn btn-outline btn-primary w-30">
@@ -75,13 +81,13 @@ export default async function ProfilePage() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 className="size-5"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
                 />
               </svg>
