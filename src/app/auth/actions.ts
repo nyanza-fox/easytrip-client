@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { API_URL } from '@/constants/url';
-import { loginSchema, registerSchema } from '@/utils/schema';
+import { loginSchema, registerSchema, profileSchema } from '@/utils/schema';
 
 import type { BaseResponse } from '@/types/response';
 
@@ -81,4 +81,43 @@ export const login = async (formData: FormData) => {
 export const logout = () => {
   cookies().delete('loginInfo');
   redirect('/auth/sign-in');
+};
+
+export const updateProfile = async (formData: FormData) => {
+  const validation = profileSchema.safeParse({
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    image: formData.get('image'),
+    dateOfBirth: formData.get('dateOfBirth'),
+    phoneNumber: formData.get('phoneNumber'),
+  });
+
+  if (!validation.success) {
+    const message = validation.error.issues[0].message;
+    return redirect(`/profile/edit?error=${encodeURIComponent(message)}`);
+  }
+
+  const loginInfo = cookies().get('loginInfo');
+
+  const token = JSON.parse(loginInfo?.value || '');
+  // console.log(token);
+
+  const response = await fetch(`${API_URL}/users/me`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(validation.data),
+  });
+
+  console.log(response);
+
+  if (!response.ok) {
+    const data: BaseResponse<unknown> = await response.json();
+    const message = data.message || 'Failed to update profile';
+    return redirect(`/profile/edit?error=${encodeURIComponent(message)}`);
+  }
+
+  redirect('/profile');
 };
