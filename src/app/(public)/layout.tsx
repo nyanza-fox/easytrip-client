@@ -1,12 +1,10 @@
-import { cookies } from "next/headers";
-import Link from "next/link";
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 
-import { logout } from "@/app/auth/actions";
+import { logout } from '@/app/auth/actions';
 
-const PublicLayout = ({
-  children,
-}: Readonly<{ children: React.ReactNode }>) => {
-  const loginInfo = cookies().get("loginInfo");
+const PublicLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+  const loginInfo = cookies().get('loginInfo');
 
   return (
     <>
@@ -41,17 +39,17 @@ const PublicLayout = ({
             <div className="navbar-center hidden lg:flex">
               <ul className="menu menu-horizontal gap-2 text-primary font-bold">
                 <li>
-                  <Link href={"/"}>Home</Link>
+                  <Link href={'/'}>Home</Link>
                 </li>
                 <li>
-                  <Link href={"/destinations"}>Destinations</Link>
+                  <Link href={'/destinations'}>Destinations</Link>
                 </li>
                 <li>
-                  <Link href={"/about"}>About</Link>
+                  <Link href={'/about'}>About</Link>
                 </li>
                 <li>
                   <Link
-                    href={"/destinations/generate"}
+                    href={'/destinations/generate'}
                     className="bg-primary hover:bg-secondary text-white"
                   >
                     <svg
@@ -75,10 +73,7 @@ const PublicLayout = ({
             </div>
             {!loginInfo || !loginInfo.value.length ? (
               <div className="navbar-end hidden lg:flex gap-1">
-                <Link
-                  href="/auth/sign-in"
-                  className="btn btn-ghost text-primary w-24"
-                >
+                <Link href="/auth/sign-in" className="btn btn-ghost text-primary w-24">
                   Sign In
                 </Link>
                 <Link href="/auth/sign-up" className="btn btn-primary w-24">
@@ -87,11 +82,7 @@ const PublicLayout = ({
               </div>
             ) : (
               <div className="navbar-end hidden lg:flex dropdown dropdown-end">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="btn btn-ghost btn-circle avatar"
-                >
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                   <picture>
                     <img
                       alt="user profile"
@@ -105,7 +96,7 @@ const PublicLayout = ({
                   className="menu menu-sm dropdown-content mt-28 z-[1] p-2 shadow bg-base-100 rounded-box w-48"
                 >
                   <li>
-                    <Link href={"/profile"} className="justify-between">
+                    <Link href={'/profile'} className="justify-between">
                       Profile
                     </Link>
                   </li>
@@ -121,24 +112,20 @@ const PublicLayout = ({
           {children}
         </div>
         <div className="drawer-side">
-          <label
-            htmlFor="my-drawer-3"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          />
+          <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay" />
           <ul className="menu p-4 pt-24 w-80 min-h-full gap-2 bg-neutral text-primary font-bold">
             <li>
-              <Link href={"/"}>Home</Link>
+              <Link href={'/'}>Home</Link>
             </li>
             <li>
-              <Link href={"/destinations"}>Destinations</Link>
+              <Link href={'/destinations'}>Destinations</Link>
             </li>
             <li>
-              <Link href={"/about"}>About</Link>
+              <Link href={'/about'}>About</Link>
             </li>
             <li>
               <Link
-                href={"/destinations/generate"}
+                href={'/destinations/generate'}
                 className="bg-primary hover:bg-secondary text-white w-32"
               >
                 <svg
@@ -162,10 +149,7 @@ const PublicLayout = ({
             {!loginInfo || !loginInfo.value.length ? (
               <ul className="menu menu-horizontal justify-center gap-2">
                 <li>
-                  <Link
-                    href="/auth/sign-in"
-                    className="btn btn-outline btn-primary w-24"
-                  >
+                  <Link href="/auth/sign-in" className="btn btn-outline btn-primary w-24">
                     Sign In
                   </Link>
                 </li>
@@ -178,10 +162,7 @@ const PublicLayout = ({
             ) : (
               <ul className="flex flex-row justify-center gap-2">
                 <button>
-                  <Link
-                    href={"/profile"}
-                    className="btn btn-outline btn-primary w-24"
-                  >
+                  <Link href={'/profile'} className="btn btn-outline btn-primary w-24">
                     Profile
                   </Link>
                 </button>
@@ -198,10 +179,10 @@ const PublicLayout = ({
 
       <footer className="footer footer-center p-10 mt-10 bg-neutral text-base-content rounded">
         <nav className="grid grid-flow-col gap-4">
-          <Link href={"/about"} className="link link-hover">
+          <Link href={'/about'} className="link link-hover">
             About us
           </Link>
-          <Link href={"/contact"} className="link link-hover">
+          <Link href={'/contact'} className="link link-hover">
             Contact
           </Link>
         </nav>

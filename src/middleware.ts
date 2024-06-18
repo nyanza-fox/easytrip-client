@@ -4,7 +4,11 @@ export const middleware = async (req: NextRequest) => {
   const loginInfo = req.cookies.get('loginInfo');
 
   if (!loginInfo || !loginInfo.value.length) {
-    if (req.nextUrl.pathname.startsWith('/cms') || req.nextUrl.pathname.startsWith('/profile')) {
+    if (
+      req.nextUrl.pathname.startsWith('/cms') ||
+      req.nextUrl.pathname.startsWith('/profile') ||
+      req.nextUrl.pathname.startsWith('/orders')
+    ) {
       return NextResponse.redirect(new URL('/auth/sign-in', req.nextUrl.origin));
     }
 
