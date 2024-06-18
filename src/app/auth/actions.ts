@@ -71,7 +71,7 @@ export const login = async (formData: FormData) => {
   cookies().set('loginInfo', JSON.stringify(data.data || ''), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    expires: new Date(Date.now() + 1000 * 60 * 60),
+    // expires: new Date(Date.now() + 1000 * 60 * 60),
     sameSite: 'strict',
   });
 
