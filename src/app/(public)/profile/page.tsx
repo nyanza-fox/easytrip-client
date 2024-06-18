@@ -19,7 +19,7 @@ export default async function ProfilePage() {
   const { data } = await fetchProfile();
 
   return (
-    <div className="flex flex-col m-10 mx-auto">
+    <div className="flex flex-col md:m-10">
       <section className="flex ml-5">
         <div className="flex gap-3 text-primary font-bold">
           <p>
@@ -42,9 +42,9 @@ export default async function ProfilePage() {
         </div>
       </section>
 
-      <section className="flex flex-row rounded-lg shadow-lg m-5 justify-center">
+      <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 justify-center">
         <div className="">
-          <div className="p-5 w-[400px]">
+          <div className="p-5 w-auto md:w-[350px]">
             <img
               className="rounded-md"
               src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
