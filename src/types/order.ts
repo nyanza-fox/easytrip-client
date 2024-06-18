@@ -22,7 +22,7 @@ export type Itinerary = {
 };
 
 export type Package = {
-  type: 'affordable' | 'standard' | 'luxury';
+  type: 'budget' | 'standard' | 'luxury';
   transportations: Transportation[];
   destination: Destination | null;
   accommodation: Accommodation | null;
