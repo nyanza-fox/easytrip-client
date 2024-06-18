@@ -50,11 +50,11 @@ export default async function ProfilePage() {
 
       <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 lg:mx-40 justify-center">
         <div className="flex md:w-1/2">
-          <picture className="w-full md:h-full m-auto">
-            <img className="rounded-xl w-full md:h-full object-cover" src={profile.data?.profile?.image} />
+          <picture className="w-full md:h-96 m-auto">
+            <img className="rounded-xl w-full h-72 md:h-96 object-cover" src={profile.data?.profile?.image} />
           </picture>
         </div>
-        <div className="flex flex-col p-5 md:w-1/2">
+        <div className="flex flex-col p-5 md:p-10 md:w-1/2">
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Name :</h1>
             <p className="font-semibold text-gray-500">
