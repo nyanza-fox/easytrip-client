@@ -1,9 +1,13 @@
 import { Destination } from "@/types/destination";
+import Link from "next/link";
 
 const DestinationCard = ({ destination }: { destination: Destination }) => {
   return (
     <>
-      <div className="card card-compact w-40 lg:min-w-72 bg-base-100 shadow-xl">
+      <Link
+        href={`/destinations/${destination._id}`}
+        className="card card-compact w-40 lg:min-w-72 bg-base-100 shadow-xl"
+      >
         <picture className="px-2 pt-2 ">
           <img
             src={destination.images[0]}
@@ -38,7 +42,7 @@ const DestinationCard = ({ destination }: { destination: Destination }) => {
             </p>
           </div>
         </div>
-      </div>
+      </Link>
     </>
   );
 };

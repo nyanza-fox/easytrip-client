@@ -15,9 +15,9 @@ const AboutPage = () => {
         </div>
         <picture className="hidden md:flex items-center w-1/2">
           <img
-            src="https://i.pinimg.com/564x/cc/1e/55/cc1e5527d2b854ad51f79e56fa9115b9.jpg"
+            src="https://cdn-icons-png.flaticon.com/256/14181/14181219.png"
             alt="image"
-            className="w-4/5 rounded-3xl"
+            className="w-60 rounded-3xl"
           />
         </picture>
       </section>

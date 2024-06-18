@@ -16,7 +16,7 @@ const ContactPage = () => {
       <section className="flex flex-row flex-wrap justify-center gap-5 p-10">
         <Link
           href={"https://github.com/Hascine"}
-          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-opacity-90"
+          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
             <img
@@ -31,7 +31,7 @@ const ContactPage = () => {
         </Link>
         <Link
           href={"https://github.com/akmalhisyammm"}
-          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-opacity-90"
+          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
             <img
@@ -46,7 +46,7 @@ const ContactPage = () => {
         </Link>
         <Link
           href={"https://github.com/pristiwanakbars"}
-          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-opacity-90"
+          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
             <img
@@ -61,7 +61,7 @@ const ContactPage = () => {
         </Link>
         <Link
           href={"https://github.com/pbalqish"}
-          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-opacity-90"
+          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
             <img
@@ -76,7 +76,7 @@ const ContactPage = () => {
         </Link>
         <Link
           href={"https://github.com/simsonhutagaol"}
-          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-opacity-90"
+          className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
             <img
