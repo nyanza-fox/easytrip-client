@@ -1,12 +1,13 @@
-"use client";
-import { useRef } from "react";
-import Image from "next/image";
-import { API_URL } from "@/constants/url";
-import { numberToRupiah } from "@/utils/currency";
-import { useRouter } from "next/router"; // Import useRouter untuk navigasi
-import type { Itinerary, Order, Package } from "@/types/order";
-// import Stripe from "stripe";
-import stripe from "@/utils/stripe";
+'use client';
+
+import { useRef } from 'react';
+import Image from 'next/image';
+import toast from 'react-hot-toast';
+
+import { numberToRupiah } from '@/utils/currency';
+
+import type { Itinerary, Package } from '@/types/order';
+import type { BaseResponse } from '@/types/response';
 
 const PackageCard = ({
   type,
@@ -19,47 +20,48 @@ const PackageCard = ({
   totalPrice,
   itinerary,
 }: Package & { itinerary: Itinerary[] }) => {
-  // const router = useRouter();
-  async function handleOrderAndPayment() {
-    const body = {
-      userId: " ",
-      package: {
-        type,
-        destination,
-        transportations,
-        accommodation,
-        guide,
-        totalDays,
-        totalGuests,
-        totalPrice,
-      },
-      itinerary,
-    };
-    const orderResponse = await fetch(`${API_URL}/orders/checkout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await orderResponse.json();
-    if (data) {
-      console.log(data);
-      window.location.href = data.data;
-    } else {
-      console.error("Failed to create order and payment session");
-    }
-  }
   const modalRef = useRef<HTMLDialogElement>(null);
+
+  const handleOrderAndPayment = async () => {
+    const response = await fetch(`/api/checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        package: {
+          type,
+          destination,
+          transportations,
+          accommodation,
+          guide,
+          totalDays,
+          totalGuests,
+          totalPrice,
+        },
+        itinerary,
+      }),
+    });
+    const data: BaseResponse<string> = await response.json();
+
+    if (!response.ok) {
+      const message = data.message || 'Failed to create order and payment session';
+      toast.error(message);
+    }
+
+    if (data.data) {
+      window.location.href = data.data;
+    }
+  };
 
   return (
     <article
       className={`card card-compact bg-base-100 shadow-xl border border-l-8 ${
-        type === "luxury"
-          ? "border-l-success"
-          : type === "standard"
-          ? "border-l-warning"
-          : "border-l-error"
+        type === 'luxury'
+          ? 'border-l-success'
+          : type === 'standard'
+          ? 'border-l-warning'
+          : 'border-l-error'
       }`}
     >
       <div className="card-body">
@@ -69,7 +71,7 @@ const PackageCard = ({
           {!!transportations?.length ? (
             <ul className="list-disc list-inside">
               {transportations.map((transportation, idx) => (
-                <li key={idx}>{transportation?.company || "-"}</li>
+                <li key={idx}>{transportation?.company || '-'}</li>
               ))}
             </ul>
           ) : (
@@ -78,17 +80,15 @@ const PackageCard = ({
         </div>
         <div>
           <h4 className="text-md font-semibold">Accommodation:</h4>
-          <p>{accommodation?.name || "-"}</p>
+          <p>{accommodation?.name || '-'}</p>
         </div>
         <div>
           <h4 className="text-md font-semibold">Guide:</h4>
-          <p>{guide?.name || "-"}</p>
+          <p>{guide?.name || '-'}</p>
         </div>
         <div className="divider m-0" />
         <div className="card-actions flex-col">
-          <h3 className="text-lg font-semibold">
-            {numberToRupiah(totalPrice)}
-          </h3>
+          <h3 className="text-lg font-semibold">{numberToRupiah(totalPrice)}</h3>
           <div className="flex w-full gap-2">
             <button
               className="btn btn-primary btn-outline grow"
@@ -96,10 +96,7 @@ const PackageCard = ({
             >
               Show Details
             </button>
-            <button
-              onClick={handleOrderAndPayment}
-              className="btn btn-primary grow"
-            >
+            <button onClick={handleOrderAndPayment} className="btn btn-primary grow">
               Proceed to Book
             </button>
           </div>
@@ -125,10 +122,7 @@ const PackageCard = ({
               {!!destination?.images.length && (
                 <div className="flex gap-2 overflow-x-auto py-2">
                   {destination?.images.map((image, idx) => (
-                    <figure
-                      key={idx}
-                      className="relative min-w-32 h-32 overflow-hidden rounded-xl"
-                    >
+                    <figure key={idx} className="relative min-w-32 h-32 overflow-hidden rounded-xl">
                       <Image
                         src={image}
                         alt={`${destination.name}-${idx}`}
@@ -160,37 +154,29 @@ const PackageCard = ({
             {!!transportations?.length ? (
               <>
                 {transportations.map((transportation, idx) => (
-                  <article
-                    key={idx}
-                    className="border-2 p-4 rounded-xl flex flex-col gap-2"
-                  >
-                    <h2 className="text-lg font-bold">
-                      Transportation #{idx + 1}
-                    </h2>
+                  <article key={idx} className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                    <h2 className="text-lg font-bold">Transportation #{idx + 1}</h2>
                     <div>
                       <h5 className="text-md font-semibold">Type:</h5>
-                      <p>{transportation?.type || "-"}</p>
+                      <p>{transportation?.type || '-'}</p>
                     </div>
                     <div>
                       <h5 className="text-md font-semibold">Company:</h5>
-                      <p>{transportation?.company || "-"}</p>
+                      <p>{transportation?.company || '-'}</p>
                     </div>
                     <div>
                       <h5 className="text-md font-semibold">Departure:</h5>
-                      <p>{transportation?.departure.place || "-"}</p>
+                      <p>{transportation?.departure.place || '-'}</p>
                     </div>
                     <div>
                       <h5 className="text-md font-semibold">Arrival:</h5>
-                      <p>{transportation?.arrival.place || "-"}</p>
+                      <p>{transportation?.arrival.place || '-'}</p>
                     </div>
                     <div>
                       <h5 className="text-md font-semibold">Price:</h5>
                       <p>
-                        {numberToRupiah(transportation?.price || 0)} x{" "}
-                        {totalGuests} guest(s) ={" "}
-                        {numberToRupiah(
-                          (transportation?.price || 0) * totalGuests
-                        )}
+                        {numberToRupiah(transportation?.price || 0)} x {totalGuests} guest(s) ={' '}
+                        {numberToRupiah((transportation?.price || 0) * totalGuests)}
                       </p>
                     </div>
                   </article>
@@ -205,10 +191,7 @@ const PackageCard = ({
               {!!accommodation?.images.length && (
                 <div className="flex gap-2 overflow-x-auto py-2">
                   {accommodation.images.map((image, idx) => (
-                    <figure
-                      key={idx}
-                      className="relative min-w-32 h-32 overflow-hidden rounded-xl"
-                    >
+                    <figure key={idx} className="relative min-w-32 h-32 overflow-hidden rounded-xl">
                       <Image
                         src={image}
                         alt={`${accommodation.name}-${idx}`}
@@ -223,23 +206,19 @@ const PackageCard = ({
               )}
               <div>
                 <h4 className="text-md font-semibold">Name:</h4>
-                <p>{accommodation?.name || "-"}</p>
+                <p>{accommodation?.name || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Location:</h4>
                 <p>
-                  {accommodation?.location.city},{" "}
-                  {accommodation?.location.country}
+                  {accommodation?.location.city}, {accommodation?.location.country}
                 </p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Price:</h4>
                 <p>
-                  {numberToRupiah(accommodation?.pricePerNight || 0)} x{" "}
-                  {totalDays} night(s) ={" "}
-                  {numberToRupiah(
-                    (accommodation?.pricePerNight || 0) * totalDays
-                  )}
+                  {numberToRupiah(accommodation?.pricePerNight || 0)} x {totalDays} night(s) ={' '}
+                  {numberToRupiah((accommodation?.pricePerNight || 0) * totalDays)}
                 </p>
               </div>
             </div>
@@ -260,24 +239,23 @@ const PackageCard = ({
               )}
               <div>
                 <h4 className="text-md font-semibold">Name:</h4>
-                <p>{guide?.name || "-"}</p>
+                <p>{guide?.name || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Language:</h4>
-                <p>{guide?.languages.join(", ") || "-"}</p>
+                <p>{guide?.languages.join(', ') || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Location:</h4>
                 <p>
-                  {guide?.location.city || "-"},{" "}
-                  {guide?.location.country || "-"}
+                  {guide?.location.city || '-'}, {guide?.location.country || '-'}
                 </p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Price:</h4>
                 <p>
-                  {numberToRupiah(guide?.pricePerDay || 0)} x {totalDays} day(s)
-                  = {numberToRupiah((guide?.pricePerDay || 0) * totalDays)}
+                  {numberToRupiah(guide?.pricePerDay || 0)} x {totalDays} day(s) ={' '}
+                  {numberToRupiah((guide?.pricePerDay || 0) * totalDays)}
                 </p>
               </div>
             </div>
@@ -305,11 +283,11 @@ const PackageCard = ({
                   {itinerary.map((item, idx) => (
                     <div key={idx}>
                       <h5 className="text-md font-semibold">
-                        {new Date(item.date).toLocaleDateString("en-US", {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
+                        {new Date(item.date).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
                         })}
                       </h5>
                       <ul className="list-disc list-inside">

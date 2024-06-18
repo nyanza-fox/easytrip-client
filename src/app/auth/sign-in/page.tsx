@@ -1,8 +1,8 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { login } from "@/app/auth/actions";
-import ErrorAlert from "@/components/ErrorAlert";
-import GoogleSignIn from "@/components/GoogleSignIn";
+import { login } from '@/app/auth/actions';
+import ErrorAlert from '@/components/ErrorAlert';
+import GoogleSignIn from '@/components/GoogleSignIn';
 
 const SignInPage = () => {
   return (
@@ -21,12 +21,7 @@ const SignInPage = () => {
           <div className="label">
             <span className="label-text">Email</span>
           </div>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="w-full input input-bordered"
-          />
+          <input type="email" id="email" name="email" className="w-full input input-bordered" />
         </label>
         <label className="w-full form-control">
           <div className="label">
@@ -45,7 +40,7 @@ const SignInPage = () => {
       </form>
 
       <small className="text-center">
-        Don&apos;t have an account?{" "}
+        Don&apos;t have an account?{' '}
         <Link href="/auth/sign-up" className="text-primary link link-hover">
           Sign up here
         </Link>

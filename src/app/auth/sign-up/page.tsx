@@ -1,8 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { register } from "@/app/auth/actions";
-
-import ErrorAlert from "@/components/ErrorAlert";
+import { register } from '@/app/auth/actions';
+import ErrorAlert from '@/components/ErrorAlert';
 
 const SignUpPage = () => {
   return (
@@ -71,24 +70,14 @@ const SignUpPage = () => {
           <div className="label">
             <span className="label-text">Image</span>
           </div>
-          <input
-            type="url"
-            id="image"
-            name="image"
-            className="w-full input input-bordered"
-          />
+          <input type="url" id="image" name="image" className="w-full input input-bordered" />
         </label>
 
         <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Email</span>
           </div>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="w-full input input-bordered"
-          />
+          <input type="email" id="email" name="email" className="w-full input input-bordered" />
         </label>
 
         <label className="w-full form-control">
@@ -109,7 +98,7 @@ const SignUpPage = () => {
       </form>
 
       <small className="text-center">
-        Already have an account?{" "}
+        Already have an account?{' '}
         <Link href="/auth/sign-in" className="text-primary link link-hover">
           Sign in here
         </Link>

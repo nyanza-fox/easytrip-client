@@ -1,50 +1,37 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { API_URL } from "@/constants/url";
-import stripe from "@/utils/stripe";
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-const Cancel = () => {
-  const updateStatus = async (sessionId: any) => {
-    try {
-      const body = {
-        id: sessionId,
-        status: "cancelled",
-      };
+import { API_URL } from '@/constants/url';
 
-      const updateResponse = await fetch(`${API_URL}/orders/updateStatus`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+const CancelPage = () => {
+  const searchParams = useSearchParams();
 
-      const data = await updateResponse.json();
-      return data;
-    } catch (error) {
-      throw new Error(`Gagal memperbarui status: `);
-    }
-  };
+  const router = useRouter();
+
+  const sessionId = searchParams.get('session_id');
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const sessionId = query.get("session_id");
-    console.log(sessionId, "masuk 42");
+    if (!sessionId) return;
 
-    if (sessionId) {
-      handleUpdate(sessionId);
-    }
-  }, []);
+    (async () => {
+      try {
+        const response = await fetch(`${API_URL}/orders/${sessionId}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status: 'cancelled' }),
+        });
+        const data = await response.json();
 
-  const handleUpdate = async (sessionId: any) => {
-    try {
-      const result = await updateStatus(sessionId);
-      console.log("Hasil pembaruan:", result);
-    } catch (error) {
-      console.error("Pembaruan gagal:", error);
-    }
-  };
+        router.replace('/orders');
+      } catch (error) {
+        console.log('Gagal memperbarui status:', error);
+      }
+    })();
+  }, [sessionId, router]);
 
   return (
     <div className="m-8">
@@ -53,4 +40,4 @@ const Cancel = () => {
   );
 };
 
-export default Cancel;
+export default CancelPage;
