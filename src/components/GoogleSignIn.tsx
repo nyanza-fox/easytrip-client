@@ -2,19 +2,17 @@
 
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
-import { setCookie } from 'cookies-next';
-
-import { API_URL } from '@/constants/url';
 
 const GoogleSignIn = () => {
   const router = useRouter();
 
   const onSuccess = async (gResponse: CredentialResponse) => {
-    const response = await fetch(`${API_URL}/auth/google`, {
-      method: 'GET',
+    const response = await fetch('/api/auth/google', {
+      method: 'POST',
       headers: {
-        token: gResponse.credential as any,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ token: gResponse.credential }),
     });
     const data = await response.json();
 
@@ -23,14 +21,8 @@ const GoogleSignIn = () => {
       router.replace(`/auth/sign-in?error=${encodeURIComponent(message)}`);
     }
 
-    setCookie('loginInfo', JSON.stringify(data.data || ''), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      expires: new Date(Date.now() + 1000 * 60 * 60),
-      sameSite: 'strict',
-    });
-
     data.data?.role === 'admin' ? router.replace('/cms') : router.replace('/');
+    router.refresh();
   };
 
   return (

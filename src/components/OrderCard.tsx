@@ -2,75 +2,33 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import toast from 'react-hot-toast';
 
 import { numberToRupiah } from '@/utils/currency';
 
-import type { Itinerary, Package } from '@/types/order';
-import type { BaseResponse } from '@/types/response';
+import type { Order } from '@/types/order';
 
-const PackageCard = ({
-  type,
-  destination,
-  transportations,
-  accommodation,
-  guide,
-  totalDays,
-  totalGuests,
-  totalPrice,
-  itinerary,
-}: Package & { itinerary: Itinerary[] }) => {
+const OrderCard = ({ _id, status, package: pack, itinerary, createdAt }: Order) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  const onCheckout = async () => {
-    const response = await fetch('/api/orders/checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        package: {
-          type,
-          destination,
-          transportations,
-          accommodation,
-          guide,
-          totalDays,
-          totalGuests,
-          totalPrice,
-        },
-        itinerary,
-      }),
-    });
-    const data: BaseResponse<string> = await response.json();
-
-    if (!response.ok) {
-      const message = data.message || 'Failed to create order and payment session';
-      toast.error(message);
-    }
-
-    if (data.data) {
-      window.location.href = data.data;
-    }
-  };
-
   return (
-    <article
-      className={`card card-compact bg-base-100 shadow-xl border border-l-8 ${
-        type === 'luxury'
-          ? 'border-l-success'
-          : type === 'standard'
-          ? 'border-l-warning'
-          : 'border-l-error'
-      }`}
-    >
+    <article className={`card card-compact bg-base-100 shadow-xl border border-l-8`}>
       <div className="card-body">
-        <h2 className="card-title capitalize">{type} Pack</h2>
+        <h5 className="text-md font-semibold">Order ID: {_id}</h5>
+        <p>
+          {new Date(createdAt).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </p>
+        <div className="divider m-0" />
+        <h2 className="card-title capitalize">{pack.type} Pack</h2>
         <div>
           <h4 className="text-md font-semibold">Transportations:</h4>
-          {!!transportations?.length ? (
+          {!!pack.transportations?.length ? (
             <ul className="list-disc list-inside">
-              {transportations.map((transportation, idx) => (
+              {pack.transportations.map((transportation, idx) => (
                 <li key={idx}>{transportation?.company || '-'}</li>
               ))}
             </ul>
@@ -80,24 +38,34 @@ const PackageCard = ({
         </div>
         <div>
           <h4 className="text-md font-semibold">Accommodation:</h4>
-          <p>{accommodation?.name || '-'}</p>
+          <p>{pack.accommodation?.name || '-'}</p>
         </div>
         <div>
           <h4 className="text-md font-semibold">Guide:</h4>
-          <p>{guide?.name || '-'}</p>
+          <p>{pack.guide?.name || '-'}</p>
         </div>
         <div className="divider m-0" />
-        <div className="card-actions flex-col">
-          <h3 className="text-lg font-semibold">{numberToRupiah(totalPrice)}</h3>
+        <div className="card-actions flex-col gap-4">
+          <div className="flex justify-between items-center w-full">
+            <h3 className="text-lg font-semibold">{numberToRupiah(pack.totalPrice)}</h3>
+            <div
+              className={`badge ${
+                status === 'pending'
+                  ? 'badge-warning'
+                  : status === 'completed'
+                  ? 'badge-success'
+                  : 'badge-error'
+              }`}
+            >
+              {status}
+            </div>
+          </div>
           <div className="flex w-full gap-2">
             <button
               className="btn btn-primary btn-outline grow"
               onClick={() => modalRef.current?.showModal()}
             >
               Show Details
-            </button>
-            <button onClick={onCheckout} className="btn btn-primary grow">
-              Proceed to Book
             </button>
           </div>
         </div>
@@ -112,20 +80,32 @@ const PackageCard = ({
             ✕
           </button>
 
-          <h2 className="font-bold text-lg capitalize">{type} Pack</h2>
+          <h2 className="font-bold text-lg capitalize">{pack.type} Pack</h2>
 
           <div className="divider my-2" />
 
           <div className="flex flex-col gap-4">
             <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+              <h4 className="text-lg font-bold">Order Details</h4>
+              <div>
+                <h5 className="text-md font-semibold">Order ID:</h5>
+                <p>{_id}</p>
+              </div>
+              <div>
+                <h5 className="text-md font-semibold">Status:</h5>
+                <p>{status}</p>
+              </div>
+            </div>
+
+            <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
               <h4 className="text-lg font-bold">Destination</h4>
-              {!!destination?.images.length && (
+              {!!pack.destination?.images.length && (
                 <div className="flex gap-2 overflow-x-auto py-2">
-                  {destination?.images.map((image, idx) => (
+                  {pack.destination?.images.map((image, idx) => (
                     <figure key={idx} className="relative min-w-32 h-32 overflow-hidden rounded-xl">
                       <Image
                         src={image}
-                        alt={`${destination.name}-${idx}`}
+                        alt={`${pack.destination?.name}-${idx}`}
                         sizes="100%"
                         fill
                         priority
@@ -137,23 +117,23 @@ const PackageCard = ({
               )}
               <div>
                 <h5 className="text-md font-semibold">Name:</h5>
-                <p>{destination?.name}</p>
+                <p>{pack.destination?.name}</p>
               </div>
               <div>
                 <h5 className="text-md font-semibold">Location:</h5>
                 <p>
-                  {destination?.location.city}, {destination?.location.country}
+                  {pack.destination?.location.city}, {pack.destination?.location.country}
                 </p>
               </div>
               <div>
                 <h5 className="text-md font-semibold">Price:</h5>
-                <p>{numberToRupiah(destination?.price || 0)}</p>
+                <p>{numberToRupiah(pack.destination?.price || 0)}</p>
               </div>
             </div>
 
-            {!!transportations?.length ? (
+            {!!pack.transportations?.length ? (
               <>
-                {transportations.map((transportation, idx) => (
+                {pack.transportations.map((transportation, idx) => (
                   <article key={idx} className="border-2 p-4 rounded-xl flex flex-col gap-2">
                     <h2 className="text-lg font-bold">Transportation #{idx + 1}</h2>
                     <div>
@@ -175,8 +155,8 @@ const PackageCard = ({
                     <div>
                       <h5 className="text-md font-semibold">Price:</h5>
                       <p>
-                        {numberToRupiah(transportation?.price || 0)} x {totalGuests} guest(s) ={' '}
-                        {numberToRupiah((transportation?.price || 0) * totalGuests)}
+                        {numberToRupiah(transportation?.price || 0)} x {pack.totalGuests} guest(s) ={' '}
+                        {numberToRupiah((transportation?.price || 0) * pack.totalGuests)}
                       </p>
                     </div>
                   </article>
@@ -188,13 +168,13 @@ const PackageCard = ({
 
             <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
               <h3 className="text-lg font-bold">Accommodation</h3>
-              {!!accommodation?.images.length && (
+              {!!pack.accommodation?.images.length && (
                 <div className="flex gap-2 overflow-x-auto py-2">
-                  {accommodation.images.map((image, idx) => (
+                  {pack.accommodation.images.map((image, idx) => (
                     <figure key={idx} className="relative min-w-32 h-32 overflow-hidden rounded-xl">
                       <Image
                         src={image}
-                        alt={`${accommodation.name}-${idx}`}
+                        alt={`${pack.accommodation?.name}-${idx}`}
                         sizes="100%"
                         fill
                         priority
@@ -206,30 +186,31 @@ const PackageCard = ({
               )}
               <div>
                 <h4 className="text-md font-semibold">Name:</h4>
-                <p>{accommodation?.name || '-'}</p>
+                <p>{pack.accommodation?.name || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Location:</h4>
                 <p>
-                  {accommodation?.location.city}, {accommodation?.location.country}
+                  {pack.accommodation?.location.city}, {pack.accommodation?.location.country}
                 </p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Price:</h4>
                 <p>
-                  {numberToRupiah(accommodation?.pricePerNight || 0)} x {totalDays} night(s) ={' '}
-                  {numberToRupiah((accommodation?.pricePerNight || 0) * totalDays)}
+                  {numberToRupiah(pack.accommodation?.pricePerNight || 0)} x {pack.totalDays}{' '}
+                  night(s) ={' '}
+                  {numberToRupiah((pack.accommodation?.pricePerNight || 0) * pack.totalDays)}
                 </p>
               </div>
             </div>
 
             <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
               <h4 className="text-lg font-bold">Guide</h4>
-              {guide?.image && (
+              {pack.guide?.image && (
                 <figure className="relative w-32 h-32 overflow-hidden rounded-xl">
                   <Image
-                    src={guide?.image}
-                    alt={guide?.name}
+                    src={pack.guide?.image}
+                    alt={pack.guide?.name}
                     sizes="100%"
                     fill
                     priority
@@ -239,23 +220,23 @@ const PackageCard = ({
               )}
               <div>
                 <h4 className="text-md font-semibold">Name:</h4>
-                <p>{guide?.name || '-'}</p>
+                <p>{pack.guide?.name || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Language:</h4>
-                <p>{guide?.languages.join(', ') || '-'}</p>
+                <p>{pack.guide?.languages.join(', ') || '-'}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Location:</h4>
                 <p>
-                  {guide?.location.city || '-'}, {guide?.location.country || '-'}
+                  {pack.guide?.location.city || '-'}, {pack.guide?.location.country || '-'}
                 </p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Price:</h4>
                 <p>
-                  {numberToRupiah(guide?.pricePerDay || 0)} x {totalDays} day(s) ={' '}
-                  {numberToRupiah((guide?.pricePerDay || 0) * totalDays)}
+                  {numberToRupiah(pack.guide?.pricePerDay || 0)} x {pack.totalDays} day(s) ={' '}
+                  {numberToRupiah((pack.guide?.pricePerDay || 0) * pack.totalDays)}
                 </p>
               </div>
             </div>
@@ -264,15 +245,15 @@ const PackageCard = ({
               <h4 className="text-lg font-bold">Summary</h4>
               <div>
                 <h4 className="text-md font-semibold">Total Guests:</h4>
-                <p>{totalGuests}</p>
+                <p>{pack.totalGuests}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Total Days:</h4>
-                <p>{totalDays}</p>
+                <p>{pack.totalDays}</p>
               </div>
               <div>
                 <h4 className="text-md font-semibold">Total Price:</h4>
-                <p>{numberToRupiah(totalPrice)}</p>
+                <p>{numberToRupiah(pack.totalPrice)}</p>
               </div>
             </div>
 
@@ -311,4 +292,4 @@ const PackageCard = ({
   );
 };
 
-export default PackageCard;
+export default OrderCard;
