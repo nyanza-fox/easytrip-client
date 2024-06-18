@@ -22,7 +22,6 @@ const fetchProfile = async (): Promise<BaseResponse<User>> => {
 
 export default async function ProfilePage() {
   const profile = await fetchProfile();
-  console.log(profile);
 
   return (
     <div className="flex flex-col min-h-screen mt-5 lg:m-10">
@@ -51,7 +50,7 @@ export default async function ProfilePage() {
       <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 lg:mx-40 justify-center">
         <div className="flex md:w-1/2">
           <picture className="w-full md:h-96 m-auto">
-            <img className="rounded-xl w-full h-72 md:h-96 object-cover" src={profile.data?.profile?.image} />
+            <img className="rounded-xl w-full h-72 md:h-96 object-cover" src={profile?.data?.profile?.image} />
           </picture>
         </div>
         <div className="flex flex-col p-5 md:p-10 md:w-1/2">
@@ -76,7 +75,7 @@ export default async function ProfilePage() {
             </p>
           </div>
           <div>
-            <Link href={'profile/edit'} className="btn btn-outline btn-primary w-30">
+            <Link href={'/profile/edit'} className="btn btn-outline btn-primary w-30">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
