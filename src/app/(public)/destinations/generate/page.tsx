@@ -91,25 +91,27 @@ const GenerateDestinationsPage = () => {
 
       {!!destinations.length ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {destinations.map((destination) => (
-            <Link
-              key={destination._id}
-              href={`/destinations/${destination._id}`}
-              className="card card-compact bg-base-100 shadow-xl"
-            >
-              <picture className="px-2 pt-2">
-                <img src={destination.images[0]} alt={destination.name} className="rounded-xl" />
-              </picture>
-              <div className="card-body">
-                <h2 className="card-title">{destination.name}</h2>
-                <p>
-                  {destination.description.length > 100
-                    ? `${destination.description.slice(0, 100)}...`
-                    : destination.description}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {destinations
+            .filter((destination) => destination)
+            .map((destination) => (
+              <Link
+                key={destination._id}
+                href={`/destinations/${destination._id}`}
+                className="card card-compact bg-base-100 shadow-xl"
+              >
+                <picture className="px-2 pt-2">
+                  <img src={destination.images[0]} alt={destination.name} className="rounded-xl" />
+                </picture>
+                <div className="card-body">
+                  <h2 className="card-title">{destination.name}</h2>
+                  <p>
+                    {destination.description.length > 100
+                      ? `${destination.description.slice(0, 100)}...`
+                      : destination.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
         </div>
       ) : (
         <div className="min-h-[30rem] bg-slate-100 flex items-center justify-center text-gray-500">
