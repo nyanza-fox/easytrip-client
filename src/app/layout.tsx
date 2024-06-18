@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { APP_NAME, APP_DESCRIPTION, APP_URL } from "@/constants/meta";
 
 import "@/styles/globals.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,15 +50,22 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
-    <html lang="en" data-theme="light">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body className={inter.className}>
-        <main>{children}</main>
-        <Toaster position="bottom-center" />
-      </body>
-    </html>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}
+    >
+      <html lang="en" data-theme="light">
+        <head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+        </head>
+        <body className={inter.className}>
+          <main>{children}</main>
+          <Toaster position="bottom-center" />
+        </body>
+      </html>
+    </GoogleOAuthProvider>
   );
 };
 
