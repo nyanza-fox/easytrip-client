@@ -11,7 +11,10 @@ const fetchPublicDestinations = async (
   limit: number = 4
 ): Promise<BaseResponse<Destination[]>> => {
   const response = await fetch(
-    `${API_URL}/public/destinations?page=${page}&limit=${limit}`
+    `${API_URL}/public/destinations?page=${page}&limit=${limit}`,
+    {
+      cache: "no-store",
+    }
   );
   const data = await response.json();
 
@@ -47,7 +50,7 @@ const HomePage = async ({
             Let&apos;s enjoy this heaven on earth
           </p>
         </div>
-        <div className="flex flex-row flex-wrap justify-evenly gap-3 p-5">
+        <div className="flex flex-row flex-wrap justify-center gap-4 p-5">
           {destinations?.map((destination) => {
             return (
               <DestinationCard
