@@ -7,6 +7,10 @@ import GoogleSignIn from '@/components/GoogleSignIn';
 const SignInPage = () => {
   return (
     <section className="flex flex-col w-full gap-4 p-8 mx-auto border-2 bg-base-100 max-w-[30rem] card">
+      <Link href="/" className="text-primary text-center link link-hover">
+        &larr; Back to Home
+      </Link>
+
       <div className="text-center">
         <h1 className="mb-1 text-2xl font-bold">
           Sign in to <span className="text-primary">EasyTrip</span>
