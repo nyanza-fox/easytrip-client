@@ -1,16 +1,25 @@
 'use client';
-
 import { useState, useEffect, useRef } from 'react';
-import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
+import {
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+  useJsApiLoader,
+  InfoWindow,
+} from '@react-google-maps/api';
+import { calculateMidpointLat, calculateMidpointLong } from '@/utils/map';
 
-const Maps = ({ coordinates }: { coordinates: number[] }) => {
+interface MapsProps {
+  coordinates: [number, number];
+}
+
+const Maps: React.FC<MapsProps> = ({ coordinates }) => {
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-
   const mapRef = useRef<google.maps.Map | null>(null);
   const directionsServiceRef = useRef<google.maps.DirectionsService | null>(null);
-
   const { isLoaded, loadError } = useJsApiLoader({
+    id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries: ['geometry', 'places', 'routes', 'geocoding', 'drawing'],
   });
@@ -35,7 +44,6 @@ const Maps = ({ coordinates }: { coordinates: number[] }) => {
   }, []);
 
   useEffect(() => {
-    // Meminta rute dari lokasi pengguna ke tujuan jika komponen dimuat dan lokasi pengguna serta koordinat tujuan tersedia
     if (isLoaded && userLocation && coordinates) {
       console.log(userLocation);
       if (!directionsServiceRef.current) {
@@ -48,7 +56,8 @@ const Maps = ({ coordinates }: { coordinates: number[] }) => {
             lat: coordinates[0],
             lng: coordinates[1],
           },
-          travelMode: google.maps.TravelMode.DRIVING,
+          provideRouteAlternatives: true,
+          travelMode: google.maps.TravelMode.WALKING,
         },
         (result, status) => {
           if (status === google.maps.DirectionsStatus.OK) {
@@ -70,7 +79,6 @@ const Maps = ({ coordinates }: { coordinates: number[] }) => {
   };
 
   const onUnmount = () => {
-    // Membersihkan state dan referensi saat komponen dimuat ulang atau dilepas
     if (directionsServiceRef.current) {
       directionsServiceRef.current = null;
     }
@@ -86,12 +94,42 @@ const Maps = ({ coordinates }: { coordinates: number[] }) => {
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={{ height: '100%', width: '100%' }}
-          center={userLocation || { lat: 0, lng: 0 }}
-          zoom={12}
+          center={{
+            lat: userLocation
+              ? calculateMidpointLat(
+                  Number(userLocation?.lat),
+                  Number(userLocation?.lng),
+                  coordinates[0],
+                  coordinates[1]
+                )
+              : 0,
+            lng: userLocation
+              ? calculateMidpointLong(
+                  Number(userLocation?.lat),
+                  Number(userLocation?.lng),
+                  coordinates[0],
+                  coordinates[1]
+                )
+              : 0,
+          }}
+          zoom={5}
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          {userLocation && <Marker position={userLocation} />}
+          {userLocation && (
+            <Marker
+              position={userLocation}
+              icon={{
+                path: window.google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                fillColor: '#DB4437',
+                fillOpacity: 1,
+                strokeColor: '#000',
+                strokeWeight: 2,
+                scale: 8,
+              }}
+            ></Marker>
+          )}
+          {coordinates && <Marker position={{ lat: coordinates[0], lng: coordinates[1] }} />}
           {directions && <DirectionsRenderer directions={directions} />}
         </GoogleMap>
       )}
