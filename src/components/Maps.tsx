@@ -10,7 +10,7 @@ import {
 import { calculateMidpointLat, calculateMidpointLong } from '@/utils/map';
 
 interface MapsProps {
-  coordinates: [number, number];
+  coordinates: number[];
 }
 
 const Maps: React.FC<MapsProps> = ({ coordinates }) => {

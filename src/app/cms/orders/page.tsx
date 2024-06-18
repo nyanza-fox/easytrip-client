@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
@@ -23,8 +24,15 @@ const fetchOrders = async (
   page: number = 1,
   limit: number = 10
 ): Promise<BaseResponse<Order[]>> => {
+  const loginInfo = cookies().get('loginInfo');
+
+  const { token } = JSON.parse(loginInfo?.value || '{}');
+
   const response = await fetch(`${API_URL}/orders?page=${page}&limit=${limit}`, {
     cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   const data = await response.json();
 

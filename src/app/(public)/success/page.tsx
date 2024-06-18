@@ -29,6 +29,7 @@ const OrderSuccessPage = () => {
       // }
 
       router.replace('/orders');
+      router.refresh();
     })();
   }, [sessionId, router]);
 

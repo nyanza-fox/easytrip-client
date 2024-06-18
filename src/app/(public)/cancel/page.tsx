@@ -29,6 +29,7 @@ const OrderCancelPage = () => {
       // }
 
       router.replace('/orders');
+      router.refresh();
     })();
   }, [sessionId, router]);
 
