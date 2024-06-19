@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,8 +28,14 @@ const fetchAccommodations = async (
   page: number = 1,
   limit: number = 10
 ): Promise<BaseResponse<Accommodation[]>> => {
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
   const response = await fetch(`${API_URL}/accommodations?page=${page}&limit=${limit}`, {
     cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   const data = await response.json();
 
@@ -76,11 +83,11 @@ const AccommodationsPage = async ({
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{accommodation.name}</h2>
-                      <div className="flex gap-2 overflow-x-auto py-2">
+                      <div className="flex gap-2 py-2 overflow-x-auto">
                         {accommodation.images.map((image, idx) => (
                           <figure
                             key={idx}
-                            className="relative min-w-48 h-48 overflow-hidden rounded-xl"
+                            className="relative h-48 overflow-hidden min-w-48 rounded-xl"
                           >
                             <Image
                               src={image}

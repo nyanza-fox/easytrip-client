@@ -61,21 +61,24 @@ export const login = async (formData: FormData) => {
     },
     body: JSON.stringify(validation.data),
   });
-  const data: BaseResponse<{ token: string; role: 'admin' | 'user' }> = await response.json();
+  const data: BaseResponse<{ token: string; role: 'admin' | 'user'; image?: string }> =
+    await response.json();
 
   if (!response.ok) {
     const message = data.message || 'Failed to login';
     return redirect(`/auth/sign-in?error=${encodeURIComponent(message)}`);
   }
 
-  cookies().set('loginInfo', JSON.stringify(data.data || ''), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    // expires: new Date(Date.now() + 1000 * 60 * 60),
-    sameSite: 'strict',
-  });
+  if (data.data) {
+    cookies().set('loginInfo', JSON.stringify(data.data), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      // expires: new Date(Date.now() + 1000 * 60 * 60),
+      sameSite: 'strict',
+    });
 
-  data.data?.role === 'admin' ? redirect('/cms') : redirect('/');
+    data.data.role === 'admin' ? redirect('/cms') : redirect('/');
+  }
 };
 
 export const logout = () => {

@@ -25,8 +25,7 @@ const fetchOrders = async (
   limit: number = 10
 ): Promise<BaseResponse<Order[]>> => {
   const loginInfo = cookies().get('loginInfo');
-
-  const { token } = JSON.parse(loginInfo?.value || '{}');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
 
   const response = await fetch(`${API_URL}/orders?page=${page}&limit=${limit}`, {
     cache: 'no-store',
@@ -64,7 +63,7 @@ const OrdersPage = async ({
           <tbody>
             {orders?.map((order) => (
               <tr key={order._id}>
-                <td>{order.userId}</td>
+                <td>{order.user.email}</td>
                 <td>{order.package.type}</td>
                 <td>{numberToRupiah(order.package.totalPrice)}</td>
                 <td>{order.status}</td>

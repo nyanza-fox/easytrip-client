@@ -2,10 +2,12 @@ import type { Accommodation } from './accommodation';
 import type { Destination } from './destination';
 import type { Guide } from './guide';
 import type { Transportation } from './transportation';
+import type { User } from './user';
 
 export type Order = {
   _id: string;
   userId: string;
+  user: User;
   status: 'pending' | 'completed' | 'cancelled';
   itinerary: Itinerary[];
   package: Package;
@@ -32,4 +34,4 @@ export type Package = {
   totalPrice: number;
 };
 
-export type OrderInput = Omit<Order, '_id' | 'status' | 'createdAt' | 'updatedAt'>;
+export type OrderInput = Pick<Order, 'itinerary' | 'package'> & { userId: string };

@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { API_URL } from '@/constants/url';
@@ -44,10 +45,14 @@ export const createAccommodation = async (formData: FormData) => {
     return redirect(`/cms/accommodations/create?error=${encodeURIComponent(message)}`);
   }
 
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
   const response = await fetch(`${API_URL}/accommodations`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(validation.data),
   });
@@ -100,10 +105,14 @@ export const updateAccommodation = async (id: string, formData: FormData) => {
     return redirect(`/cms/accommodations/update/${id}?error=${encodeURIComponent(message)}`);
   }
 
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
   const response = await fetch(`${API_URL}/accommodations/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(validation.data),
   });

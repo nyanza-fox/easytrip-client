@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
@@ -21,8 +22,14 @@ export const metadata: Metadata = {
 };
 
 const fetchUsers = async (page: number = 1, limit: number = 10): Promise<BaseResponse<User[]>> => {
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
   const response = await fetch(`${API_URL}/users?page=${page}&limit=${limit}`, {
     cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   const data = await response.json();
 
@@ -64,7 +71,7 @@ const UsersPage = async ({
                       <h2 className="text-xl font-bold">
                         {user.profile.firstName} {user.profile.lastName}
                       </h2>
-                      <figure className="relative w-full h-80 overflow-hidden rounded-xl">
+                      <figure className="relative w-full overflow-hidden h-80 rounded-xl">
                         <Image
                           src={user.profile.image || '/placeholder.png'}
                           alt={`${user.profile.firstName} ${user.profile.lastName}`}

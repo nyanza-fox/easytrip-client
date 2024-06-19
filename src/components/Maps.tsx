@@ -1,12 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  useJsApiLoader,
-  InfoWindow,
-} from '@react-google-maps/api';
+import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
 import { calculateMidpointLat, calculateMidpointLong } from '@/utils/map';
 
 interface MapsProps {

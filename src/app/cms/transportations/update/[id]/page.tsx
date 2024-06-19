@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
@@ -25,7 +26,15 @@ export const generateMetadata = async ({
 });
 
 const fetchTransportation = async (id: string): Promise<Transportation> => {
-  const response = await fetch(`${API_URL}/transportations/${id}`, { cache: 'no-store' });
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
+  const response = await fetch(`${API_URL}/transportations/${id}`, {
+    cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -46,7 +55,7 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
       <ErrorAlert />
 
       <form action={updateTransportation.bind(null, params.id)} className="flex flex-col gap-2">
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Company</span>
           </div>
@@ -55,11 +64,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
             id="company"
             name="company"
             defaultValue={transportation.company}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Type</span>
           </div>
@@ -68,11 +77,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
             id="type"
             name="type"
             defaultValue={transportation.type}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Price</span>
           </div>
@@ -81,16 +90,16 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
             id="price"
             name="price"
             defaultValue={transportation.price.toString()}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
         <div className="mt-2">
-          <h4 className="text-md font-semibold">Departure</h4>
+          <h4 className="font-semibold text-md">Departure</h4>
 
           <div className="flex flex-col gap-2">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label className="form-control w-full">
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Time</span>
                 </div>
@@ -99,11 +108,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="departureTime"
                   name="departureTime"
                   defaultValue={new Date(transportation.departure.time).toISOString().slice(0, 16)}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Place</span>
                 </div>
@@ -112,13 +121,13 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="departurePlace"
                   name="departurePlace"
                   defaultValue={transportation.departure.place}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label className="form-control w-full">
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">City</span>
                 </div>
@@ -127,11 +136,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="departureCity"
                   name="departureCity"
                   defaultValue={transportation.departure.location.city}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">State</span>
                 </div>
@@ -140,11 +149,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="departureState"
                   name="departureState"
                   defaultValue={transportation.departure.location.state}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Country</span>
                 </div>
@@ -153,7 +162,7 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="departureCountry"
                   name="departureCountry"
                   defaultValue={transportation.departure.location.country}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
             </div>
@@ -161,11 +170,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
         </div>
 
         <div className="mt-2">
-          <h4 className="text-md font-semibold">Arrival</h4>
+          <h4 className="font-semibold text-md">Arrival</h4>
 
           <div className="flex flex-col gap-2">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label className="form-control w-full">
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Time</span>
                 </div>
@@ -174,11 +183,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="arrivalTime"
                   name="arrivalTime"
                   defaultValue={new Date(transportation.arrival.time).toISOString().slice(0, 16)}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Place</span>
                 </div>
@@ -187,13 +196,13 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="arrivalPlace"
                   name="arrivalPlace"
                   defaultValue={transportation.arrival.place}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2">
-              <label className="form-control w-full">
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">City</span>
                 </div>
@@ -202,11 +211,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="arrivalCity"
                   name="arrivalCity"
                   defaultValue={transportation.arrival.location.city}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">State</span>
                 </div>
@@ -215,11 +224,11 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="arrivalState"
                   name="arrivalState"
                   defaultValue={transportation.arrival.location.state}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
 
-              <label className="form-control w-full">
+              <label className="w-full form-control">
                 <div className="label">
                   <span className="label-text">Country</span>
                 </div>
@@ -228,7 +237,7 @@ const UpdateTransportationPage = async ({ params }: { params: { id: string } }) 
                   id="arrivalCountry"
                   name="arrivalCountry"
                   defaultValue={transportation.arrival.location.country}
-                  className="input input-bordered w-full"
+                  className="w-full input input-bordered"
                 />
               </label>
             </div>
