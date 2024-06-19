@@ -8,16 +8,25 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap --config next-sitemap.config.mjs",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.3",
+    "@react-oauth/google": "^0.12.1",
+    "cookies-next": "^4.2.1",
+    "dotenv": "^16.4.5",
+    "google-map-react": "^2.2.1",
     "next": "14.2.3",
     "next-pwa": "^5.6.0",
     "next-sitemap": "^4.2.3",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "sharp": "^0.33.4",
+    "stripe": "^15.11.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
