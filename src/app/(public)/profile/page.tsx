@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 const fetchProfile = async (): Promise<BaseResponse<User>> => {
   const loginInfo = cookies().get('loginInfo');
 
-  const token = JSON.parse(loginInfo?.value || '');
+  const { token } = JSON.parse(loginInfo?.value || '');
 
   const response = await fetch(`${API_URL}/users/me`, {
     headers: {
@@ -66,12 +66,14 @@ export default async function ProfilePage() {
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Phone Number :</h1>
-            <p className="font-semibold text-gray-500">{profile.data?.profile.phoneNumber}</p>
+            <p className="font-semibold text-gray-500">
+              {profile.data?.profile.phoneNumber || 'Update your phone number'}
+            </p>
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Birthdate :</h1>
             <p className="font-semibold text-gray-500">
-              {new Date(profile.data?.profile.dateOfBirth || '').toDateString()}
+              {profile.data?.profile.dateOfBirth?.toString() || 'Update your birthdate'}
             </p>
           </div>
           <div>

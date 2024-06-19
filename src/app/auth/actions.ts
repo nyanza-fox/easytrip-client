@@ -99,7 +99,7 @@ export const updateProfile = async (formData: FormData) => {
 
   const loginInfo = cookies().get('loginInfo');
 
-  const token = JSON.parse(loginInfo?.value || '');
+  const { token } = JSON.parse(loginInfo?.value || '');
   // console.log(token);
 
   const response = await fetch(`${API_URL}/users/me`, {

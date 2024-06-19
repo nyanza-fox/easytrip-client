@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 const fetchProfile = async (): Promise<BaseResponse<User>> => {
   const loginInfo = cookies().get('loginInfo');
 
-  const token = JSON.parse(loginInfo?.value || '');
+  const { token } = JSON.parse(loginInfo?.value || '');
 
   const response = await fetch(`${API_URL}/users/me`, {
     headers: {
