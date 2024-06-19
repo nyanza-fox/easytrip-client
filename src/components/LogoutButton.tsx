@@ -1,4 +1,4 @@
-import { logout } from '@/app/auth/actions';
+import { logout } from '@/app/(pages)/auth/actions';
 
 const LogoutButton = () => {
   return (
