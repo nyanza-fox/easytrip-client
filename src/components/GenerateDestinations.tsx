@@ -47,8 +47,8 @@ const GenerateDestinations = () => {
 
   return (
     <>
-      <form className="flex gap-2" onSubmit={onGenerateDestinations}>
-        <label className="flex items-center gap-2 input input-bordered w-72 md:w-full">
+      <form className="flex flex-col sm:flex-row gap-2" onSubmit={onGenerateDestinations}>
+        <label className="flex items-center gap-2 input input-bordered w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

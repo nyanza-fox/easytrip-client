@@ -2,8 +2,6 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 
-import { API_URL } from '@/constants/url';
-
 import type { BaseResponse } from '@/types/response';
 
 const CMSDeleteAction = ({ endpoint }: { endpoint: string }) => {
@@ -11,7 +9,7 @@ const CMSDeleteAction = ({ endpoint }: { endpoint: string }) => {
   const router = useRouter();
 
   const onDelete = async () => {
-    const response = await fetch(API_URL + endpoint, {
+    const response = await fetch(`/api/cms/${endpoint}`, {
       method: 'DELETE',
     });
 

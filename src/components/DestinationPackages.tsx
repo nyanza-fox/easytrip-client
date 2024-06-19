@@ -93,7 +93,7 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
               Select Departure Location
             </option>
             <option value="Banten">Banten</option>
-            <option value="DKI Jakarta">Jawa Tengah</option>
+            <option value="Jawa Barat">Jawa Barat</option>
           </select>
         </label>
 

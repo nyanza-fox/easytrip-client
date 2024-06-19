@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import Image from 'next/image';
 
 import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import { numberToRupiah } from '@/utils/currency';
+import CMSDetailAction from '@/components/CMSDetailAction';
 import CMSPagination from '@/components/CMSPagination';
 
 import type { Order } from '@/types/order';
@@ -53,7 +55,7 @@ const OrdersPage = async ({
         <table className="table table-sm">
           <thead>
             <tr>
-              <th>User</th>
+              <th>User Email</th>
               <th>Package Type</th>
               <th>Total Price</th>
               <th>Status</th>
@@ -66,23 +68,259 @@ const OrdersPage = async ({
                 <td>{order.user.email}</td>
                 <td>{order.package.type}</td>
                 <td>{numberToRupiah(order.package.totalPrice)}</td>
-                <td>{order.status}</td>
+                <td>
+                  <div
+                    className={`badge badge-outline font-semibold ${
+                      order.status === 'pending'
+                        ? 'badge-warning'
+                        : order.status === 'completed'
+                        ? 'badge-success'
+                        : 'badge-error'
+                    }`}
+                  >
+                    {order.status}
+                  </div>
+                </td>
                 <td className="flex gap-1">
-                  <button className="btn btn-accent">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="size-5"
-                    >
-                      <path d="M8 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" />
-                      <path
-                        fillRule="evenodd"
-                        d="M4.5 2A1.5 1.5 0 0 0 3 3.5v13A1.5 1.5 0 0 0 4.5 18h11a1.5 1.5 0 0 0 1.5-1.5V7.621a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122A1.5 1.5 0 0 0 11.378 2H4.5Zm5 5a3 3 0 1 0 1.524 5.585l1.196 1.195a.75.75 0 1 0 1.06-1.06l-1.195-1.196A3 3 0 0 0 9.5 7Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
+                  <CMSDetailAction>
+                    <h2 className="font-bold text-lg capitalize">{order.package.type} Pack</h2>
+
+                    <div className="divider my-2" />
+
+                    <div className="flex flex-col gap-4">
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h4 className="text-lg font-bold">Order Details</h4>
+                        <div>
+                          <h5 className="text-md font-semibold">Order ID:</h5>
+                          <p>{order._id}</p>
+                        </div>
+                        <div>
+                          <h5 className="text-md font-semibold">Status:</h5>
+                          <div
+                            className={`badge font-bold badge-outline ${
+                              order.status === 'pending'
+                                ? 'badge-warning'
+                                : order.status === 'completed'
+                                ? 'badge-success'
+                                : 'badge-error'
+                            }`}
+                          >
+                            {order.status}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h4 className="text-lg font-bold">Destination</h4>
+                        {!!order.package.destination?.images.length && (
+                          <div className="flex gap-2 overflow-x-auto py-2">
+                            {order.package.destination?.images.map((image, idx) => (
+                              <figure
+                                key={idx}
+                                className="relative min-w-32 h-32 overflow-hidden rounded-xl"
+                              >
+                                <Image
+                                  src={image}
+                                  alt={`${order.package.destination?.name}-${idx}`}
+                                  sizes="100%"
+                                  fill
+                                  priority
+                                  className="object-cover"
+                                />
+                              </figure>
+                            ))}
+                          </div>
+                        )}
+                        <div>
+                          <h5 className="text-md font-semibold">Name:</h5>
+                          <p>{order.package.destination?.name}</p>
+                        </div>
+                        <div>
+                          <h5 className="text-md font-semibold">Location:</h5>
+                          <p>
+                            {order.package.destination?.location.city},{' '}
+                            {order.package.destination?.location.country}
+                          </p>
+                        </div>
+                        <div>
+                          <h5 className="text-md font-semibold">Price:</h5>
+                          <p>{numberToRupiah(order.package.destination?.price || 0)}</p>
+                        </div>
+                      </div>
+
+                      {!!order.package.transportations?.length ? (
+                        <>
+                          {order.package.transportations.map((transportation, idx) => (
+                            <article
+                              key={idx}
+                              className="border-2 p-4 rounded-xl flex flex-col gap-2"
+                            >
+                              <h2 className="text-lg font-bold">Transportation #{idx + 1}</h2>
+                              <div>
+                                <h5 className="text-md font-semibold">Type:</h5>
+                                <p>{transportation?.type || '-'}</p>
+                              </div>
+                              <div>
+                                <h5 className="text-md font-semibold">Company:</h5>
+                                <p>{transportation?.company || '-'}</p>
+                              </div>
+                              <div>
+                                <h5 className="text-md font-semibold">Departure:</h5>
+                                <p>{transportation?.departure.place || '-'}</p>
+                              </div>
+                              <div>
+                                <h5 className="text-md font-semibold">Arrival:</h5>
+                                <p>{transportation?.arrival.place || '-'}</p>
+                              </div>
+                              <div>
+                                <h5 className="text-md font-semibold">Price:</h5>
+                                <p>
+                                  {numberToRupiah(transportation?.price || 0)} x{' '}
+                                  {order.package.totalGuests} guest(s) ={' '}
+                                  {numberToRupiah(
+                                    (transportation?.price || 0) * order.package.totalGuests
+                                  )}
+                                </p>
+                              </div>
+                            </article>
+                          ))}
+                        </>
+                      ) : (
+                        <p>-</p>
+                      )}
+
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h3 className="text-lg font-bold">Accommodation</h3>
+                        {!!order.package.accommodation?.images.length && (
+                          <div className="flex gap-2 overflow-x-auto py-2">
+                            {order.package.accommodation.images.map((image, idx) => (
+                              <figure
+                                key={idx}
+                                className="relative min-w-32 h-32 overflow-hidden rounded-xl"
+                              >
+                                <Image
+                                  src={image}
+                                  alt={`${order.package.accommodation?.name}-${idx}`}
+                                  sizes="100%"
+                                  fill
+                                  priority
+                                  className="object-cover"
+                                />
+                              </figure>
+                            ))}
+                          </div>
+                        )}
+                        <div>
+                          <h4 className="text-md font-semibold">Name:</h4>
+                          <p>{order.package.accommodation?.name || '-'}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Location:</h4>
+                          <p>
+                            {order.package.accommodation?.location.city},{' '}
+                            {order.package.accommodation?.location.country}
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Price:</h4>
+                          <p>
+                            {numberToRupiah(order.package.accommodation?.pricePerNight || 0)} x{' '}
+                            {order.package.totalDays} night(s) ={' '}
+                            {numberToRupiah(
+                              (order.package.accommodation?.pricePerNight || 0) *
+                                order.package.totalDays
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h4 className="text-lg font-bold">Guide</h4>
+                        {order.package.guide?.image && (
+                          <figure className="relative w-32 h-32 overflow-hidden rounded-xl">
+                            <Image
+                              src={order.package.guide?.image}
+                              alt={order.package.guide?.name}
+                              sizes="100%"
+                              fill
+                              priority
+                              className="object-cover"
+                            />
+                          </figure>
+                        )}
+                        <div>
+                          <h4 className="text-md font-semibold">Name:</h4>
+                          <p>{order.package.guide?.name || '-'}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Language:</h4>
+                          <p>{order.package.guide?.languages.join(', ') || '-'}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Location:</h4>
+                          <p>
+                            {order.package.guide?.location.city || '-'},{' '}
+                            {order.package.guide?.location.country || '-'}
+                          </p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Price:</h4>
+                          <p>
+                            {numberToRupiah(order.package.guide?.pricePerDay || 0)} x{' '}
+                            {order.package.totalDays} day(s) ={' '}
+                            {numberToRupiah(
+                              (order.package.guide?.pricePerDay || 0) * order.package.totalDays
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h4 className="text-lg font-bold">Summary</h4>
+                        <div>
+                          <h4 className="text-md font-semibold">Total Guests:</h4>
+                          <p>{order.package.totalGuests}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Total Days:</h4>
+                          <p>{order.package.totalDays}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-md font-semibold">Total Price:</h4>
+                          <p>{numberToRupiah(order.package.totalPrice)}</p>
+                        </div>
+                      </div>
+
+                      <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
+                        <h4 className="text-lg font-bold">Itinerary Suggestion</h4>
+                        {!!order.itinerary.length ? (
+                          <>
+                            {order.itinerary.map((item, idx) => (
+                              <div key={idx}>
+                                <h5 className="text-md font-semibold">
+                                  {new Date(item.date).toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                  })}
+                                </h5>
+                                <ul className="list-disc list-inside">
+                                  {item.activities.map((activity, idx) => (
+                                    <li key={idx}>
+                                      {activity.time} - {activity.name}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <p>-</p>
+                        )}
+                      </div>
+                    </div>
+                  </CMSDetailAction>
                 </td>
               </tr>
             ))}
