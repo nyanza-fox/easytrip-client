@@ -14,7 +14,7 @@ const OrderCancelPage = () => {
     if (!sessionId) return;
 
     (async () => {
-      const response = await fetch(`api/orders/${sessionId}/status`, {
+      await fetch(`/api/orders/${sessionId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -22,11 +22,7 @@ const OrderCancelPage = () => {
         body: JSON.stringify({ status: 'cancelled' }),
       });
 
-      // if (!response.ok) {
-      //   const data = await response.json();
-      //   const message = data.message || 'Failed to cancel the order';
-      //   toast.error(message);
-      // }
+      toast.success('Order cancelled successfully');
 
       router.replace('/orders');
       router.refresh();
@@ -34,9 +30,9 @@ const OrderCancelPage = () => {
   }, [sessionId, router]);
 
   return (
-    <div className="m-8">
-      <h1>Order Cancelled</h1>
-    </div>
+    <section className="flex items-center justify-center min-h-screen">
+      <h1 className="text-2xl font-bold">Cancelling order...</h1>
+    </section>
   );
 };
 

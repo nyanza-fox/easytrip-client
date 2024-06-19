@@ -13,12 +13,7 @@ export const registerSchema = z.object({
     lastName: z.string().optional(),
     image: z.string().url({ message: 'Invalid image URL' }).optional(),
     dateOfBirth: z.date().max(new Date(), { message: 'Invalid date of birth' }).optional(),
-    phoneNumber: z
-      .string()
-      .regex(/^\+?[0-9]+$/, { message: 'Invalid phone number' })
-      .min(10, { message: 'Phone number must be at least 10 characters' })
-      .max(13, { message: 'Phone number must be at most 13 characters' })
-      .optional(),
+    phoneNumber: z.string().optional(),
   }),
 });
 
@@ -29,10 +24,15 @@ export const accommodationSchema = z.object({
     .number()
     .min(1, { message: 'Rating must be between 1 and 5' })
     .max(5, { message: 'Rating must be between 1 and 5' }),
-  images: z.array(z.string().url({ message: 'Invalid image URL' })).nonempty({ message: 'Images is required' }),
+  images: z
+    .array(z.string().url({ message: 'Invalid image URL' }))
+    .nonempty({ message: 'Images is required' }),
   facilities: z.array(z.string()).nonempty({ message: 'Facilities is required' }),
   maxGuests: z.number().int().positive({ message: 'Max guests must be a positive integer' }),
-  pricePerNight: z.number().int().positive({ message: 'Price per night must be a positive integer' }),
+  pricePerNight: z
+    .number()
+    .int()
+    .positive({ message: 'Price per night must be a positive integer' }),
   location: z.object({
     address: z.string().optional(),
     city: z.string().min(1, { message: 'City is required' }),
@@ -57,7 +57,9 @@ export const accommodationSchema = z.object({
 export const destinationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   description: z.string().min(1, { message: 'Description is required' }),
-  images: z.array(z.string().url({ message: 'Invalid image URL' })).nonempty({ message: 'Images is required' }),
+  images: z
+    .array(z.string().url({ message: 'Invalid image URL' }))
+    .nonempty({ message: 'Images is required' }),
   attractions: z.array(z.string()).nonempty({ message: 'Attractions is required' }),
   price: z.number().int().positive({ message: 'Price must be a positive integer' }),
   location: z.object({
@@ -123,7 +125,7 @@ export const profileSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
   lastName: z.string().optional(),
   image: z.string().url({ message: 'Invalid image URL' }).optional(),
-  dateOfBirth: z.string().optional(),
+  dateOfBirth: z.date().max(new Date(), { message: 'Invalid date of birth' }).optional(),
   phoneNumber: z
     .string()
     .regex(/^\+?[0-9]+$/, { message: 'Invalid phone number' })

@@ -45,10 +45,13 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
               <div
                 className={`navbar-start ${
                   loginInfo && loginInfo.value.length && 'justify-center'
-                } gap-3 lg:justify-start`}
+                } lg:justify-start`}
               >
-                <Image src="/easytrip-logo-blue.png" alt="EasyTrip" width={30} height={30} />
-                <h2 className="text-xl font-bold text-primary">EasyTrip</h2>
+                <Link href="/" className="flex gap-3 items-center">
+                  <Image src="/easytrip-logo-blue.png" alt="EasyTrip" width={30} height={30} />
+
+                  <h2 className="text-xl font-bold text-primary">EasyTrip</h2>
+                </Link>
               </div>
 
               <div className="hidden navbar-center lg:flex">
@@ -108,7 +111,7 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
                         alt="User Image"
                         width={80}
                         height={80}
-                        className="rounded-full border-2 border-neutral"
+                        className="rounded-full border-2 border-primary"
                       />
                     </div>
                     <ul

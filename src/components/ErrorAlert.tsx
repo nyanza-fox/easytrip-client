@@ -1,8 +1,9 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-const ErrorAlert = () => {
+const Alert = () => {
   const searchParams = useSearchParams();
 
   const error = searchParams.get('error');
@@ -28,6 +29,14 @@ const ErrorAlert = () => {
       </svg>
       <span>{error}</span>
     </div>
+  );
+};
+
+const ErrorAlert = () => {
+  return (
+    <Suspense>
+      <Alert />
+    </Suspense>
   );
 };
 

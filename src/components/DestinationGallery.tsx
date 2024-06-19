@@ -1,20 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState } from 'react';
+import Image from 'next/image';
 
-const DestinationGallery = ({
-  name,
-  images,
-}: {
-  name: string;
-  images: string[];
-}) => {
+const DestinationGallery = ({ name, images }: { name: string; images: string[] }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
-    <article className="flex flex-col items-center gap-2 min-w-96 p-5">
-      <figure className="relative w-full overflow-hidden h-60 md:h-72 rounded-xl">
+    <article className="flex flex-col items-center gap-2 min-w-96">
+      <figure className="relative w-full overflow-hidden h-96 md:h-72 rounded-xl">
         <Image
           src={images[selectedIndex]}
           alt={`${name}-${selectedIndex}`}
@@ -29,7 +23,7 @@ const DestinationGallery = ({
           <figure
             key={index}
             className={`relative w-16 h-16 overflow-hidden border rounded-xl cursor-pointer ${
-              selectedIndex === index ? "border-primary border-4" : ""
+              selectedIndex === index ? 'border-primary border-4' : ''
             }`}
           >
             <Image

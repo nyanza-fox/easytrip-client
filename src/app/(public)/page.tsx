@@ -31,7 +31,7 @@ const HomePage = async ({
     <>
       <Banner />
 
-      <section className="flex flex-col max-w-screen-xl gap-4 px-4 py-8 mx-auto">
+      <section className="flex flex-col max-w-screen-xl gap-4 px-4 py-6 mx-auto">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Popular Place</h1>
@@ -48,7 +48,7 @@ const HomePage = async ({
         </div>
       </section>
 
-      <section className="flex flex-col max-w-screen-xl gap-6 px-4 py-8 mx-auto">
+      <section className="flex flex-col max-w-screen-xl gap-6 px-4 py-6 mx-auto">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold text-center">Travel to make sweet memories</h1>
           <p className="text-slate-500">Find trips that fit a flexible lifestyle</p>
@@ -92,7 +92,7 @@ const HomePage = async ({
         </div>
       </section>
 
-      <section className="flex flex-col max-w-screen-xl gap-6 px-4 py-8 mx-auto">
+      <section className="flex flex-col max-w-screen-xl gap-6 px-4 py-6 mx-auto">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl font-bold">Let&apos;s go on an adventure</h1>
           <p className="text-slate-500">Find and book unique travel experiences</p>

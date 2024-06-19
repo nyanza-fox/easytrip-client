@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
-import { API_URL } from '@/constants/url';
 import PackageCard from '@/components/PackageCard';
 
 import type { Itinerary, Package } from '@/types/order';
@@ -21,7 +21,7 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
     departureState: '',
     totalGuests: 0,
     startDate: new Date(),
-    endDate: new Date(),
+    endDate: new Date(new Date().setDate(new Date().getDate() + 1)),
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
     try {
       setIsLoading(true);
 
-      const packagesResponse = await fetch(`${API_URL}/destinations/${destinationId}/packages`, {
+      const packagesResponse = await fetch(`/api/destinations/${destinationId}/packages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
 
       setPackages(packagesData.data || []);
 
-      const itineraryResponse = await fetch(`${API_URL}/destinations/${destinationId}/itinerary`, {
+      const itineraryResponse = await fetch(`/api/destinations/${destinationId}/itinerary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,6 +68,7 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
       }
 
       setItinerary(itineraryData.data || []);
+      toast.success('Packages generated successfully');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Something went wrong');
     } finally {
@@ -76,55 +77,76 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
   };
 
   return (
-    <section className="flex flex-col gap-4">
-      <div>
-        <h2 className="text-xl font-bold">Generate Trip Packages</h2>
-        <p className="text-gray-500">Fill the form below to generate available trip packages</p>
-      </div>
+    <>
+      <form className="flex flex-col md:items-end md:flex-row gap-2" onSubmit={onGeneratePackages}>
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Departure</span>
+          </div>
+          <select
+            className="select select-bordered w-full"
+            value={form.departureState}
+            onChange={(e) => setForm({ ...form, departureState: e.target.value })}
+            required
+          >
+            <option value="" disabled>
+              Select Departure Location
+            </option>
+            <option value="Banten">Banten</option>
+            <option value="DKI Jakarta">Jawa Tengah</option>
+          </select>
+        </label>
 
-      <form className="flex flex-col md:flex-row gap-2" onSubmit={onGeneratePackages}>
-        <select
-          className="select select-bordered w-full"
-          value={form.departureState}
-          onChange={(e) => setForm({ ...form, departureState: e.target.value })}
-          required
-        >
-          <option value="" disabled>
-            Select Departure Location
-          </option>
-          <option value="Banten">Banten</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Total Guests"
-          className="input input-bordered w-full"
-          value={form.totalGuests === 0 ? '' : form.totalGuests.toString()}
-          onChange={(e) => setForm({ ...form, totalGuests: parseInt(e.target.value) })}
-          required
-        />
-        <input
-          type="date"
-          placeholder="Start Date"
-          className="input input-bordered w-full"
-          value={form.startDate.toISOString().split('T')[0]}
-          onChange={(e) => setForm({ ...form, startDate: new Date(e.target.value) })}
-          required
-        />
-        <input
-          type="date"
-          placeholder="End Date"
-          className="input input-bordered w-full"
-          value={form.endDate.toISOString().split('T')[0]}
-          onChange={(e) => setForm({ ...form, endDate: new Date(e.target.value) })}
-          required
-        />
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Total Guests</span>
+          </div>
+          <input
+            type="number"
+            className="input input-bordered w-full"
+            value={form.totalGuests === 0 ? '' : form.totalGuests.toString()}
+            onChange={(e) => setForm({ ...form, totalGuests: parseInt(e.target.value) })}
+            required
+          />
+        </label>
+
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">Start Date</span>
+          </div>
+          <input
+            type="date"
+            placeholder="Start Date"
+            className="input input-bordered w-full"
+            min={new Date().toISOString().split('T')[0]}
+            value={form.startDate.toISOString().split('T')[0]}
+            onChange={(e) => setForm({ ...form, startDate: new Date(e.target.value) })}
+            required
+          />
+        </label>
+
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text">End Date</span>
+          </div>
+          <input
+            type="date"
+            placeholder="End Date"
+            className="input input-bordered w-full"
+            min={new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0]}
+            value={form.endDate.toISOString().split('T')[0]}
+            onChange={(e) => setForm({ ...form, endDate: new Date(e.target.value) })}
+            required
+          />
+        </label>
+
         {isLoading ? (
-          <button type="submit" className="btn btn-primary" disabled>
+          <button type="submit" className="btn btn-primary mt-2 md:mt-0" disabled>
             <div className="loading loading-spinner" />
             Generating
           </button>
         ) : (
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary mt-2 md:mt-0">
             Generate
           </button>
         )}
@@ -137,11 +159,18 @@ const DestinationPackages = ({ destinationId }: { destinationId: string }) => {
           ))}
         </div>
       ) : (
-        <div className="min-h-[30rem] bg-blue-50 flex justify-center items-center text-center text-balance text-gray-500">
-          Your generated trip packages will appear here.
+        <div className="min-h-[30rem] bg-slate-100 flex flex-col gap-4 items-center justify-center text-center rounded-xl p-4">
+          <Image
+            src="/easytrip-logo-blue.png"
+            width={100}
+            height={100}
+            alt="Logo"
+            className="animate-bounce"
+          />
+          <p className="font-semibold">Your package recommendations will appear here.</p>
         </div>
       )}
-    </section>
+    </>
   );
 };
 

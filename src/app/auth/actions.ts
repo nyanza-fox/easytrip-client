@@ -16,7 +16,7 @@ export const register = async (formData: FormData) => {
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
       image: formData.get('image'),
-      dateOfBirth: formData.get('dateOfBirth'),
+      dateOfBirth: new Date(formData.get('dateOfBirth')?.toString() || ''),
       phoneNumber: formData.get('phoneNumber'),
     },
   });
@@ -40,7 +40,7 @@ export const register = async (formData: FormData) => {
     return redirect(`/auth/sign-up?error=${encodeURIComponent(message)}`);
   }
 
-  redirect('/sign-in');
+  redirect('/auth/sign-in');
 };
 
 export const login = async (formData: FormData) => {
@@ -91,7 +91,7 @@ export const updateProfile = async (formData: FormData) => {
     firstName: formData.get('firstName'),
     lastName: formData.get('lastName'),
     image: formData.get('image'),
-    dateOfBirth: formData.get('dateOfBirth'),
+    dateOfBirth: new Date(formData.get('dateOfBirth')?.toString() || ''),
     phoneNumber: formData.get('phoneNumber'),
   });
 
@@ -101,9 +101,7 @@ export const updateProfile = async (formData: FormData) => {
   }
 
   const loginInfo = cookies().get('loginInfo');
-
-  const { token } = JSON.parse(loginInfo?.value || '');
-  // console.log(token);
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
 
   const response = await fetch(`${API_URL}/users/me`, {
     method: 'PUT',
@@ -113,8 +111,6 @@ export const updateProfile = async (formData: FormData) => {
     },
     body: JSON.stringify(validation.data),
   });
-
-  console.log(response);
 
   if (!response.ok) {
     const data: BaseResponse<unknown> = await response.json();
