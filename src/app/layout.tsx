@@ -13,6 +13,8 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: { default: APP_NAME, template: `%s | ${APP_NAME}` },
   description: APP_DESCRIPTION,
+  robots: { index: true, follow: true },
+  manifest: '/manifest.json',
   metadataBase: new URL(APP_URL),
   openGraph: {
     title: APP_NAME,
