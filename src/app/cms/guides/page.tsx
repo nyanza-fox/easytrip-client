@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,8 +28,14 @@ const fetchGuides = async (
   page: number = 1,
   limit: number = 10
 ): Promise<BaseResponse<Guide[]>> => {
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
   const response = await fetch(`${API_URL}/guides?page=${page}&limit=${limit}`, {
     cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   const data = await response.json();
 
@@ -74,7 +81,7 @@ const GuidesPage = async ({
                   <CMSDetailAction>
                     <div className="flex flex-col gap-4">
                       <h2 className="text-xl font-bold">{guide.name}</h2>
-                      <figure className="relative w-full h-80 overflow-hidden rounded-xl">
+                      <figure className="relative w-full overflow-hidden h-80 rounded-xl">
                         <Image
                           src={guide.image}
                           alt={guide.name}

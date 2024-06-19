@@ -8,6 +8,7 @@ import { API_URL } from '@/constants/url';
 import ErrorAlert from '@/components/ErrorAlert';
 
 import type { Guide } from '@/types/guide';
+import { cookies } from 'next/headers';
 
 export const generateMetadata = async ({
   params,
@@ -25,7 +26,15 @@ export const generateMetadata = async ({
 });
 
 const fetchGuide = async (id: string): Promise<Guide> => {
-  const response = await fetch(`${API_URL}/guides/${id}`, { cache: 'no-store' });
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
+  const response = await fetch(`${API_URL}/guides/${id}`, {
+    cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -46,7 +55,7 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
       <ErrorAlert />
 
       <form action={updateGuide.bind(null, params.id)} className="flex flex-col gap-2">
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Name</span>
           </div>
@@ -55,11 +64,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
             id="name"
             name="name"
             defaultValue={guide.name}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Languages</span>
           </div>
@@ -68,14 +77,14 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
             id="languages"
             name="languages"
             defaultValue={guide.languages.join(', ')}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
-          <div className="label pb-0">
-            <span className="label-text-alt text-gray-500">If multiple, separate with comma.</span>
+          <div className="pb-0 label">
+            <span className="text-gray-500 label-text-alt">If multiple, separate with comma.</span>
           </div>
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Rating</span>
           </div>
@@ -84,11 +93,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
             id="rating"
             name="rating"
             defaultValue={guide.rating}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Image URL</span>
           </div>
@@ -97,11 +106,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
             id="image"
             name="image"
             defaultValue={guide.image}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Price Per Day</span>
           </div>
@@ -110,12 +119,12 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
             id="pricePerDay"
             name="pricePerDay"
             defaultValue={guide.pricePerDay}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
         <div className="flex gap-2">
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">City</span>
             </div>
@@ -124,11 +133,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="city"
               name="city"
               defaultValue={guide.location.city}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">State</span>
             </div>
@@ -137,11 +146,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="state"
               name="state"
               defaultValue={guide.location.state}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Country</span>
             </div>
@@ -150,13 +159,13 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="country"
               name="country"
               defaultValue={guide.location.country}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>
 
         <div className="flex gap-2">
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Email</span>
             </div>
@@ -165,11 +174,11 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="email"
               name="email"
               defaultValue={guide.contact.email}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Phone Number</span>
             </div>
@@ -178,7 +187,7 @@ const UpdateGuidePage = async ({ params }: { params: { id: string } }) => {
               id="phoneNumber"
               name="phoneNumber"
               defaultValue={guide.contact.phoneNumber}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>

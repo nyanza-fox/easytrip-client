@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
@@ -25,7 +26,15 @@ export const generateMetadata = async ({
 });
 
 const fetchAccommodation = async (id: string): Promise<Accommodation> => {
-  const response = await fetch(`${API_URL}/accommodations/${id}`, { cache: 'no-store' });
+  const loginInfo = cookies().get('loginInfo');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
+
+  const response = await fetch(`${API_URL}/accommodations/${id}`, {
+    cache: 'no-store',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await response.json();
 
   if (!response.ok) {
@@ -46,7 +55,7 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
       <ErrorAlert />
 
       <form action={updateAccommodation.bind(null, params.id)} className="flex flex-col gap-2">
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Name</span>
           </div>
@@ -55,12 +64,12 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="name"
             name="name"
             defaultValue={accommodation.name}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <label className="form-control w-full">
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Type</span>
             </div>
@@ -69,11 +78,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="type"
               name="type"
               defaultValue={accommodation.type}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Rating</span>
             </div>
@@ -82,12 +91,12 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="rating"
               name="rating"
               defaultValue={accommodation.rating}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Image URL</span>
           </div>
@@ -96,14 +105,14 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="images"
             name="images"
             defaultValue={accommodation.images.join(', ')}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
-          <div className="label pb-0">
-            <span className="label-text-alt text-gray-500">If multiple, separate with comma.</span>
+          <div className="pb-0 label">
+            <span className="text-gray-500 label-text-alt">If multiple, separate with comma.</span>
           </div>
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Facilities</span>
           </div>
@@ -112,14 +121,14 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="facilities"
             name="facilities"
             defaultValue={accommodation.facilities.join(', ')}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
-          <div className="label pb-0">
-            <span className="label-text-alt text-gray-500">If multiple, separate with comma.</span>
+          <div className="pb-0 label">
+            <span className="text-gray-500 label-text-alt">If multiple, separate with comma.</span>
           </div>
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Max Guests</span>
           </div>
@@ -128,11 +137,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="maxGuests"
             name="maxGuests"
             defaultValue={accommodation.maxGuests}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Price Per Night</span>
           </div>
@@ -141,11 +150,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="pricePerNight"
             name="pricePerNight"
             defaultValue={accommodation.pricePerNight}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <label className="form-control w-full">
+        <label className="w-full form-control">
           <div className="label">
             <span className="label-text">Address</span>
           </div>
@@ -154,12 +163,12 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
             id="address"
             name="address"
             defaultValue={accommodation.location.address}
-            className="input input-bordered w-full"
+            className="w-full input input-bordered"
           />
         </label>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <label className="form-control w-full">
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">City</span>
             </div>
@@ -168,11 +177,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="city"
               name="city"
               defaultValue={accommodation.location.city}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">State</span>
             </div>
@@ -181,13 +190,13 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="state"
               name="state"
               defaultValue={accommodation.location.state}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <label className="form-control w-full">
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Country</span>
             </div>
@@ -196,11 +205,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="country"
               name="country"
               defaultValue={accommodation.location.country}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Zip Code</span>
             </div>
@@ -209,13 +218,13 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="zipCode"
               name="zipCode"
               defaultValue={accommodation.location.zipCode}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <label className="form-control w-full">
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Email</span>
             </div>
@@ -224,11 +233,11 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="email"
               name="email"
               defaultValue={accommodation.contact.email}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
 
-          <label className="form-control w-full">
+          <label className="w-full form-control">
             <div className="label">
               <span className="label-text">Phone Number</span>
             </div>
@@ -237,7 +246,7 @@ const UpdateAccommodationPage = async ({ params }: { params: { id: string } }) =
               id="phoneNumber"
               name="phoneNumber"
               defaultValue={accommodation.contact.phoneNumber}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </label>
         </div>

@@ -53,6 +53,11 @@ const SignInPage = () => {
       <div className="divider">OR</div>
 
       <GoogleSignIn />
+
+      {/* FACEBOOK SIGN IN */}
+      <div className="btn btn-primary">
+        <a href="http://localhost:3001/api/auth/facebook">Sign in with Facebook</a>
+      </div>
     </section>
   );
 };

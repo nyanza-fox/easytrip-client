@@ -1,43 +1,41 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import toast from "react-hot-toast";
+import { useState } from 'react';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
 
-import { API_URL } from "@/constants/url";
+import { API_URL } from '@/constants/url';
 
-import type { Destination } from "@/types/destination";
-import type { BaseResponse } from "@/types/response";
+import type { Destination } from '@/types/destination';
+import type { BaseResponse } from '@/types/response';
 
 const GenerateDestinationsPage = () => {
-  const [form, setForm] = useState<{ prompt: string }>({ prompt: "" });
+  const [form, setForm] = useState<{ prompt: string }>({ prompt: '' });
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onGenerateDestinations = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const onGenerateDestinations = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       setIsLoading(true);
 
       const response = await fetch(`${API_URL}/destinations/generate`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(form),
       });
       const data: BaseResponse<Destination[]> = await response.json();
 
       if (!response.ok) {
-        const message = data.message || "Failed to generate destinations";
+        const message = data.message || 'Failed to generate destinations';
         throw new Error(message);
       }
 
       setDestinations(data.data || []);
-      toast.success(data.message || "Destinations generated successfully");
+      toast.success(data.message || 'Destinations generated successfully');
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -51,16 +49,11 @@ const GenerateDestinationsPage = () => {
     <section className="flex flex-col gap-4">
       <div className="p-7">
         <h2 className="text-xl font-bold">Generate Destinations</h2>
-        <p className="text-gray-500">
-          Generate available destinations based on your prompt.
-        </p>
+        <p className="text-gray-500">Generate available destinations based on your prompt.</p>
       </div>
 
-      <form
-        className="flex gap-2 px-2 md:px-7"
-        onSubmit={onGenerateDestinations}
-      >
-        <label className="input input-bordered flex items-center w-72 md:w-full gap-2">
+      <form className="flex gap-2 px-2 md:px-7" onSubmit={onGenerateDestinations}>
+        <label className="flex items-center gap-2 input input-bordered w-72 md:w-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -80,9 +73,7 @@ const GenerateDestinationsPage = () => {
             className="grow"
             placeholder="Enter your magic word"
             value={form.prompt}
-            onChange={(e) =>
-              setForm((prev) => ({ ...prev, prompt: e.target.value }))
-            }
+            onChange={(e) => setForm((prev) => ({ ...prev, prompt: e.target.value }))}
             required
           />
         </label>
@@ -99,21 +90,17 @@ const GenerateDestinationsPage = () => {
       </form>
 
       {!!destinations.length ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {destinations
             .filter((destination) => destination)
             .map((destination) => (
               <Link
                 key={destination._id}
                 href={`/destinations/${destination._id}`}
-                className="card card-compact bg-base-100 shadow-xl"
+                className="shadow-xl card card-compact bg-base-100"
               >
                 <picture className="px-2 pt-2">
-                  <img
-                    src={destination.images[0]}
-                    alt={destination.name}
-                    className="rounded-xl"
-                  />
+                  <img src={destination.images[0]} alt={destination.name} className="rounded-xl" />
                 </picture>
                 <div className="card-body">
                   <h2 className="card-title">{destination.name}</h2>

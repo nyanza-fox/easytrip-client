@@ -9,13 +9,7 @@ import type { BaseResponse } from '@/types/response';
 
 const fetchMyOrders = async (): Promise<Order[]> => {
   const loginInfo = cookies().get('loginInfo');
-
-  // if (!loginInfo) {
-  //   const message = 'Please sign in to view your orders.';
-  //   return redirect(`/auth/sign-in?error=${encodeURIComponent(message)}`);
-  // }
-
-  const { token } = loginInfo ? JSON.parse(loginInfo.value) : '';
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
 
   const response = await fetch(`${API_URL}/users/me/orders`, {
     headers: {
@@ -37,8 +31,8 @@ const OrdersPage = async () => {
   const orders = await fetchMyOrders();
 
   return (
-    <div className="m-8">
-      <h1 className="text-2xl font-bold mb-4">My Orders</h1>
+    <section className="max-w-screen-xl p-4 flex flex-col gap-4">
+      <h1 className="text-2xl font-bold">My Orders</h1>
 
       {!!orders.length ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -49,7 +43,7 @@ const OrdersPage = async () => {
       ) : (
         <p className="text-center">No orders found.</p>
       )}
-    </div>
+    </section>
   );
 };
 

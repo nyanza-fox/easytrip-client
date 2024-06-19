@@ -14,7 +14,8 @@ export const POST = async (req: NextRequest) => {
       token: body.token,
     },
   });
-  const data: BaseResponse<{ token: string; role: 'admin' | 'user' }> = await response.json();
+  const data: BaseResponse<{ token: string; role: 'admin' | 'user'; image?: string }> =
+    await response.json();
 
   if (!response.ok) {
     return NextResponse.json(data, { status: data.statusCode });

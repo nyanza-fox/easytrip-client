@@ -28,34 +28,32 @@ const DestinationPage = async ({
   );
 
   return (
-    <>
-      <section>
-        <div className="flex flex-col items-center pt-10 md:items-start md:px-10 lg:px-20">
-          <h1 className="sm:text-lg md:text-xl lg:text-2xl font-bold">Explore more</h1>
-          <p className="text-sm md:text-base lg:text-lg text-slate-500 ">
-            Let&apos;s go on an adventure
-          </p>
-        </div>
-        <div className="flex flex-row flex-wrap justify-center gap-4 p-5">
-          {destinations?.map((destination) => {
-            return <DestinationCard key={destination._id} destination={destination} />;
-          })}
-        </div>
-        <div className="join flex justify-center items-center">
-          {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
-            <Link
-              key={idx}
-              href={`/destinations?page=${idx + 1}`}
-              className={`join-item btn ${
-                searchParams?.page === String(idx + 1) ? 'btn-active' : ''
-              }`}
-            >
-              {idx + 1}
-            </Link>
-          ))}
-        </div>
-      </section>
-    </>
+    <section className="flex flex-col max-w-screen-xl gap-4 p-4 mx-auto">
+      <div className="flex flex-col">
+        <h1 className="text-2xl font-bold">Explore more</h1>
+        <p className="text-slate-500">Let&apos;s go on an adventure</p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {destinations?.map((destination) => (
+          <DestinationCard key={destination._id} destination={destination} />
+        ))}
+      </div>
+
+      <div className="mx-auto mt-4 join">
+        {[...Array(pagination?.totalPage || 0)].map((_, idx) => (
+          <Link
+            key={idx}
+            href={`/destinations?page=${idx + 1}`}
+            className={`join-item btn ${
+              +(searchParams?.page || 1) === idx + 1 ? 'btn-active' : ''
+            }`}
+          >
+            {idx + 1}
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 };
 

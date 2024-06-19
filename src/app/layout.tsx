@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import NextTopLoader from 'nextjs-toploader';
 
 import { APP_NAME, APP_DESCRIPTION, APP_URL } from '@/constants/meta';
 
@@ -48,13 +49,14 @@ export const metadata: Metadata = {
   generator: 'Next.js',
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ''}>
       <html lang="en" data-theme="light">
         <body className={inter.className}>
-          <main>{children}</main>
+          <NextTopLoader color="#008DDA" showSpinner={false} />
           <Toaster position="bottom-center" />
+          {children}
         </body>
       </html>
     </GoogleOAuthProvider>
