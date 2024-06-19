@@ -1,21 +1,32 @@
-import Link from "next/link";
+import { Metadata } from 'next';
+import Link from 'next/link';
+
+import { APP_NAME, APP_URL } from '@/constants/meta';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  alternates: {
+    canonical: '/contact',
+  },
+  openGraph: {
+    title: `Contact | ${APP_NAME}`,
+    url: `${APP_URL}/contact`,
+  },
+};
 
 const ContactPage = () => {
   return (
     <>
       <section className="flex flex-col justify-center text-center bg-primary h-60">
-        <h1 className="text-2xl lg:text-4xl font-semibold text-neutral">
-          Contact Us
-        </h1>
+        <h1 className="text-2xl lg:text-4xl font-semibold text-neutral">Contact Us</h1>
         <p className="text-sm lg:text-lg text-white py-3">
-          We would love to hear from you! Contact us for any inquiries or
-          feedback.
+          We would love to hear from you! Contact us for any inquiries or feedback.
         </p>
       </section>
 
       <section className="flex flex-row flex-wrap justify-center gap-5 p-10">
         <Link
-          href={"https://github.com/Hascine"}
+          href={'https://github.com/Hascine'}
           className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
@@ -30,7 +41,7 @@ const ContactPage = () => {
           </h1>
         </Link>
         <Link
-          href={"https://github.com/akmalhisyammm"}
+          href={'https://github.com/akmalhisyammm'}
           className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
@@ -45,7 +56,7 @@ const ContactPage = () => {
           </h1>
         </Link>
         <Link
-          href={"https://github.com/pristiwanakbars"}
+          href={'https://github.com/pristiwanakbars'}
           className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
@@ -60,7 +71,7 @@ const ContactPage = () => {
           </h1>
         </Link>
         <Link
-          href={"https://github.com/pbalqish"}
+          href={'https://github.com/pbalqish'}
           className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>
@@ -75,7 +86,7 @@ const ContactPage = () => {
           </h1>
         </Link>
         <Link
-          href={"https://github.com/simsonhutagaol"}
+          href={'https://github.com/simsonhutagaol'}
           className="flex flex-col items-center gap-5 w-48 md:w-72 lg:w-96 p-5 rounded-md shadow-xl bg-transparent hover:bg-sky-100"
         >
           <picture>

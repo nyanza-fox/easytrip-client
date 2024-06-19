@@ -1,86 +1,88 @@
-import { API_URL } from '@/constants/url';
-import { BaseResponse } from '@/types/response';
-import { User } from '@/types/user';
-import Link from 'next/link';
+import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { APP_NAME, APP_URL } from '@/constants/meta';
+import { API_URL } from '@/constants/url';
+
+import type { BaseResponse } from '@/types/response';
+import type { User } from '@/types/user';
+
+export const metadata: Metadata = {
+  title: 'Profile',
+  alternates: {
+    canonical: '/profile',
+  },
+  openGraph: {
+    title: `Profile | ${APP_NAME}`,
+    url: `${APP_URL}/profile`,
+  },
+};
 
 const fetchProfile = async (): Promise<BaseResponse<User>> => {
   const loginInfo = cookies().get('loginInfo');
-
-  const { token } = JSON.parse(loginInfo?.value || '');
+  const token = loginInfo ? JSON.parse(loginInfo.value).token : '';
 
   const response = await fetch(`${API_URL}/users/me`, {
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    cache: 'no-store',
   });
   const data: BaseResponse<User> = await response.json();
 
   return data;
 };
 
-export default async function ProfilePage() {
+const ProfilePage = async () => {
   const profile = await fetchProfile();
 
   return (
-    <div className="flex flex-col min-h-screen mt-5 lg:m-10">
-      <section className="flex mx-5 lg:mx-40">
-        <div className="flex gap-3 text-primary font-bold">
-          <p>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-              className="size-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
-          </p>
-          <p>Profile</p>
-        </div>
-      </section>
+    <section className="flex flex-col max-w-screen-xl gap-4 p-4 mx-auto">
+      <div className="flex flex-col">
+        <h1 className="text-2xl font-bold">My Profile</h1>
+        <p className="text-slate-500">Manage your profile information</p>
+      </div>
 
-      <section className="flex flex-col md:flex-row rounded-lg shadow-lg m-5 lg:mx-40 justify-center">
-        <div className="flex md:w-1/2">
-          <picture className="w-full md:h-96 m-auto">
-            <img
-              className="rounded-xl w-full h-72 md:h-96 object-cover"
-              src={profile?.data?.profile?.image || '/blank-profile.jpg'}
-            />
-          </picture>
-        </div>
-        <div className="flex flex-col p-5 md:p-10 md:w-1/2">
+      <section className="flex flex-col md:flex-row rounded-xl shadow-lg p-4 gap-4 border">
+        <figure className="relative w-full md:w-96 overflow-hidden h-96 rounded-xl">
+          <Image
+            src={profile.data?.profile.image || '/blank-profile.jpg'}
+            alt={profile.data?.profile.firstName || 'Profile'}
+            sizes="100%"
+            fill
+            priority
+            className="object-cover"
+          />
+        </figure>
+        <div className="flex flex-col">
           <div className="mb-4">
-            <h1 className="text-base font-bold text-primary">Name :</h1>
-            <p className="font-semibold text-gray-500">
+            <h1 className="text-base font-bold text-primary">Name</h1>
+            <p className="font-semibold">
               {profile.data?.profile.firstName} {profile.data?.profile.lastName}
             </p>
           </div>
           <div className="mb-4">
-            <h1 className="text-base font-bold text-primary">Email :</h1>
-            <p className="font-semibold text-gray-500">{profile.data?.email}</p>
+            <h1 className="text-base font-bold text-primary">Email</h1>
+            <p className="font-semibold">{profile.data?.email}</p>
           </div>
           <div className="mb-4">
-            <h1 className="text-base font-bold text-primary">Phone Number :</h1>
-            <p className="font-semibold text-gray-500">
+            <h1 className="text-base font-bold text-primary">Phone Number</h1>
+            <p className="font-semibold">
               {profile.data?.profile.phoneNumber || 'Update your phone number'}
             </p>
           </div>
           <div className="mb-4">
-            <h1 className="text-base font-bold text-primary">Birthdate :</h1>
-            <p className="font-semibold text-gray-500">
-              {profile.data?.profile.dateOfBirth?.toString() || 'Update your birthdate'}
+            <h1 className="text-base font-bold text-primary">Date of Birth</h1>
+            <p className="font-semibold">
+              {new Date(profile.data?.profile.dateOfBirth || '')?.toLocaleString('en-US', {
+                dateStyle: 'long',
+              }) || 'Update your date of birth'}
             </p>
           </div>
           <div>
-            <Link href={'/profile/edit'} className="btn btn-outline btn-primary w-30">
+            <Link href="/profile/edit" className="btn btn-warning">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -100,6 +102,8 @@ export default async function ProfilePage() {
           </div>
         </div>
       </section>
-    </div>
+    </section>
   );
-}
+};
+
+export default ProfilePage;

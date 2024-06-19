@@ -1,17 +1,17 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from '@react-google-maps/api';
+
 import { calculateMidpointLat, calculateMidpointLong } from '@/utils/map';
 
-interface MapsProps {
-  coordinates: number[];
-}
-
-const Maps: React.FC<MapsProps> = ({ coordinates }) => {
+const DestinationMap = ({ coordinates }: { coordinates: number[] }) => {
   const [userLocation, setUserLocation] = useState<google.maps.LatLngLiteral | null>(null);
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
-  const mapRef = useRef<google.maps.Map | null>(null);
+
   const directionsServiceRef = useRef<google.maps.DirectionsService | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
+
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -19,7 +19,6 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
   });
 
   useEffect(() => {
-    // Mendapatkan lokasi pengguna saat komponen dimuat
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -39,10 +38,10 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
 
   useEffect(() => {
     if (isLoaded && userLocation && coordinates) {
-      console.log(userLocation);
       if (!directionsServiceRef.current) {
         directionsServiceRef.current = new google.maps.DirectionsService();
       }
+
       directionsServiceRef.current.route(
         {
           origin: userLocation,
@@ -57,10 +56,8 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
           if (status === google.maps.DirectionsStatus.OK) {
             setDirections(result);
           } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-            console.log('Tidak ada rute yang ditemukan.');
             setDirections(null);
           } else {
-            console.log('Permintaan arah gagal karena ' + status);
             setDirections(null);
           }
         }
@@ -80,7 +77,7 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
   };
 
   if (loadError) {
-    return <div>Terjadi kesalahan saat memuat API Google Maps</div>;
+    return <div>Map cannot be loaded right now.</div>;
   }
 
   return (
@@ -121,7 +118,7 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
                 strokeWeight: 2,
                 scale: 8,
               }}
-            ></Marker>
+            />
           )}
           {coordinates && <Marker position={{ lat: coordinates[0], lng: coordinates[1] }} />}
           {directions && <DirectionsRenderer directions={directions} />}
@@ -131,4 +128,4 @@ const Maps: React.FC<MapsProps> = ({ coordinates }) => {
   );
 };
 
-export default Maps;
+export default DestinationMap;

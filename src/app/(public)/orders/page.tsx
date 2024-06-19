@@ -1,11 +1,24 @@
+import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import { APP_NAME, APP_URL } from '@/constants/meta';
 import { API_URL } from '@/constants/url';
 import OrderCard from '@/components/OrderCard';
 
 import type { Order } from '@/types/order';
 import type { BaseResponse } from '@/types/response';
+
+export const metadata: Metadata = {
+  title: 'Orders',
+  alternates: {
+    canonical: '/orders',
+  },
+  openGraph: {
+    title: `Orders | ${APP_NAME}`,
+    url: `${APP_URL}/orders`,
+  },
+};
 
 const fetchMyOrders = async (): Promise<Order[]> => {
   const loginInfo = cookies().get('loginInfo');
@@ -31,7 +44,7 @@ const OrdersPage = async () => {
   const orders = await fetchMyOrders();
 
   return (
-    <section className="max-w-screen-xl p-4 flex flex-col gap-4">
+    <section className="max-w-screen-xl p-4 flex flex-col gap-4 mx-auto">
       <h1 className="text-2xl font-bold">My Orders</h1>
 
       {!!orders.length ? (

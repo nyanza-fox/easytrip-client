@@ -7,7 +7,8 @@ export const middleware = async (req: NextRequest) => {
     if (
       req.nextUrl.pathname.startsWith('/cms') ||
       req.nextUrl.pathname.startsWith('/profile') ||
-      req.nextUrl.pathname.startsWith('/orders')
+      req.nextUrl.pathname.startsWith('/orders') ||
+      req.nextUrl.pathname.startsWith('/destinations/generate')
     ) {
       return NextResponse.redirect(new URL('/auth/sign-in', req.nextUrl.origin));
     }

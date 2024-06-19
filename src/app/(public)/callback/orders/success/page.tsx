@@ -14,7 +14,7 @@ const OrderSuccessPage = () => {
     if (!sessionId) return;
 
     (async () => {
-      const response = await fetch(`api/orders/${sessionId}/status`, {
+      await fetch(`/api/orders/${sessionId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -22,11 +22,7 @@ const OrderSuccessPage = () => {
         body: JSON.stringify({ status: 'completed' }),
       });
 
-      // if (!response.ok) {
-      //   const data = await response.json();
-      //   const message = data.message || 'Failed to complete the order';
-      //   toast.error(message);
-      // }
+      toast.success('Order completed successfully');
 
       router.replace('/orders');
       router.refresh();
@@ -34,9 +30,9 @@ const OrderSuccessPage = () => {
   }, [sessionId, router]);
 
   return (
-    <div className="m-8">
-      <h1>Order Completed</h1>
-    </div>
+    <section className="flex items-center justify-center min-h-screen">
+      <h1 className="text-2xl font-bold">Completing order...</h1>
+    </section>
   );
 };
 

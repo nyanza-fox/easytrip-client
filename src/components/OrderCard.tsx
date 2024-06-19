@@ -11,7 +11,15 @@ const OrderCard = ({ _id, status, package: pack, itinerary, createdAt }: Order) 
   const modalRef = useRef<HTMLDialogElement>(null);
 
   return (
-    <article className={`card card-compact bg-base-100 shadow-xl border border-l-8`}>
+    <article
+      className={`card card-compact bg-base-100 shadow-xl border border-l-8 ${
+        pack.type === 'budget'
+          ? 'border-error'
+          : pack.type === 'standard'
+          ? 'border-warning'
+          : 'border-success'
+      }`}
+    >
       <div className="card-body">
         <h5 className="text-md font-semibold">Order ID: {_id}</h5>
         <p>
@@ -49,7 +57,7 @@ const OrderCard = ({ _id, status, package: pack, itinerary, createdAt }: Order) 
           <div className="flex justify-between items-center w-full">
             <h3 className="text-lg font-semibold">{numberToRupiah(pack.totalPrice)}</h3>
             <div
-              className={`badge ${
+              className={`badge font-bold badge-outline ${
                 status === 'pending'
                   ? 'badge-warning'
                   : status === 'completed'
@@ -85,6 +93,25 @@ const OrderCard = ({ _id, status, package: pack, itinerary, createdAt }: Order) 
           <div className="divider my-2" />
 
           <div className="flex flex-col gap-4">
+            {status === 'completed' && (
+              <div role="alert" className="alert alert-warning">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+                <span>Our team will contact you shortly to confirm your order.</span>
+              </div>
+            )}
+
             <div className="border-2 p-4 rounded-xl flex flex-col gap-2">
               <h4 className="text-lg font-bold">Order Details</h4>
               <div>
@@ -93,7 +120,17 @@ const OrderCard = ({ _id, status, package: pack, itinerary, createdAt }: Order) 
               </div>
               <div>
                 <h5 className="text-md font-semibold">Status:</h5>
-                <p>{status}</p>
+                <div
+                  className={`badge font-bold badge-outline ${
+                    status === 'pending'
+                      ? 'badge-warning'
+                      : status === 'completed'
+                      ? 'badge-success'
+                      : 'badge-error'
+                  }`}
+                >
+                  {status}
+                </div>
               </div>
             </div>
 
