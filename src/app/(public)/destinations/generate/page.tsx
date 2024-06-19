@@ -8,6 +8,7 @@ import { API_URL } from '@/constants/url';
 
 import type { Destination } from '@/types/destination';
 import type { BaseResponse } from '@/types/response';
+import DestinationCard from '@/components/DestinationCard';
 
 const GenerateDestinationsPage = () => {
   const [form, setForm] = useState<{ prompt: string }>({ prompt: '' });
@@ -94,23 +95,28 @@ const GenerateDestinationsPage = () => {
           {destinations
             .filter((destination) => destination)
             .map((destination) => (
-              <Link
-                key={destination._id}
-                href={`/destinations/${destination._id}`}
-                className="shadow-xl card card-compact bg-base-100"
-              >
-                <picture className="px-2 pt-2">
-                  <img src={destination.images[0]} alt={destination.name} className="rounded-xl" />
-                </picture>
-                <div className="card-body">
-                  <h2 className="card-title">{destination.name}</h2>
-                  <p>
-                    {destination.description.length > 100
-                      ? `${destination.description.slice(0, 100)}...`
-                      : destination.description}
-                  </p>
-                </div>
-              </Link>
+              // <Link
+              //   key={destination._id}
+              //   href={`/destinations/${destination._id}`}
+              //   className="card card-compact bg-base-100 shadow-xl"
+              // >
+              //   <picture className="px-2 pt-2">
+              //     <img
+              //       src={destination.images[0]}
+              //       alt={destination.name}
+              //       className="rounded-xl"
+              //     />
+              //   </picture>
+              //   <div className="card-body">
+              //     <h2 className="card-title">{destination.name}</h2>
+              //     <p>
+              //       {destination.description.length > 100
+              //         ? `${destination.description.slice(0, 100)}...`
+              //         : destination.description}
+              //     </p>
+              //   </div>
+              // </Link>
+              <DestinationCard key={destination._id} destination={destination} />
             ))}
         </div>
       ) : (

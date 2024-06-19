@@ -22,7 +22,6 @@ const fetchProfile = async (): Promise<BaseResponse<User>> => {
 
 export default async function ProfilePage() {
   const profile = await fetchProfile();
-  console.log(profile);
 
   return (
     <div className="flex flex-col min-h-screen mt-5 lg:m-10">
@@ -53,7 +52,7 @@ export default async function ProfilePage() {
           <picture className="w-full md:h-96 m-auto">
             <img
               className="rounded-xl w-full h-72 md:h-96 object-cover"
-              src={profile.data?.profile?.image}
+              src={profile?.data?.profile?.image || '/blank-profile.jpg'}
             />
           </picture>
         </div>
@@ -70,16 +69,18 @@ export default async function ProfilePage() {
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Phone Number :</h1>
-            <p className="font-semibold text-gray-500">{profile.data?.profile.phoneNumber}</p>
+            <p className="font-semibold text-gray-500">
+              {profile.data?.profile.phoneNumber || 'Update your phone number'}
+            </p>
           </div>
           <div className="mb-4">
             <h1 className="text-base font-bold text-primary">Birthdate :</h1>
             <p className="font-semibold text-gray-500">
-              {new Date(profile.data?.profile.dateOfBirth || '').toDateString()}
+              {profile.data?.profile.dateOfBirth?.toString() || 'Update your birthdate'}
             </p>
           </div>
           <div>
-            <Link href={'profile/edit'} className="btn btn-outline btn-primary w-30">
+            <Link href={'/profile/edit'} className="btn btn-outline btn-primary w-30">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

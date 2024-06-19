@@ -1,13 +1,12 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { logout } from '@/app/auth/actions';
-import Image from 'next/image';
 
 const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   const loginInfo = cookies().get('loginInfo');
   const image = loginInfo ? JSON.parse(loginInfo.value).image : '';
-  console.log(image);
 
   return (
     <>
@@ -17,7 +16,11 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex flex-col drawer-content">
           <header className="sticky top-0 z-10 w-full border-b backdrop-blur bg-base-100/80">
             <nav className="max-w-screen-xl px-4 mx-auto navbar">
-              <div className="flex-none mr-2 lg:hidden">
+              <div
+                className={`${
+                  loginInfo && loginInfo.value.length ? 'navbar-start' : 'mr-2'
+                } lg:hidden`}
+              >
                 <label
                   htmlFor="public-drawer"
                   aria-label="open sidebar"
@@ -39,7 +42,12 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
                 </label>
               </div>
 
-              <div className="navbar-start">
+              <div
+                className={`navbar-start ${
+                  loginInfo && loginInfo.value.length && 'justify-center'
+                } gap-3 lg:justify-start`}
+              >
+                <Image src="/easytrip-logo-blue.png" alt="EasyTrip" width={30} height={30} />
                 <h2 className="text-xl font-bold text-primary">EasyTrip</h2>
               </div>
 
@@ -80,7 +88,7 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
 
               {!loginInfo || !loginInfo.value.length ? (
-                <div className="flex gap-1 navbar-end">
+                <div className="hidden gap-1 navbar-end lg:flex">
                   <Link href="/auth/sign-in" className="w-24 btn btn-ghost text-primary">
                     Sign In
                   </Link>
@@ -183,17 +191,37 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
                 </li>
               </ul>
             ) : (
-              <ul className="flex flex-row justify-center gap-2">
-                <button>
-                  <Link href="/profile" className="w-24 btn btn-outline btn-primary">
-                    Profile
-                  </Link>
-                </button>
-                <form action={logout}>
-                  <button type="submit" className="w-24 btn btn-error">
-                    Sign Out
-                  </button>
-                </form>
+              <ul className=" text-primary font-bold">
+                <li>
+                  <Link href={'/profile'}>Profile</Link>
+                </li>
+                <li>
+                  <Link href={'/orders'}>My Order</Link>
+                </li>
+
+                <div className="divider"></div>
+                {!loginInfo || !loginInfo.value.length ? (
+                  <ul className="menu menu-horizontal justify-center gap-2">
+                    <li>
+                      <Link href="/auth/sign-in" className="btn btn-outline btn-primary w-24">
+                        Sign In
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/auth/sign-up" className="btn btn-primary w-24">
+                        Sign Up
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="flex gap-2">
+                    <form action={logout}>
+                      <button type="submit" className="btn btn-error w-24">
+                        Sign Out
+                      </button>
+                    </form>
+                  </ul>
+                )}
               </ul>
             )}
           </ul>
